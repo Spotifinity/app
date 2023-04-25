@@ -1,3 +1,4 @@
+<h1><a href="https://t.me/spotifinity/7">Clicca qui per partecipare al programma BETA di Spotifinity!</a></h1>
 <h1><img style="float: left;" src="https://raw.githubusercontent.com/Spotifinity/Spotifinity/main/info/Untitled129_20230424112419.png" width="45" height="45" />&nbsp;<strong style="font-size: 14px;">Spotifinity&nbsp;</strong></h1>
 <p><strong>SENZA PUBBLICIT&Agrave; | SKIP ILLIMITATI | MOLTO ALTRO</strong></p>
 <table>
@@ -60,3 +61,7 @@
 </tr>
 </tbody>
 </table>
+<h2>Link social</h2>
+<ul>
+<li><a href="https://t.me/spotifinity/">Canale Telegram degli annunci</a></li>
+</ul>
