@@ -9,16 +9,17 @@ assignees: JustKleo
 
 # Descrizione bug
 
-# Come riprodurre
-Passi per trovare questo bug, parti dall'apertura dell'app:
+## Come riprodurre
+Passi per trovare questo bug
+Parti dall'apertura dell'app
 - 
 
-# Cosa dovrebbe succedere
+## Cosa dovrebbe succedere
 
-# Screenshots
+## Screenshots
 Screenshots del bug allegati nella segnalazione
 
-# Info telefono
+## Info telefono
  - Dispositivo: 
  - Ver. Android: 
  - Versione app: 4
