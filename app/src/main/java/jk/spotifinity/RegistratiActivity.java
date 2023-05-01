@@ -16,15 +16,23 @@ import android.net.*;
 import android.net.Uri;
 import android.os.*;
 import android.text.*;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.style.*;
 import android.util.*;
 import android.view.*;
+import android.view.View;
 import android.view.View.*;
 import android.view.animation.*;
 import android.webkit.*;
 import android.widget.*;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.Switch;
+import android.widget.TextView;
 import androidx.annotation.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -37,6 +45,7 @@ import androidx.sqlite.db.*;
 import androidx.sqlite.db.framework.*;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.*;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,14 +60,22 @@ import java.util.regex.*;
 import org.jetbrains.kotlin.*;
 import org.json.*;
 
-public class MainActivity extends AppCompatActivity {
+public class RegistratiActivity extends AppCompatActivity {
 	
 	private LinearLayout linear3;
-	private ImageView imageview1;
+	private LinearLayout linear4;
+	private ImageView imageview2;
+	private TextView textview1;
+	private TextView textview2;
+	private EditText edittext1;
+	private LinearLayout linear5;
+	private LinearLayout linear6;
+	private TextView textview3;
+	private MaterialButton materialbutton1;
+	private ProgressBar progressbar1;
+	private EditText edittext2;
+	private Switch switch1;
 	
-	private Intent intent = new Intent();
-	private AlertDialog.Builder dialog;
-	private AlertDialog.Builder dialog2;
 	private FirebaseAuth auth;
 	private OnCompleteListener<AuthResult> _auth_create_user_listener;
 	private OnCompleteListener<AuthResult> _auth_sign_in_listener;
@@ -71,12 +88,13 @@ public class MainActivity extends AppCompatActivity {
 	private OnCompleteListener<AuthResult> auth_phoneAuthListener;
 	private OnCompleteListener<AuthResult> auth_googleSignInListener;
 	
+	private Intent intent = new Intent();
 	private AlertDialog.Builder accedi;
 	
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
 		super.onCreate(_savedInstanceState);
-		setContentView(R.layout.main);
+		setContentView(R.layout.registrati);
 		initialize(_savedInstanceState);
 		FirebaseApp.initializeApp(this);
 		
@@ -98,11 +116,93 @@ public class MainActivity extends AppCompatActivity {
 	
 	private void initialize(Bundle _savedInstanceState) {
 		linear3 = findViewById(R.id.linear3);
-		imageview1 = findViewById(R.id.imageview1);
-		dialog = new AlertDialog.Builder(this);
-		dialog2 = new AlertDialog.Builder(this);
+		linear4 = findViewById(R.id.linear4);
+		imageview2 = findViewById(R.id.imageview2);
+		textview1 = findViewById(R.id.textview1);
+		textview2 = findViewById(R.id.textview2);
+		edittext1 = findViewById(R.id.edittext1);
+		linear5 = findViewById(R.id.linear5);
+		linear6 = findViewById(R.id.linear6);
+		textview3 = findViewById(R.id.textview3);
+		materialbutton1 = findViewById(R.id.materialbutton1);
+		progressbar1 = findViewById(R.id.progressbar1);
+		edittext2 = findViewById(R.id.edittext2);
+		switch1 = findViewById(R.id.switch1);
 		auth = FirebaseAuth.getInstance();
 		accedi = new AlertDialog.Builder(this);
+		
+		edittext1.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
+				fade_in.setDuration(300);
+				fade_in.setFillAfter(true);
+				edittext1.startAnimation(fade_in);
+			}
+		});
+		
+		materialbutton1.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
+				fade_in.setDuration(300);
+				fade_in.setFillAfter(true);
+				materialbutton1.startAnimation(fade_in);
+				progressbar1.setVisibility(View.VISIBLE);
+				auth.createUserWithEmailAndPassword(edittext1.getText().toString(), edittext2.getText().toString()).addOnCompleteListener(RegistratiActivity.this, _auth_create_user_listener);
+			}
+		});
+		
+		edittext2.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
+				fade_in.setDuration(300);
+				fade_in.setFillAfter(true);
+				edittext2.startAnimation(fade_in);
+			}
+		});
+		
+		edittext2.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence _param1, int _param2, int _param3, int _param4) {
+				final String _charSeq = _param1.toString();
+				textview3.setText(_charSeq);
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence _param1, int _param2, int _param3, int _param4) {
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable _param1) {
+				
+			}
+		});
+		
+		switch1.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
+				fade_in.setDuration(300);
+				fade_in.setFillAfter(true);
+				switch1.startAnimation(fade_in);
+			}
+		});
+		
+		switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton _param1, boolean _param2) {
+				final boolean _isChecked = _param2;
+				if (_isChecked) {
+					textview3.setVisibility(View.VISIBLE);
+				}
+				else {
+					textview3.setVisibility(View.INVISIBLE);
+				}
+			}
+		});
 		
 		auth_updateEmailListener = new OnCompleteListener<Void>() {
 			@Override
@@ -172,36 +272,27 @@ public class MainActivity extends AppCompatActivity {
 			public void onComplete(Task<AuthResult> _param1) {
 				final boolean _success = _param1.isSuccessful();
 				final String _errorMessage = _param1.getException() != null ? _param1.getException().getMessage() : "";
-				
-			}
-		};
-		
-		_auth_sign_in_listener = new OnCompleteListener<AuthResult>() {
-			@Override
-			public void onComplete(Task<AuthResult> _param1) {
-				final boolean _success = _param1.isSuccessful();
-				final String _errorMessage = _param1.getException() != null ? _param1.getException().getMessage() : "";
 				if (_success) {
 					if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity")) {
 						FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity");
 						FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni");
+						FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/downloaded.txt", "Nessuna");
+						FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/percorso.txt", "storage/emulated/0/Download");
 					}
+					FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity/Account");
+					FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Account/email", edittext1.getText().toString());
+					FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Account/password", edittext2.getText().toString());
 					intent.setClass(getApplicationContext(), HomeActivity.class);
 					startActivity(intent);
 				}
 				else {
+					progressbar1.setVisibility(View.INVISIBLE);
 					accedi.setTitle("Errore");
-					if (_errorMessage.equals("The user account has been disabled by an administrator.")) {
-						accedi.setMessage("Il tuo account Spotifinity e stato disabilitato.\nSe si tratta di un errore e/o vuoi fare ricorso entra nel canale Telegram ufficiale e contatta il supporto.");
-					}
-					accedi.setPositiveButton("disconnettiti", new DialogInterface.OnClickListener() {
+					accedi.setMessage(_errorMessage);
+					accedi.setPositiveButton("chiudi", new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface _dialog, int _which) {
-							FirebaseAuth.getInstance().signOut();
-							FileUtil.deleteFile("storage/emulated/0/Android/data/jk.spotifinity/Account");
-							FileUtil.deleteFile("storage/emulated/0/Android/data/jk.spotifinity/skipWelcome");
-							intent.setClass(getApplicationContext(), BenvenutoActivity.class);
-							startActivity(intent);
+							
 						}
 					});
 					accedi.setNegativeButton("supporto", new DialogInterface.OnClickListener() {
@@ -217,6 +308,15 @@ public class MainActivity extends AppCompatActivity {
 			}
 		};
 		
+		_auth_sign_in_listener = new OnCompleteListener<AuthResult>() {
+			@Override
+			public void onComplete(Task<AuthResult> _param1) {
+				final boolean _success = _param1.isSuccessful();
+				final String _errorMessage = _param1.getException() != null ? _param1.getException().getMessage() : "";
+				
+			}
+		};
+		
 		_auth_reset_password_listener = new OnCompleteListener<Void>() {
 			@Override
 			public void onComplete(Task<Void> _param1) {
@@ -227,32 +327,8 @@ public class MainActivity extends AppCompatActivity {
 	}
 	
 	private void initializeLogic() {
-		dialog = new AlertDialog.Builder(this,AlertDialog.THEME_DEVICE_DEFAULT_DARK);
-		dialog2 = new AlertDialog.Builder(this,AlertDialog.THEME_DEVICE_DEFAULT_DARK);
-		accedi = new AlertDialog.Builder(this,AlertDialog.THEME_DEVICE_DEFAULT_DARK);
-		if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity")) {
-			FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity");
-		}
-	}
-	
-	@Override
-	public void onStart() {
-		super.onStart();
-		if (!FileUtil.isExistFile("storage/emulated/0/Android/data/com.spotify.music") && FileUtil.isExistFile("storage/emulated/0/spotifinity/configurazione")) {
-			intent.setClass(getApplicationContext(), ConfiguraActivity.class);
-			startActivity(intent);
-		}
-		if (FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Account")) {
-			FirebaseAuth.getInstance().signOut();
-			auth.signInWithEmailAndPassword(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Account/email"), FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Account/password")).addOnCompleteListener(MainActivity.this, _auth_sign_in_listener);
-		}
-		else {
-			intent.setClass(getApplicationContext(), BenvenutoActivity.class);
-			startActivity(intent);
-		}
-	}
-	public void _ApriApp(final String _app) {
-		Intent launchIntent = getPackageManager().getLaunchIntentForPackage(_app);  { startActivity(launchIntent);}
+		textview3.setVisibility(View.INVISIBLE);
+		progressbar1.setVisibility(View.INVISIBLE);
 	}
 	
 }

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.animation.*;
 import android.app.*;
 import android.content.*;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.*;
@@ -14,6 +15,7 @@ import android.media.*;
 import android.net.*;
 import android.net.Uri;
 import android.os.*;
+import android.os.Vibrator;
 import android.text.*;
 import android.text.style.*;
 import android.util.*;
@@ -38,11 +40,15 @@ import androidx.room.*;
 import androidx.sqlite.db.*;
 import androidx.sqlite.db.framework.*;
 import com.google.android.material.button.*;
+import com.google.firebase.FirebaseApp;
+import com.mannan.translateapi.*;
 import com.tonyodev.fetch2.*;
 import com.tonyodev.fetch2core.*;
 import java.io.*;
 import java.text.*;
 import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.*;
@@ -54,6 +60,10 @@ public class InstallaActivity extends AppCompatActivity {
 	private Timer _timer = new Timer();
 	
 	private String Version = "";
+	private String errorMessage = "";
+	TranslateAPI TA;
+	
+	private ArrayList<HashMap<String, Object>> lista = new ArrayList<>();
 	
 	private LinearLayout linear1;
 	private LinearLayout linear3;
@@ -75,21 +85,18 @@ public class InstallaActivity extends AppCompatActivity {
 	private TextView textview8;
 	private TextView textview7;
 	
-	private RequestNetwork download;
-	private RequestNetwork.RequestListener _download_request_listener;
 	private TimerTask check;
-	private RequestNetwork version;
-	private RequestNetwork.RequestListener _version_request_listener;
-	private RequestNetwork novita;
-	private RequestNetwork.RequestListener _novita_request_listener;
 	private Intent intent = new Intent();
 	private TimerTask wait;
+	private Intent launchIntent = new Intent();
+	private Vibrator finish;
 	
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
 		super.onCreate(_savedInstanceState);
 		setContentView(R.layout.installa);
 		initialize(_savedInstanceState);
+		FirebaseApp.initializeApp(this);
 		
 		if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
 		|| ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
@@ -127,14 +134,12 @@ public class InstallaActivity extends AppCompatActivity {
 		textview6 = findViewById(R.id.textview6);
 		textview8 = findViewById(R.id.textview8);
 		textview7 = findViewById(R.id.textview7);
-		download = new RequestNetwork(this);
-		version = new RequestNetwork(this);
-		novita = new RequestNetwork(this);
+		finish = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 		
 		imageview2.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				FileUtil.deleteFile("storage/emulated/0/spotified/mod.apk");
+				FileUtil.deleteFile("storage/emulated/0/Android/data/jk.spotifinity/mod.apk");
 				finish();
 			}
 		});
@@ -142,6 +147,10 @@ public class InstallaActivity extends AppCompatActivity {
 		materialbutton1.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
+				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
+				fade_in.setDuration(300);
+				fade_in.setFillAfter(true);
+				materialbutton1.startAnimation(fade_in);
 				//this moblock crate APKBILDERBD
 				//https://youtube.com/channel/UCU2ez8M6S1Zod1jFHifH__g
 				
@@ -153,7 +162,7 @@ public class InstallaActivity extends AppCompatActivity {
 				materialbutton1.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						URLFile = textview4.getText().toString();
-						dirPath = "storage/emulated/0/spotifinity/";
+						dirPath = FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/percorso.txt").concat("/");
 							if (Status.RUNNING == PRDownloader.getStatus(downloadId)) {
 									PRDownloader.pause(downloadId);
 									return;
@@ -209,51 +218,45 @@ public class InstallaActivity extends AppCompatActivity {
 											imageview2.setEnabled(false);
 											materialbutton1.setText("Completed");
 								
-								if (!"storage/emulated/0/spotifinity/".endsWith("/")){
-									downloadedFile = "storage/emulated/0/spotifinity/" + "/" + "mod.apk";
+								if (!FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/percorso.txt").concat("/").endsWith("/")){
+									downloadedFile = FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/percorso.txt").concat("/") + "/" + "mod.apk";
 								} else {
-									downloadedFile =  "storage/emulated/0/spotifinity/"+"mod.apk";
+									downloadedFile =  FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/percorso.txt").concat("/")+"mod.apk";
 								}
 								
+								finish.vibrate((long)(100));
 								textview2.setText("Download completato");
 								textview10.setVisibility(View.GONE);
-								FileUtil.writeFile("storage/emulated/0/spotifinity/downloaded.txt", Version);
-								wait = new TimerTask() {
-									@Override
-									public void run() {
-										runOnUiThread(new Runnable() {
-											@Override
-											public void run() {
-												String apkFile = "storage/emulated/0/spotifinity/mod.apk";
-												    java.io.File file = new java.io.File(apkFile);
-												    if(file.exists()) {
-														        Intent intent = new Intent(Intent.ACTION_VIEW);
-														        intent.setDataAndType(uriFromFile(getApplicationContext(), new java.io.File(apkFile)), "application/vnd.android.package-archive");
-														        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-														        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-														        try {
-																            getApplicationContext().startActivity(intent);
-																        } catch (ActivityNotFoundException e) {
-																            e.printStackTrace();
-																            Log.e("TAG", "Error in opening the file!");
-																        }
-														    }else{
-														        Toast.makeText(getApplicationContext(),"File not found !" + "ملف غير موجود",Toast.LENGTH_LONG).show();
-														    }
-											}
-											
-											
-											Uri uriFromFile(Context context, java.io.File file) {
-												    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-														        return androidx.core.content.FileProvider.getUriForFile(context,context.getApplicationContext().getPackageName() + ".provider", file); 
-														    } else {
-														        return Uri.fromFile(file);
-														    }
-											}
-										});
-									}
-								};
-								_timer.schedule(wait, (int)(1000));
+								if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/downloaded.txt").equals("Nessuna")) {
+									FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/downloaded.txt", getIntent().getStringExtra("ver"));
+								}
+								intent.setClass(getApplicationContext(), ConfiguraActivity.class);
+								startActivity(intent);
+								String apkFile = FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/percorso.txt").concat("/mod.apk");
+								    java.io.File file = new java.io.File(apkFile);
+								    if(file.exists()) {
+										        Intent intent = new Intent(Intent.ACTION_VIEW);
+										        intent.setDataAndType(uriFromFile(getApplicationContext(), new java.io.File(apkFile)), "application/vnd.android.package-archive");
+										        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+										        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+										        try {
+												            getApplicationContext().startActivity(intent);
+												        } catch (ActivityNotFoundException e) {
+												            e.printStackTrace();
+												            Log.e("TAG", "Error in opening the file!");
+												        }
+										    }else{
+										        Toast.makeText(getApplicationContext(),"File not found !" + "ملف غير موجود",Toast.LENGTH_LONG).show();
+										    }
+							}
+							
+							
+							Uri uriFromFile(Context context, java.io.File file) {
+								    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+										        return androidx.core.content.FileProvider.getUriForFile(context,context.getApplicationContext().getPackageName() + ".provider", file); 
+										    } else {
+										        return Uri.fromFile(file);
+										    }
 									}
 									@Override
 									public void onError(Error error) {
@@ -278,59 +281,6 @@ public class InstallaActivity extends AppCompatActivity {
 				});
 			}
 		});
-		
-		_download_request_listener = new RequestNetwork.RequestListener() {
-			@Override
-			public void onResponse(String _param1, String _param2, HashMap<String, Object> _param3) {
-				final String _tag = _param1;
-				final String _response = _param2;
-				final HashMap<String, Object> _responseHeaders = _param3;
-				textview4.setText(_response);
-				textview2.setText("Link download:");
-			}
-			
-			@Override
-			public void onErrorResponse(String _param1, String _param2) {
-				final String _tag = _param1;
-				final String _message = _param2;
-				
-			}
-		};
-		
-		_version_request_listener = new RequestNetwork.RequestListener() {
-			@Override
-			public void onResponse(String _param1, String _param2, HashMap<String, Object> _param3) {
-				final String _tag = _param1;
-				final String _response = _param2;
-				final HashMap<String, Object> _responseHeaders = _param3;
-				Version = _response;
-				textview8.setText("Versione: ".concat(_response));
-			}
-			
-			@Override
-			public void onErrorResponse(String _param1, String _param2) {
-				final String _tag = _param1;
-				final String _message = _param2;
-				
-			}
-		};
-		
-		_novita_request_listener = new RequestNetwork.RequestListener() {
-			@Override
-			public void onResponse(String _param1, String _param2, HashMap<String, Object> _param3) {
-				final String _tag = _param1;
-				final String _response = _param2;
-				final HashMap<String, Object> _responseHeaders = _param3;
-				textview7.setText(_response);
-			}
-			
-			@Override
-			public void onErrorResponse(String _param1, String _param2) {
-				final String _tag = _param1;
-				final String _message = _param2;
-				
-			}
-		};
 	}
 	
 	private void initializeLogic() {
@@ -341,33 +291,38 @@ public class InstallaActivity extends AppCompatActivity {
 		textview4.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
 		textview7.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
 		textview3.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
-		materialbutton1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
+		textview10.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
+		materialbutton1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
+		linear5.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)30, 0xFF424242));
 	}
 	
 	@Override
 	public void onStart() {
 		super.onStart();
-		novita.startRequestNetwork(RequestNetworkController.GET, "https://raw.githubusercontent.com/Chill-Paradise/Spotified/main/info/novita.txt", "", _novita_request_listener);
-		version.startRequestNetwork(RequestNetworkController.GET, "https://raw.githubusercontent.com/Chill-Paradise/Spotified/main/info/modver.txt", "", _version_request_listener);
-		download.startRequestNetwork(RequestNetworkController.GET, "https://raw.githubusercontent.com/Chill-Paradise/Spotified/main/info/download.txt", "", _download_request_listener);
+		textview4.setText(getIntent().getStringExtra("link"));
+		textview7.setText(getIntent().getStringExtra("novità"));
+		textview8.setText("Versione: ".concat(getIntent().getStringExtra("ver")));
+		if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/modSviluppatore")) {
+			linear4.setVisibility(View.GONE);
+		}
 	}
 	
 	@Override
 	public void onBackPressed() {
-		FileUtil.deleteFile("storage/emulated/0/spotifinity/mod.apk");
+		FileUtil.deleteFile("storage/emulated/0/Android/data/jk.spotifinity/mod.apk");
 		finish();
 	}
 	
 	@Override
 	public void onStop() {
 		super.onStop();
-		FileUtil.deleteFile("storage/emulated/0/spotifinity/mod.apk");
+		FileUtil.deleteFile("storage/emulated/0/Android/data/jk.spotifinity/mod.apk");
 	}
 	
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		FileUtil.deleteFile("storage/emulated/0/spotifinity/mod.apk");
+		FileUtil.deleteFile("storage/emulated/0/Android/data/jk.spotifinity/mod.apk");
 	}
 	public void _extra() {
 	}
@@ -2117,55 +2072,4 @@ public class InstallaActivity extends AppCompatActivity {
 		
 	}
 	
-	
-	@Deprecated
-	public void showMessage(String _s) {
-		Toast.makeText(getApplicationContext(), _s, Toast.LENGTH_SHORT).show();
-	}
-	
-	@Deprecated
-	public int getLocationX(View _v) {
-		int _location[] = new int[2];
-		_v.getLocationInWindow(_location);
-		return _location[0];
-	}
-	
-	@Deprecated
-	public int getLocationY(View _v) {
-		int _location[] = new int[2];
-		_v.getLocationInWindow(_location);
-		return _location[1];
-	}
-	
-	@Deprecated
-	public int getRandom(int _min, int _max) {
-		Random random = new Random();
-		return random.nextInt(_max - _min + 1) + _min;
-	}
-	
-	@Deprecated
-	public ArrayList<Double> getCheckedItemPositionsToArray(ListView _list) {
-		ArrayList<Double> _result = new ArrayList<Double>();
-		SparseBooleanArray _arr = _list.getCheckedItemPositions();
-		for (int _iIdx = 0; _iIdx < _arr.size(); _iIdx++) {
-			if (_arr.valueAt(_iIdx))
-			_result.add((double)_arr.keyAt(_iIdx));
-		}
-		return _result;
-	}
-	
-	@Deprecated
-	public float getDip(int _input) {
-		return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, _input, getResources().getDisplayMetrics());
-	}
-	
-	@Deprecated
-	public int getDisplayWidthPixels() {
-		return getResources().getDisplayMetrics().widthPixels;
-	}
-	
-	@Deprecated
-	public int getDisplayHeightPixels() {
-		return getResources().getDisplayMetrics().heightPixels;
-	}
 }
