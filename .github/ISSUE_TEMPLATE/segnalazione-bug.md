@@ -9,12 +9,13 @@ assignees: JustKleo
 
 # Descrizione bug
 
+
 ## Come riprodurre
-Passi per trovare questo bug
-Parti dall'apertura dell'app
+Passi per trovare questo bug, parti dall'apertura dell'app.
 - 
 
 ## Cosa dovrebbe succedere
+
 
 ## Screenshots
 Screenshots del bug allegati nella segnalazione
