@@ -4,19 +4,19 @@
 <tbody>
 <tr>
 <td>Ultima versione</td>
-<td><img src="https://img.shields.io/github/v/release/Spotifinity/Spotifinity" alt="" width="222" height="20" /></td>
+<td><img src="https://img.shields.io/github/v/release/Spotifinity/Spotifinity" alt="" /></td>
 </tr>
 <tr>
 <td>Downloads</td>
-<td><img src="https://img.shields.io/github/downloads/Spotifinity/Spotifinity/total" alt="" width="142" height="20" /></td>
+<td><img src="https://img.shields.io/github/downloads/Spotifinity/Spotifinity/total" alt=""/></td>
 </tr>
 <tr>
 <td>Discord</td>
-<td><img src="https://img.shields.io/discord/1099806892416577538" alt="" width="94" height="20" /></td>
+<td><img src="https://img.shields.io/discord/1099806892416577538" alt=""/></td>
 </tr>
 <tr>
 <td>Problemi</td>
-<td><img src="https://img.shields.io/github/issues/Spotifinity/Spotifinity" width="106" height="20" /></td>
+<td><img src="https://img.shields.io/github/issues/Spotifinity/Spotifinity"/></td>
 </tr>
 </tbody>
 </table>
