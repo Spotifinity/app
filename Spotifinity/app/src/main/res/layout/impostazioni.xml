@@ -1,0 +1,161 @@
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
+	<LinearLayout
+		android:id="@+id/linear3"
+		android:layout_width="match_parent"
+		android:layout_height="50dp"
+		android:background="#424242"
+		android:gravity="center_vertical"
+		android:orientation="horizontal"
+		android:layout_gravity="center_vertical">
+		<ImageView
+			android:id="@+id/imageview2"
+			android:layout_width="25dp"
+			android:layout_height="match_parent"
+			android:layout_marginLeft="10dp"
+			android:src="@drawable/ic_arrow_back_white"
+			android:scaleType="centerInside" />
+		<TextView
+			android:id="@+id/textview1"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="5dp"
+			android:padding="8dp"
+			android:text="Impostazioni"
+			android:textSize="20sp"
+			android:textStyle="bold"
+			android:textColor="#FFFFFF"
+			android:layout_gravity="center_horizontal|center_vertical" />
+		<LinearLayout
+			android:id="@+id/linear7"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="right"
+			android:orientation="horizontal">
+			<ProgressBar
+				android:id="@+id/progressbar1"
+				android:layout_width="wrap_content"
+				android:layout_height="50dp"
+				android:padding="8dp"
+				android:indeterminate="false"
+				style="?android:progressBarStyle"
+				android:layout_gravity="center_horizontal|center_vertical" />
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/materialbutton1"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginRight="10dp"
+				android:padding="8dp"
+				android:gravity="center_horizontal|center_vertical"
+				android:text="salva"
+				android:textSize="12sp"
+				android:textColor="#FFFFFF"
+				android:layout_gravity="center_horizontal|center_vertical"
+				android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+				app:backgroundTint="@color/colorPrimary"
+				app:cornerRadius="30px"
+				style="@style/Widget.MaterialComponents.Button" />
+		</LinearLayout>
+	</LinearLayout>
+	<LinearLayout
+		android:id="@+id/linear4"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:padding="8dp"
+		android:background="#000000"
+		android:orientation="vertical">
+		<LinearLayout
+			android:id="@+id/linear6"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="10dp"
+			android:padding="8dp"
+			android:background="#424242"
+			android:orientation="vertical">
+			<Switch
+				android:id="@+id/switch2"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:padding="8dp"
+				android:gravity="left|center_vertical"
+				android:text="Modalità sviluppatore"
+				android:textSize="12sp"
+				android:textColor="#FFFFFF" />
+			<TextView
+				android:id="@+id/textview3"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:padding="8dp"
+				android:text="Mostra quello che sta facendo l'app mentre stai installando la mod e mostra altre info avanzate come il link di installazione"
+				android:textSize="12sp"
+				android:textColor="#616161" />
+		</LinearLayout>
+		<LinearLayout
+			android:id="@+id/linear13"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="10dp"
+			android:padding="8dp"
+			android:background="#424242"
+			android:orientation="vertical">
+			<LinearLayout
+				android:id="@+id/linear14"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+				<TextView
+					android:id="@+id/textview15"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:padding="8dp"
+					android:text="Percorso installazione APK"
+					android:textSize="12sp"
+					android:textStyle="bold"
+					android:textColor="#FFFFFF" />
+				<LinearLayout
+					android:id="@+id/linear15"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:gravity="right"
+					android:orientation="horizontal" />
+			</LinearLayout>
+			<TextView
+				android:id="@+id/textview16"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:padding="8dp"
+				android:text="Scegli dove installare il file APK. Non includere &quot;/&quot; alla fine o non funzionerà!"
+				android:textSize="12sp"
+				android:textColor="#616161" />
+			<EditText
+				android:id="@+id/edittext1"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:padding="8dp"
+				android:text="storage/emulated/0/Download"
+				android:textSize="12sp"
+				android:textColor="#FFFFFF"
+				android:hint="Percorso d'installazione"
+				android:textColorHint="#616161" />
+		</LinearLayout>
+		<com.google.android.material.button.MaterialButton
+			android:id="@+id/materialbutton2"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="10dp"
+			android:padding="8dp"
+			android:gravity="center_horizontal|center_vertical"
+			android:text="disconnettiti"
+			android:textSize="12sp"
+			android:textColor="#FFFFFF"
+			android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+			app:backgroundTint="@color/colorPrimary"
+			app:cornerRadius="30px"
+			style="@style/Widget.MaterialComponents.Button" />
+	</LinearLayout>
+</LinearLayout>
