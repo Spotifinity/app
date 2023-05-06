@@ -46,39 +46,21 @@
 			android:background="#424242"
 			android:orientation="vertical">
 			<LinearLayout
-				android:id="@+id/linear4"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:padding="8dp"
-				android:gravity="center_vertical"
-				android:orientation="horizontal">
-				<LinearLayout
-					android:id="@+id/linear7"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:padding="8dp"
-					android:orientation="vertical">
-					<TextView
-						android:id="@+id/textview2"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:text="Link installazione:"
-						android:textSize="12sp"
-						android:textColor="#FFFFFF" />
-					<TextView
-						android:id="@+id/textview4"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:textSize="12sp"
-						android:textColor="#616161" />
-				</LinearLayout>
-			</LinearLayout>
-			<LinearLayout
 				android:id="@+id/linear6"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:padding="8dp"
 				android:orientation="vertical">
+				<TextView
+					android:id="@+id/textview8"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:paddingLeft="8dp"
+					android:paddingRight="8dp"
+					android:paddingBottom="8dp"
+					android:text="Versione: ..."
+					android:textSize="16sp"
+					android:textColor="#FFFFFF" />
 				<TextView
 					android:id="@+id/textview3"
 					android:layout_width="match_parent"
@@ -129,6 +111,26 @@
 			android:layout_height="match_parent"
 			android:layout_margin="10dp"
 			android:orientation="vertical">
+			<LinearLayout
+				android:id="@+id/linear7"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:padding="8dp"
+				android:orientation="vertical">
+				<TextView
+					android:id="@+id/textview2"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="Link installazione:"
+					android:textSize="12sp"
+					android:textColor="#FFFFFF" />
+				<TextView
+					android:id="@+id/textview4"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:textSize="12sp"
+					android:textColor="#616161" />
+			</LinearLayout>
 			<TextView
 				android:id="@+id/textview6"
 				android:layout_width="match_parent"
@@ -136,14 +138,6 @@
 				android:padding="8dp"
 				android:text="Registro cambiamenti"
 				android:textSize="20sp"
-				android:textColor="#FFFFFF" />
-			<TextView
-				android:id="@+id/textview8"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:paddingLeft="8dp"
-				android:text="Versione: ..."
-				android:textSize="12sp"
 				android:textColor="#FFFFFF" />
 			<TextView
 				android:id="@+id/textview7"

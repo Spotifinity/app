@@ -358,8 +358,9 @@ public class AccediActivity extends AppCompatActivity {
 		materialbutton1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
 		textview2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
 		textview3.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
-		edittext2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
 		switch1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
+		edittext2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
+		edittext1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
 	}
 	
 }

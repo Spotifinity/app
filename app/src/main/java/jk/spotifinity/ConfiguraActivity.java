@@ -107,8 +107,9 @@ public class ConfiguraActivity extends AppCompatActivity {
 						runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
-								SketchwareUtil.showMessage(getApplicationContext(), "App configurata!");
 								FileUtil.deleteFile("storage/emulated/0/Android/data/jk.spotifinity/configurazione");
+								FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/downloaded.txt", getIntent().getStringExtra("ver"));
+								SketchwareUtil.showMessage(getApplicationContext(), "App configurata!");
 								finish();
 							}
 						});

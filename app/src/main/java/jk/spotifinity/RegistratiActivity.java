@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.*;
 import android.graphics.*;
+import android.graphics.Typeface;
 import android.graphics.drawable.*;
 import android.media.*;
 import android.net.*;
@@ -329,6 +330,13 @@ public class RegistratiActivity extends AppCompatActivity {
 	private void initializeLogic() {
 		textview3.setVisibility(View.INVISIBLE);
 		progressbar1.setVisibility(View.INVISIBLE);
+		textview1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
+		materialbutton1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
+		textview2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
+		edittext1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
+		textview3.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
+		edittext2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
+		switch1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
 	}
 	
 }

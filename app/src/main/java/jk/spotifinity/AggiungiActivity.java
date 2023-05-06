@@ -183,31 +183,7 @@ public class AggiungiActivity extends AppCompatActivity {
 				fade_in.setDuration(300);
 				fade_in.setFillAfter(true);
 				materialbutton1.startAnimation(fade_in);
-				String apkFile = "storage/emulated/0/ExtractedApks/Spotify_com.spotify.music/Spotify_base.apk";
-				    java.io.File file = new java.io.File(apkFile);
-				    if(file.exists()) {
-						        Intent intent = new Intent(Intent.ACTION_VIEW);
-						        intent.setDataAndType(uriFromFile(getApplicationContext(), new java.io.File(apkFile)), "application/vnd.android.package-archive");
-						        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-						        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-						        try {
-								            getApplicationContext().startActivity(intent);
-								        } catch (ActivityNotFoundException e) {
-								            e.printStackTrace();
-								            Log.e("TAG", "Error in opening the file!");
-								        }
-						    }else{
-						        Toast.makeText(getApplicationContext(),"File not found !" + "ملف غير موجود",Toast.LENGTH_LONG).show();
-						    }
-			}
-			
-			
-			Uri uriFromFile(Context context, java.io.File file) {
-				    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-						        return androidx.core.content.FileProvider.getUriForFile(context,context.getApplicationContext().getPackageName() + ".provider", file); 
-						    } else {
-						        return Uri.fromFile(file);
-						    }
+				
 			}
 		});
 		

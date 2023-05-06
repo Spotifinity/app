@@ -194,6 +194,9 @@ public class MainActivity extends AppCompatActivity {
 					if (_errorMessage.equals("The user account has been disabled by an administrator.")) {
 						accedi.setMessage("Il tuo account Spotifinity e stato disabilitato.\nSe si tratta di un errore e/o vuoi fare ricorso entra nel canale Telegram ufficiale e contatta il supporto.");
 					}
+					else {
+						accedi.setMessage(_errorMessage);
+					}
 					accedi.setPositiveButton("disconnettiti", new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface _dialog, int _which) {

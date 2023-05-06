@@ -79,7 +79,6 @@ public class HomeActivity extends AppCompatActivity {
 	private ImageView imageview4;
 	private LinearLayout linear7;
 	private LinearLayout linear12;
-	private TextView textview9;
 	private TextView textview7;
 	private LinearLayout linear11;
 	private LinearLayout linear8;
@@ -140,7 +139,6 @@ public class HomeActivity extends AppCompatActivity {
 		imageview4 = findViewById(R.id.imageview4);
 		linear7 = findViewById(R.id.linear7);
 		linear12 = findViewById(R.id.linear12);
-		textview9 = findViewById(R.id.textview9);
 		textview7 = findViewById(R.id.textview7);
 		linear11 = findViewById(R.id.linear11);
 		linear8 = findViewById(R.id.linear8);
@@ -175,20 +173,6 @@ public class HomeActivity extends AppCompatActivity {
 			}
 		});
 		
-		textview9.setOnLongClickListener(new View.OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View _view) {
-				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
-				fade_in.setDuration(300);
-				fade_in.setFillAfter(true);
-				textview9.startAnimation(fade_in);
-				intent.setAction(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse("https://discord.com/channels/1099806892416577538/1099829739000168488/1100693119395168367"));
-				startActivity(intent);
-				return true;
-			}
-		});
-		
 		materialbutton1.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
@@ -196,6 +180,7 @@ public class HomeActivity extends AppCompatActivity {
 				fade_in.setDuration(300);
 				fade_in.setFillAfter(true);
 				materialbutton1.startAnimation(fade_in);
+				intent.putExtra("ultima", textview5.getText().toString());
 				intent.setClass(getApplicationContext(), SelversioneActivity.class);
 				startActivity(intent);
 			}
@@ -305,30 +290,29 @@ public class HomeActivity extends AppCompatActivity {
 		textview7.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
 		textview14.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
 		textview15.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
-		textview9.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
 		materialbutton1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
 		materialbutton2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
 		linear8.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)30, 0xFF05AF34));
 		linear7.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)30, 0xFF424242));
 		linear12.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)30, 0xFF424242));
-		if (FileUtil.isExistFile("storage/emulated/0/Android/data/com.spotify.music")) {
-			textview15.setText(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/downloaded.txt"));
-		}
-		else {
-			FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/downloaded.txt", "Nessuna");
-			linear8.setVisibility(View.VISIBLE);
-			textview4.setText("Mod ancora non installata, installala ora!");
-			materialbutton2.setVisibility(View.GONE);
-		}
 	}
 	
 	@Override
 	public void onStart() {
 		super.onStart();
+		FileUtil.deleteFile("storage/emulated/0/Android/data/jk.spotifinity/skipLoad");
 		updater.startRequestNetwork(RequestNetworkController.GET, "https://raw.githubusercontent.com/Spotifinity/app/main/info/ver.txt", "", _updater_request_listener);
 		version.startRequestNetwork(RequestNetworkController.GET, "https://pastefy.ga/3DjQQQZG/raw", "", _version_request_listener);
 		if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/modSviluppatore")) {
 			textview7.setVisibility(View.GONE);
+		}
+		if (!FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/downloaded.txt").equals("Nessuna")) {
+			textview15.setText(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/downloaded.txt"));
+		}
+		else {
+			linear8.setVisibility(View.VISIBLE);
+			textview4.setText("Mod ancora non installata, installala ora!");
+			materialbutton2.setVisibility(View.GONE);
 		}
 	}
 	public void _ApriApp(final String _app) {
@@ -338,462 +322,72 @@ public class HomeActivity extends AppCompatActivity {
 	
 	public void _Traduci(final String _codice) {
 		if (_codice.equals("it")) {
-			TranslateAPI IT1 = new TranslateAPI(
-							Language.AUTO_DETECT,
-							Language.ITALIAN,
-							textview9.getText().toString());
-			TranslateAPI IT2 = new TranslateAPI(
-							Language.AUTO_DETECT,
-							Language.ITALIAN,
-							textview7.getText().toString());
-			TranslateAPI IT3 = new TranslateAPI(
-							Language.AUTO_DETECT,
-							Language.ITALIAN,
-							materialbutton1.getText().toString());
-			TranslateAPI IT4 = new TranslateAPI(
-							Language.AUTO_DETECT,
-							Language.ITALIAN,
-							textview10.getText().toString());
-			TranslateAPI IT5 = new TranslateAPI(
-							Language.AUTO_DETECT,
-							Language.ITALIAN,
-							textview4.getText().toString());
-			TranslateAPI IT6 = new TranslateAPI(
-							Language.AUTO_DETECT,
-							Language.ITALIAN,
-							textview2.getText().toString());
-			TranslateAPI IT8 = new TranslateAPI(
-							Language.AUTO_DETECT,
-							Language.ITALIAN,
-							materialbutton2.getText().toString());
-			TranslateAPI IT9 = new TranslateAPI(
-							Language.AUTO_DETECT,
-							Language.ITALIAN,
-							textview16.getText().toString());
-			TranslateAPI IT10 = new TranslateAPI(
-							Language.AUTO_DETECT,
-							Language.ITALIAN,
-							textview14.getText().toString());
-			TranslateAPI IT11 = new TranslateAPI(
-							Language.AUTO_DETECT,
-							Language.ITALIAN,
-							textview15.getText().toString());
-			IT1.setTranslateListener(new TranslateAPI.TranslateListener() {
-										@Override
-										public void onSuccess(String translatedText) {
-								textview9.setText(translatedText);
-										}
-						
-										@Override
-										public void onFailure(String ErrorText) {
-								 
-										}
-							});
-			IT2.setTranslateListener(new TranslateAPI.TranslateListener() {
-										@Override
-										public void onSuccess(String translatedText) {
-								textview7.setText(translatedText);
-										}
-						
-										@Override
-										public void onFailure(String ErrorText) {
-								 
-										}
-							});
-			IT3.setTranslateListener(new TranslateAPI.TranslateListener() {
-										@Override
-										public void onSuccess(String translatedText) {
-								materialbutton1.setText(translatedText);
-										}
-						
-										@Override
-										public void onFailure(String ErrorText) {
-								 
-										}
-							});
-			IT4.setTranslateListener(new TranslateAPI.TranslateListener() {
-										@Override
-										public void onSuccess(String translatedText) {
-								textview10.setText(translatedText);
-										}
-						
-										@Override
-										public void onFailure(String ErrorText) {
-								 
-										}
-							});
-			IT5.setTranslateListener(new TranslateAPI.TranslateListener() {
-										@Override
-										public void onSuccess(String translatedText) {
-								textview4.setText(translatedText);
-										}
-						
-										@Override
-										public void onFailure(String ErrorText) {
-								 
-										}
-							});
-			IT6.setTranslateListener(new TranslateAPI.TranslateListener() {
-										@Override
-										public void onSuccess(String translatedText) {
-								textview2.setText(translatedText);
-										}
-						
-										@Override
-										public void onFailure(String ErrorText) {
-								 
-										}
-							});
-			IT8.setTranslateListener(new TranslateAPI.TranslateListener() {
-										@Override
-										public void onSuccess(String translatedText) {
-								materialbutton2.setText(translatedText);
-										}
-						
-										@Override
-										public void onFailure(String ErrorText) {
-								 
-										}
-							});
-			IT9.setTranslateListener(new TranslateAPI.TranslateListener() {
-										@Override
-										public void onSuccess(String translatedText) {
-								textview16.setText(translatedText);
-										}
-						
-										@Override
-										public void onFailure(String ErrorText) {
-								 
-										}
-							});
-			IT10.setTranslateListener(new TranslateAPI.TranslateListener() {
-										@Override
-										public void onSuccess(String translatedText) {
-								textview14.setText(translatedText);
-										}
-						
-										@Override
-										public void onFailure(String ErrorText) {
-								 
-										}
-							});
-			IT11.setTranslateListener(new TranslateAPI.TranslateListener() {
-										@Override
-										public void onSuccess(String translatedText) {
-								textview15.setText(translatedText);
-										}
-						
-										@Override
-										public void onFailure(String ErrorText) {
-								 
-										}
-							});
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 		}
 		else {
 			if (_codice.equals("sq")) {
-				TranslateAPI IT1 = new TranslateAPI(
-								Language.AUTO_DETECT,
-								Language.ALBANIAN,
-								textview9.getText().toString());
-				TranslateAPI IT2 = new TranslateAPI(
-								Language.AUTO_DETECT,
-								Language.ALBANIAN,
-								textview7.getText().toString());
-				TranslateAPI IT3 = new TranslateAPI(
-								Language.AUTO_DETECT,
-								Language.ALBANIAN,
-								materialbutton1.getText().toString());
-				TranslateAPI IT4 = new TranslateAPI(
-								Language.AUTO_DETECT,
-								Language.ALBANIAN,
-								textview10.getText().toString());
-				TranslateAPI IT5 = new TranslateAPI(
-								Language.AUTO_DETECT,
-								Language.ALBANIAN,
-								textview4.getText().toString());
-				TranslateAPI IT6 = new TranslateAPI(
-								Language.AUTO_DETECT,
-								Language.ALBANIAN,
-								textview2.getText().toString());
-				TranslateAPI IT8 = new TranslateAPI(
-								Language.AUTO_DETECT,
-								Language.ALBANIAN,
-								materialbutton2.getText().toString());
-				TranslateAPI IT9 = new TranslateAPI(
-								Language.AUTO_DETECT,
-								Language.ALBANIAN,
-								textview16.getText().toString());
-				TranslateAPI IT10 = new TranslateAPI(
-								Language.AUTO_DETECT,
-								Language.ALBANIAN,
-								textview14.getText().toString());
-				TranslateAPI IT11 = new TranslateAPI(
-								Language.AUTO_DETECT,
-								Language.ALBANIAN,
-								textview15.getText().toString());
-				IT1.setTranslateListener(new TranslateAPI.TranslateListener() {
-											@Override
-											public void onSuccess(String translatedText) {
-									textview9.setText(translatedText);
-											}
-							
-											@Override
-											public void onFailure(String ErrorText) {
-									 
-											}
-								});
-				IT2.setTranslateListener(new TranslateAPI.TranslateListener() {
-											@Override
-											public void onSuccess(String translatedText) {
-									textview7.setText(translatedText);
-											}
-							
-											@Override
-											public void onFailure(String ErrorText) {
-									 
-											}
-								});
-				IT3.setTranslateListener(new TranslateAPI.TranslateListener() {
-											@Override
-											public void onSuccess(String translatedText) {
-									materialbutton1.setText(translatedText);
-											}
-							
-											@Override
-											public void onFailure(String ErrorText) {
-									 
-											}
-								});
-				IT4.setTranslateListener(new TranslateAPI.TranslateListener() {
-											@Override
-											public void onSuccess(String translatedText) {
-									textview10.setText(translatedText);
-											}
-							
-											@Override
-											public void onFailure(String ErrorText) {
-									 
-											}
-								});
-				IT5.setTranslateListener(new TranslateAPI.TranslateListener() {
-											@Override
-											public void onSuccess(String translatedText) {
-									textview4.setText(translatedText);
-											}
-							
-											@Override
-											public void onFailure(String ErrorText) {
-									 
-											}
-								});
-				IT6.setTranslateListener(new TranslateAPI.TranslateListener() {
-											@Override
-											public void onSuccess(String translatedText) {
-									textview2.setText(translatedText);
-											}
-							
-											@Override
-											public void onFailure(String ErrorText) {
-									 
-											}
-								});
-				IT8.setTranslateListener(new TranslateAPI.TranslateListener() {
-											@Override
-											public void onSuccess(String translatedText) {
-									materialbutton2.setText(translatedText);
-											}
-							
-											@Override
-											public void onFailure(String ErrorText) {
-									 
-											}
-								});
-				IT9.setTranslateListener(new TranslateAPI.TranslateListener() {
-											@Override
-											public void onSuccess(String translatedText) {
-									textview16.setText(translatedText);
-											}
-							
-											@Override
-											public void onFailure(String ErrorText) {
-									 
-											}
-								});
-				IT10.setTranslateListener(new TranslateAPI.TranslateListener() {
-											@Override
-											public void onSuccess(String translatedText) {
-									textview14.setText(translatedText);
-											}
-							
-											@Override
-											public void onFailure(String ErrorText) {
-									 
-											}
-								});
-				IT11.setTranslateListener(new TranslateAPI.TranslateListener() {
-											@Override
-											public void onSuccess(String translatedText) {
-									textview15.setText(translatedText);
-											}
-							
-											@Override
-											public void onFailure(String ErrorText) {
-									 
-											}
-								});
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 			}
 			else {
 				if (_codice.equals("ru")) {
-					TranslateAPI IT1 = new TranslateAPI(
-									Language.AUTO_DETECT,
-									Language.RUSSIAN,
-									textview9.getText().toString());
-					TranslateAPI IT2 = new TranslateAPI(
-									Language.AUTO_DETECT,
-									Language.RUSSIAN,
-									textview7.getText().toString());
-					TranslateAPI IT3 = new TranslateAPI(
-									Language.AUTO_DETECT,
-									Language.RUSSIAN,
-									materialbutton1.getText().toString());
-					TranslateAPI IT4 = new TranslateAPI(
-									Language.AUTO_DETECT,
-									Language.RUSSIAN,
-									textview10.getText().toString());
-					TranslateAPI IT5 = new TranslateAPI(
-									Language.AUTO_DETECT,
-									Language.RUSSIAN,
-									textview4.getText().toString());
-					TranslateAPI IT6 = new TranslateAPI(
-									Language.AUTO_DETECT,
-									Language.RUSSIAN,
-									textview2.getText().toString());
-					TranslateAPI IT8 = new TranslateAPI(
-									Language.AUTO_DETECT,
-									Language.RUSSIAN,
-									materialbutton2.getText().toString());
-					TranslateAPI IT9 = new TranslateAPI(
-									Language.AUTO_DETECT,
-									Language.RUSSIAN,
-									textview16.getText().toString());
-					TranslateAPI IT10 = new TranslateAPI(
-									Language.AUTO_DETECT,
-									Language.RUSSIAN,
-									textview14.getText().toString());
-					TranslateAPI IT11 = new TranslateAPI(
-									Language.AUTO_DETECT,
-									Language.RUSSIAN,
-									textview15.getText().toString());
-					IT1.setTranslateListener(new TranslateAPI.TranslateListener() {
-												@Override
-												public void onSuccess(String translatedText) {
-										textview9.setText(translatedText);
-												}
-								
-												@Override
-												public void onFailure(String ErrorText) {
-										 
-												}
-									});
-					IT2.setTranslateListener(new TranslateAPI.TranslateListener() {
-												@Override
-												public void onSuccess(String translatedText) {
-										textview7.setText(translatedText);
-												}
-								
-												@Override
-												public void onFailure(String ErrorText) {
-										 
-												}
-									});
-					IT3.setTranslateListener(new TranslateAPI.TranslateListener() {
-												@Override
-												public void onSuccess(String translatedText) {
-										materialbutton1.setText(translatedText);
-												}
-								
-												@Override
-												public void onFailure(String ErrorText) {
-										 
-												}
-									});
-					IT4.setTranslateListener(new TranslateAPI.TranslateListener() {
-												@Override
-												public void onSuccess(String translatedText) {
-										textview10.setText(translatedText);
-												}
-								
-												@Override
-												public void onFailure(String ErrorText) {
-										 
-												}
-									});
-					IT5.setTranslateListener(new TranslateAPI.TranslateListener() {
-												@Override
-												public void onSuccess(String translatedText) {
-										textview4.setText(translatedText);
-												}
-								
-												@Override
-												public void onFailure(String ErrorText) {
-										 
-												}
-									});
-					IT6.setTranslateListener(new TranslateAPI.TranslateListener() {
-												@Override
-												public void onSuccess(String translatedText) {
-										textview2.setText(translatedText);
-												}
-								
-												@Override
-												public void onFailure(String ErrorText) {
-										 
-												}
-									});
-					IT8.setTranslateListener(new TranslateAPI.TranslateListener() {
-												@Override
-												public void onSuccess(String translatedText) {
-										materialbutton2.setText(translatedText);
-												}
-								
-												@Override
-												public void onFailure(String ErrorText) {
-										 
-												}
-									});
-					IT9.setTranslateListener(new TranslateAPI.TranslateListener() {
-												@Override
-												public void onSuccess(String translatedText) {
-										textview16.setText(translatedText);
-												}
-								
-												@Override
-												public void onFailure(String ErrorText) {
-										 
-												}
-									});
-					IT10.setTranslateListener(new TranslateAPI.TranslateListener() {
-												@Override
-												public void onSuccess(String translatedText) {
-										textview14.setText(translatedText);
-												}
-								
-												@Override
-												public void onFailure(String ErrorText) {
-										 
-												}
-									});
-					IT11.setTranslateListener(new TranslateAPI.TranslateListener() {
-												@Override
-												public void onSuccess(String translatedText) {
-										textview15.setText(translatedText);
-												}
-								
-												@Override
-												public void onFailure(String ErrorText) {
-										 
-												}
-									});
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
 				}
 				else {
 					

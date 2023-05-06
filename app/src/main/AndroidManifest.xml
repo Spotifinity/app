@@ -26,7 +26,8 @@
 			android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
 			android:hardwareAccelerated="true"
 			android:supportsPictureInPicture="true"
-			android:theme="@style/AppTheme.FullScreen">
+			android:theme="@style/AppTheme.FullScreen"
+			android:screenOrientation="portrait">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
@@ -36,22 +37,26 @@
 			android:name=".BenvenutoActivity"
 			android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
 			android:hardwareAccelerated="true"
-			android:supportsPictureInPicture="true" />
+			android:supportsPictureInPicture="true"
+			android:screenOrientation="portrait" />
 		<activity
 			android:name=".HomeActivity"
 			android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
 			android:hardwareAccelerated="true"
-			android:supportsPictureInPicture="true" />
+			android:supportsPictureInPicture="true"
+			android:screenOrientation="portrait" />
 		<activity
 			android:name=".InstallaActivity"
 			android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
 			android:hardwareAccelerated="true"
-			android:supportsPictureInPicture="true" />
+			android:supportsPictureInPicture="true"
+			android:screenOrientation="portrait" />
 		<activity
 			android:name=".ImpostazioniActivity"
 			android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
 			android:hardwareAccelerated="true"
-			android:supportsPictureInPicture="true" />
+			android:supportsPictureInPicture="true"
+			android:screenOrientation="portrait" />
 		<activity
 			android:name=".ConfiguraActivity"
 			android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
@@ -78,6 +83,12 @@
 			android:screenOrientation="portrait" />
 		<activity
 			android:name=".RegistratiActivity"
+			android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+			android:hardwareAccelerated="true"
+			android:supportsPictureInPicture="true"
+			android:screenOrientation="portrait" />
+		<activity
+			android:name=".AggiornaActivity"
 			android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
 			android:hardwareAccelerated="true"
 			android:supportsPictureInPicture="true"

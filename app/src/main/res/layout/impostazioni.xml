@@ -155,7 +155,7 @@
 			android:textColor="#FFFFFF"
 			android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
 			app:backgroundTint="@color/colorPrimary"
-			app:cornerRadius="8dp"
+			app:cornerRadius="30px"
 			style="@style/Widget.MaterialComponents.Button" />
 	</LinearLayout>
 </LinearLayout>

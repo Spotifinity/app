@@ -21,8 +21,8 @@
 		<TextView
 			android:id="@+id/textview17"
 			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:padding="8dp"
+			android:layout_height="match_parent"
+			android:gravity="center_vertical"
 			android:text="Spotifinity"
 			android:textSize="14sp"
 			android:textColor="#FFFFFF" />
@@ -202,21 +202,12 @@
 				style="@style/Widget.MaterialComponents.Button" />
 		</LinearLayout>
 		<TextView
-			android:id="@+id/textview9"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:padding="8dp"
-			android:gravity="center_horizontal"
-			android:text="Riavvia l'app per aggiornare la lista!"
-			android:textSize="12sp"
-			android:textColor="#FFFFFF" />
-		<TextView
 			android:id="@+id/textview7"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:padding="8dp"
 			android:gravity="bottom"
-			android:text="Versione app: 4"
+			android:text="Versione app: 5"
 			android:textSize="12sp"
 			android:textColor="#424242" />
 	</LinearLayout>

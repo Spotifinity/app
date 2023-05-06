@@ -43,6 +43,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.room.*;
 import androidx.sqlite.db.*;
 import androidx.sqlite.db.framework.*;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -90,12 +92,13 @@ public class SelversioneActivity extends AppCompatActivity {
 	
 	private LinearLayout linear3;
 	private HorizontalScrollView hscroll4;
-	private ListView listview1;
+	private SwipeRefreshLayout swiperefreshlayout1;
 	private ImageView imageview2;
 	private TextView textview1;
 	private LinearLayout linear5;
 	private MaterialButton materialbutton1;
 	private MaterialButton materialbutton2;
+	private ListView listview1;
 	
 	private AlertDialog.Builder scarica;
 	private StorageReference download = _firebase_storage.getReference("mod");
@@ -140,69 +143,42 @@ public class SelversioneActivity extends AppCompatActivity {
 	private void initialize(Bundle _savedInstanceState) {
 		linear3 = findViewById(R.id.linear3);
 		hscroll4 = findViewById(R.id.hscroll4);
-		listview1 = findViewById(R.id.listview1);
+		swiperefreshlayout1 = findViewById(R.id.swiperefreshlayout1);
 		imageview2 = findViewById(R.id.imageview2);
 		textview1 = findViewById(R.id.textview1);
 		linear5 = findViewById(R.id.linear5);
 		materialbutton1 = findViewById(R.id.materialbutton1);
 		materialbutton2 = findViewById(R.id.materialbutton2);
+		listview1 = findViewById(R.id.listview1);
 		scarica = new AlertDialog.Builder(this);
 		elimina = new AlertDialog.Builder(this);
 		aggiungi = new AlertDialog.Builder(this);
 		
-		listview1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		swiperefreshlayout1.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 			@Override
-			public void onItemClick(AdapterView<?> _param1, View _param2, int _param3, long _param4) {
-				final int _position = _param3;
-				installa.setAction(Intent.ACTION_VIEW);
-				installa.setClass(getApplicationContext(), InstallaActivity.class);
-				installa.putExtra("link", lista.get((int)_position).get("Link").toString());
-				installa.putExtra("novità", lista.get((int)_position).get("Novità").toString());
-				installa.putExtra("ver", lista.get((int)_position).get("Versione").toString());
-				startActivity(installa);
-			}
-		});
-		
-		listview1.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-			@Override
-			public boolean onItemLongClick(AdapterView<?> _param1, View _param2, int _param3, long _param4) {
-				final int _position = _param3;
-				if (FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/admin")) {
-					elimina.setTitle(lista.get((int)_position).get("Versione").toString().concat(" (Admin)"));
-					elimina.setMessage("Cosa vuoi fare con questa versione?");
-					elimina.setPositiveButton("Elimina", new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface _dialog, int _which) {
-							elimina.setTitle("Elimina");
-							elimina.setMessage("Vuoi eliminare questa versione?");
-							elimina.setPositiveButton("si", new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface _dialog, int _which) {
-									link = lista.get((int)_position).get("Link").toString();
-									_firebase_storage.getReferenceFromUrl(link).delete().addOnSuccessListener(_download_delete_success_listener).addOnFailureListener(_download_failure_listener);
-									ver.child(lista.get((int)_position).get("Versione").toString()).removeValue();
-									ver.child(lista.get((int)_position).get("Novità").toString()).removeValue();
-									ver.child(lista.get((int)_position).get("Link").toString()).removeValue();
-								}
-							});
-							elimina.setNegativeButton("no", new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface _dialog, int _which) {
-									
-								}
-							});
-							elimina.create().show();
+			public void onRefresh() {
+				ver.addListenerForSingleValueEvent(new ValueEventListener() {
+					@Override
+					public void onDataChange(DataSnapshot _dataSnapshot) {
+						lista = new ArrayList<>();
+						try {
+							GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {};
+							for (DataSnapshot _data : _dataSnapshot.getChildren()) {
+								HashMap<String, Object> _map = _data.getValue(_ind);
+								lista.add(_map);
+							}
 						}
-					});
-					elimina.setNeutralButton("chiudi", new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface _dialog, int _which) {
-							
+						catch (Exception _e) {
+							_e.printStackTrace();
 						}
-					});
-					elimina.create().show();
-				}
-				return true;
+						listview1.setAdapter(new Listview1Adapter(lista));
+						((BaseAdapter)listview1.getAdapter()).notifyDataSetChanged();
+					}
+					@Override
+					public void onCancelled(DatabaseError _databaseError) {
+					}
+				});
+				swiperefreshlayout1.setRefreshing(false);
 			}
 		});
 		
@@ -235,6 +211,28 @@ public class SelversioneActivity extends AppCompatActivity {
 				firebase.setAction(Intent.ACTION_VIEW);
 				firebase.setData(Uri.parse("https://console.firebase.google.com/u/0/project/xwallet-d0e19/database/xwallet-d0e19-default-rtdb/data"));
 				startActivity(firebase);
+			}
+		});
+		
+		listview1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> _param1, View _param2, int _param3, long _param4) {
+				final int _position = _param3;
+				installa.setAction(Intent.ACTION_VIEW);
+				installa.setClass(getApplicationContext(), InstallaActivity.class);
+				installa.putExtra("link", lista.get((int)_position).get("Link").toString());
+				installa.putExtra("novità", lista.get((int)_position).get("Novità").toString());
+				installa.putExtra("ver", lista.get((int)_position).get("Versione").toString());
+				startActivity(installa);
+			}
+		});
+		
+		listview1.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> _param1, View _param2, int _param3, long _param4) {
+				final int _position = _param3;
+				
+				return true;
 			}
 		});
 		
@@ -291,6 +289,7 @@ public class SelversioneActivity extends AppCompatActivity {
 				GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {};
 				final String _childKey = _param1.getKey();
 				final HashMap<String, Object> _childValue = _param1.getValue(_ind);
+				swiperefreshlayout1.setRefreshing(true);
 				ver.addListenerForSingleValueEvent(new ValueEventListener() {
 					@Override
 					public void onDataChange(DataSnapshot _dataSnapshot) {
@@ -312,6 +311,7 @@ public class SelversioneActivity extends AppCompatActivity {
 					public void onCancelled(DatabaseError _databaseError) {
 					}
 				});
+				swiperefreshlayout1.setRefreshing(false);
 			}
 			
 			@Override
@@ -319,6 +319,7 @@ public class SelversioneActivity extends AppCompatActivity {
 				GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {};
 				final String _childKey = _param1.getKey();
 				final HashMap<String, Object> _childValue = _param1.getValue(_ind);
+				swiperefreshlayout1.setRefreshing(true);
 				ver.addListenerForSingleValueEvent(new ValueEventListener() {
 					@Override
 					public void onDataChange(DataSnapshot _dataSnapshot) {
@@ -340,6 +341,7 @@ public class SelversioneActivity extends AppCompatActivity {
 					public void onCancelled(DatabaseError _databaseError) {
 					}
 				});
+				swiperefreshlayout1.setRefreshing(false);
 			}
 			
 			@Override
@@ -352,6 +354,7 @@ public class SelversioneActivity extends AppCompatActivity {
 				GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {};
 				final String _childKey = _param1.getKey();
 				final HashMap<String, Object> _childValue = _param1.getValue(_ind);
+				swiperefreshlayout1.setRefreshing(true);
 				ver.addListenerForSingleValueEvent(new ValueEventListener() {
 					@Override
 					public void onDataChange(DataSnapshot _dataSnapshot) {
@@ -373,6 +376,7 @@ public class SelversioneActivity extends AppCompatActivity {
 					public void onCancelled(DatabaseError _databaseError) {
 					}
 				});
+				swiperefreshlayout1.setRefreshing(false);
 			}
 			
 			@Override
@@ -386,6 +390,7 @@ public class SelversioneActivity extends AppCompatActivity {
 	}
 	
 	private void initializeLogic() {
+		swiperefreshlayout1.setRefreshing(true);
 		listview1.setSelector(android.R.color.transparent);
 		textview1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
 		materialbutton1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
@@ -402,6 +407,10 @@ public class SelversioneActivity extends AppCompatActivity {
 		super.onStart();
 		
 	}
+	public void _FalseRefresh() {
+		swiperefreshlayout1.setRefreshing(false);
+	}
+	
 	public class Listview1Adapter extends BaseAdapter {
 		
 		ArrayList<HashMap<String, Object>> _data;
@@ -435,10 +444,22 @@ public class SelversioneActivity extends AppCompatActivity {
 			
 			final LinearLayout linear1 = _view.findViewById(R.id.linear1);
 			final TextView textview1 = _view.findViewById(R.id.textview1);
+			final TextView textview3 = _view.findViewById(R.id.textview3);
+			final LinearLayout linear2 = _view.findViewById(R.id.linear2);
+			final ImageView imageview1 = _view.findViewById(R.id.imageview1);
+			final TextView textview2 = _view.findViewById(R.id.textview2);
 			
+			_FalseRefresh();
 			linear1.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)30, 0xFF424242));
-			textview1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
+			linear2.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)30, 0xFF05AF34));
+			textview2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
+			textview1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
+			textview3.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
 			textview1.setText(lista.get((int)_position).get("Versione").toString().replace("_", "."));
+			textview3.setText(lista.get((int)_position).get("Novità").toString());
+			if (!lista.get((int)_position).get("Versione").toString().replace("_", ".").equals(getIntent().getStringExtra("ultima"))) {
+				linear2.setVisibility(View.GONE);
+			}
 			linear1.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View _view) {
