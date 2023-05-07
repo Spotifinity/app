@@ -8,26 +8,28 @@
 </tr>
 <tr>
 <td>Downloads</td>
-<td><img src="https://img.shields.io/github/downloads/Spotifinity/Spotifinity/total" alt=""/></td>
+<td><img src="https://img.shields.io/github/downloads/Spotifinity/Spotifinity/total" alt="" /></td>
 </tr>
 <tr>
 <td>Discord</td>
-<td><img src="https://img.shields.io/discord/1099806892416577538" alt=""/></td>
+<td><img src="https://img.shields.io/discord/1099806892416577538" alt="" /></td>
 </tr>
 <tr>
 <td>Problemi</td>
-<td><img src="https://img.shields.io/github/issues/Spotifinity/Spotifinity"/></td>
+<td><img src="https://img.shields.io/github/issues/Spotifinity/Spotifinity" /></td>
 </tr>
 </tbody>
 </table>
 <h2>Cos'&egrave;</h2>
 <p>Spotifinity &egrave; un applicazione che ti permette di <strong>installare la migliore mod</strong> per Spotify. Questa mod funziona benissimo e l'applicazione in s&egrave; &egrave; velocissima.</p>
+<p>Dispone di un sacco di versioni versatili e funziona benissimo su qualsiasi versione e tipo di Android!</p>
 <h2>Cosa c'&egrave; nella mod?</h2>
 <p>Nella mod potrai trovare&nbsp;<strong>tutte le funzioni del piano Spotify Premium</strong>, cio&egrave;:</p>
 <ul>
 <li>Niente pubblicit&agrave;</li>
 <li>Skip illimitati</li>
 <li>Riproduzione in alta qualit&agrave;</li>
+<li><em>E molto altro!</em></li>
 </ul>
 <h1>Altre informazioni</h1>
 <h2>Note importanti</h2>
