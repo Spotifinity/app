@@ -77,9 +77,14 @@ public class HomeActivity extends AppCompatActivity {
 	private TextView textview17;
 	private LinearLayout linear18;
 	private ImageView imageview4;
+	private LinearLayout linear19;
 	private LinearLayout linear7;
 	private LinearLayout linear12;
 	private TextView textview7;
+	private TextView textview18;
+	private TextView textview19;
+	private TextView textview20;
+	private MaterialButton materialbutton3;
 	private LinearLayout linear11;
 	private LinearLayout linear8;
 	private LinearLayout linear9;
@@ -106,6 +111,13 @@ public class HomeActivity extends AppCompatActivity {
 	private RequestNetwork updater;
 	private RequestNetwork.RequestListener _updater_request_listener;
 	private AlertDialog.Builder dialog2;
+	private RequestNetwork poll;
+	private RequestNetwork.RequestListener _poll_request_listener;
+	private RequestNetwork pollNome;
+	private RequestNetwork.RequestListener _pollNome_request_listener;
+	private RequestNetwork pollLink;
+	private RequestNetwork.RequestListener _pollLink_request_listener;
+	private Intent sondaggio = new Intent();
 	
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
@@ -137,9 +149,14 @@ public class HomeActivity extends AppCompatActivity {
 		textview17 = findViewById(R.id.textview17);
 		linear18 = findViewById(R.id.linear18);
 		imageview4 = findViewById(R.id.imageview4);
+		linear19 = findViewById(R.id.linear19);
 		linear7 = findViewById(R.id.linear7);
 		linear12 = findViewById(R.id.linear12);
 		textview7 = findViewById(R.id.textview7);
+		textview18 = findViewById(R.id.textview18);
+		textview19 = findViewById(R.id.textview19);
+		textview20 = findViewById(R.id.textview20);
+		materialbutton3 = findViewById(R.id.materialbutton3);
 		linear11 = findViewById(R.id.linear11);
 		linear8 = findViewById(R.id.linear8);
 		linear9 = findViewById(R.id.linear9);
@@ -160,6 +177,9 @@ public class HomeActivity extends AppCompatActivity {
 		dialog = new AlertDialog.Builder(this);
 		updater = new RequestNetwork(this);
 		dialog2 = new AlertDialog.Builder(this);
+		poll = new RequestNetwork(this);
+		pollNome = new RequestNetwork(this);
+		pollLink = new RequestNetwork(this);
 		
 		imageview4.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -170,6 +190,17 @@ public class HomeActivity extends AppCompatActivity {
 				imageview4.startAnimation(fade_in);
 				intent.setClass(getApplicationContext(), ImpostazioniActivity.class);
 				startActivity(intent);
+			}
+		});
+		
+		materialbutton3.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
+				fade_in.setDuration(300);
+				fade_in.setFillAfter(true);
+				materialbutton3.startAnimation(fade_in);
+				startActivity(sondaggio);
 			}
 		});
 		
@@ -223,7 +254,7 @@ public class HomeActivity extends AppCompatActivity {
 				final String _tag = _param1;
 				final String _response = _param2;
 				final HashMap<String, Object> _responseHeaders = _param3;
-				if (!(Double.parseDouble(_response) == 4)) {
+				if (!(Double.parseDouble(_response) == 6)) {
 					if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/skipUpdate")) {
 						dialog.setTitle("Nuovo aggiornamento");
 						dialog.setMessage("E stato rilevato una versione più recente di questa applicazione.\nVuoi andare sul sito di GitHub per scaricare l'ultima versione?");
@@ -277,9 +308,68 @@ public class HomeActivity extends AppCompatActivity {
 				SketchwareUtil.showMessage(getApplicationContext(), "Impossibile trovare nuovi aggiornamenti!");
 			}
 		};
+		
+		_poll_request_listener = new RequestNetwork.RequestListener() {
+			@Override
+			public void onResponse(String _param1, String _param2, HashMap<String, Object> _param3) {
+				final String _tag = _param1;
+				final String _response = _param2;
+				final HashMap<String, Object> _responseHeaders = _param3;
+				if (_response.equals("0")) {
+					linear19.setVisibility(View.GONE);
+				}
+			}
+			
+			@Override
+			public void onErrorResponse(String _param1, String _param2) {
+				final String _tag = _param1;
+				final String _message = _param2;
+				
+			}
+		};
+		
+		_pollNome_request_listener = new RequestNetwork.RequestListener() {
+			@Override
+			public void onResponse(String _param1, String _param2, HashMap<String, Object> _param3) {
+				final String _tag = _param1;
+				final String _response = _param2;
+				final HashMap<String, Object> _responseHeaders = _param3;
+				textview20.setText(_response);
+			}
+			
+			@Override
+			public void onErrorResponse(String _param1, String _param2) {
+				final String _tag = _param1;
+				final String _message = _param2;
+				
+			}
+		};
+		
+		_pollLink_request_listener = new RequestNetwork.RequestListener() {
+			@Override
+			public void onResponse(String _param1, String _param2, HashMap<String, Object> _param3) {
+				final String _tag = _param1;
+				final String _response = _param2;
+				final HashMap<String, Object> _responseHeaders = _param3;
+				sondaggio.setAction(Intent.ACTION_VIEW);
+				sondaggio.setData(Uri.parse(_response));
+			}
+			
+			@Override
+			public void onErrorResponse(String _param1, String _param2) {
+				final String _tag = _param1;
+				final String _message = _param2;
+				
+			}
+		};
 	}
 	
 	private void initializeLogic() {
+		updater.startRequestNetwork(RequestNetworkController.GET, "https://pastefy.ga/V64UVdii/raw", "", _updater_request_listener);
+		version.startRequestNetwork(RequestNetworkController.GET, "https://pastefy.ga/3DjQQQZG/raw", "", _version_request_listener);
+		poll.startRequestNetwork(RequestNetworkController.GET, "https://pastefy.ga/AoC5b38b/raw", "", _poll_request_listener);
+		pollNome.startRequestNetwork(RequestNetworkController.GET, "https://pastefy.ga/NaUiBndI/raw", "", _pollNome_request_listener);
+		pollLink.startRequestNetwork(RequestNetworkController.GET, "https://pastefy.ga/45ITHFZO/raw", "", _pollLink_request_listener);
 		dialog = new AlertDialog.Builder(this,AlertDialog.THEME_DEVICE_DEFAULT_DARK);
 		textview2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
 		textview4.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
@@ -292,17 +382,20 @@ public class HomeActivity extends AppCompatActivity {
 		textview15.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
 		materialbutton1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
 		materialbutton2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
+		textview18.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
+		textview19.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
+		textview20.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
+		materialbutton3.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
 		linear8.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)30, 0xFF05AF34));
 		linear7.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)30, 0xFF424242));
 		linear12.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)30, 0xFF424242));
+		linear19.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)30, 0xFF424242));
 	}
 	
 	@Override
 	public void onStart() {
 		super.onStart();
 		FileUtil.deleteFile("storage/emulated/0/Android/data/jk.spotifinity/skipLoad");
-		updater.startRequestNetwork(RequestNetworkController.GET, "https://raw.githubusercontent.com/Spotifinity/app/main/info/ver.txt", "", _updater_request_listener);
-		version.startRequestNetwork(RequestNetworkController.GET, "https://pastefy.ga/3DjQQQZG/raw", "", _version_request_listener);
 		if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/modSviluppatore")) {
 			textview7.setVisibility(View.GONE);
 		}

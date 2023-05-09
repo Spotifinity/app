@@ -48,6 +48,19 @@
 			android:textSize="12sp"
 			android:textColor="#FFFFFF" />
 		<EditText
+			android:id="@+id/edittext3"
+			android:layout_width="200dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="10dp"
+			android:padding="8dp"
+			android:textSize="12sp"
+			android:textColor="#FFFFFF"
+			android:hint="Username"
+			android:textColorHint="#424242"
+			android:singleLine="true"
+			android:imeOptions="actionNext"
+			android:layout_gravity="center_horizontal" />
+		<EditText
 			android:id="@+id/edittext1"
 			android:layout_width="200dp"
 			android:layout_height="wrap_content"

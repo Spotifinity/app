@@ -48,6 +48,56 @@
 		android:background="#000000"
 		android:orientation="vertical">
 		<LinearLayout
+			android:id="@+id/linear19"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="10dp"
+			android:padding="8dp"
+			android:background="#424242"
+			android:orientation="vertical">
+			<TextView
+				android:id="@+id/textview18"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="8dp"
+				android:text="Sondaggio aperto"
+				android:textSize="20sp"
+				android:textStyle="bold"
+				android:textColor="#FFFFFF" />
+			<TextView
+				android:id="@+id/textview19"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:paddingLeft="8dp"
+				android:paddingRight="8dp"
+				android:paddingBottom="8dp"
+				android:text="Aiuta Spotifinity a migliorare il suo servizio rispondendo a un quiz sul canale ufficiale Telegram."
+				android:textSize="12sp"
+				android:textColor="#FFFFFF" />
+			<TextView
+				android:id="@+id/textview20"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:padding="8dp"
+				android:background="#424242"
+				android:text="TextView"
+				android:textSize="12sp"
+				android:textColor="#616161" />
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/materialbutton3"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:padding="8dp"
+				android:gravity="center_horizontal|center_vertical"
+				android:text="partecipa"
+				android:textSize="12sp"
+				android:textColor="#FFFFFF"
+				android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+				app:backgroundTint="@color/colorPrimary"
+				app:cornerRadius="30px"
+				style="@style/Widget.MaterialComponents.Button" />
+		</LinearLayout>
+		<LinearLayout
 			android:id="@+id/linear7"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
@@ -207,7 +257,7 @@
 			android:layout_height="match_parent"
 			android:padding="8dp"
 			android:gravity="bottom"
-			android:text="Versione app: 5"
+			android:text="Versione app: 6"
 			android:textSize="12sp"
 			android:textColor="#424242" />
 	</LinearLayout>

@@ -74,6 +74,7 @@ public class ImpostazioniActivity extends AppCompatActivity {
 	private MaterialButton materialbutton1;
 	private LinearLayout linear6;
 	private LinearLayout linear13;
+	private LinearLayout linear16;
 	private MaterialButton materialbutton2;
 	private Switch switch2;
 	private TextView textview3;
@@ -82,6 +83,10 @@ public class ImpostazioniActivity extends AppCompatActivity {
 	private EditText edittext1;
 	private TextView textview15;
 	private LinearLayout linear15;
+	private LinearLayout linear17;
+	private TextView textview17;
+	private TextView textview18;
+	private LinearLayout linear18;
 	
 	private Intent intent = new Intent();
 	private AlertDialog.Builder warning;
@@ -132,6 +137,7 @@ public class ImpostazioniActivity extends AppCompatActivity {
 		materialbutton1 = findViewById(R.id.materialbutton1);
 		linear6 = findViewById(R.id.linear6);
 		linear13 = findViewById(R.id.linear13);
+		linear16 = findViewById(R.id.linear16);
 		materialbutton2 = findViewById(R.id.materialbutton2);
 		switch2 = findViewById(R.id.switch2);
 		textview3 = findViewById(R.id.textview3);
@@ -140,6 +146,10 @@ public class ImpostazioniActivity extends AppCompatActivity {
 		edittext1 = findViewById(R.id.edittext1);
 		textview15 = findViewById(R.id.textview15);
 		linear15 = findViewById(R.id.linear15);
+		linear17 = findViewById(R.id.linear17);
+		textview17 = findViewById(R.id.textview17);
+		textview18 = findViewById(R.id.textview18);
+		linear18 = findViewById(R.id.linear18);
 		warning = new AlertDialog.Builder(this);
 		disconnessione = new AlertDialog.Builder(this);
 		auth = FirebaseAuth.getInstance();
@@ -193,6 +203,18 @@ public class ImpostazioniActivity extends AppCompatActivity {
 				materialbutton1.setVisibility(View.INVISIBLE);
 				progressbar1.setVisibility(View.INVISIBLE);
 				SketchwareUtil.showMessage(getApplicationContext(), "Salvato con successo");
+			}
+		});
+		
+		linear16.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
+				fade_in.setDuration(300);
+				fade_in.setFillAfter(true);
+				linear16.startAnimation(fade_in);
+				intent.setClass(getApplicationContext(), SocialActivity.class);
+				startActivity(intent);
 			}
 		});
 		
@@ -382,11 +404,14 @@ public class ImpostazioniActivity extends AppCompatActivity {
 		materialbutton1.setVisibility(View.INVISIBLE);
 		linear6.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)30, 0xFF424242));
 		linear13.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)30, 0xFF424242));
+		linear16.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)30, 0xFF424242));
 		textview15.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
 		textview16.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
 		edittext1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
 		materialbutton1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
 		materialbutton2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
+		textview17.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
+		textview18.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
 	}
 	
 	@Override
@@ -402,6 +427,10 @@ public class ImpostazioniActivity extends AppCompatActivity {
 		progressbar1.setVisibility(View.INVISIBLE);
 		materialbutton1.setVisibility(View.INVISIBLE);
 		Percorso = FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/percorso.txt");
+		if (edittext1.getText().toString().equals("")) {
+			FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/percorso.txt", "storage/emulated/0/Download");
+			SketchwareUtil.showMessage(getApplicationContext(), "Rilevato un problema ma ho risolto da solo!");
+		}
 	}
 	
 	@Override

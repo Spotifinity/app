@@ -57,17 +57,22 @@ import com.tonyodev.fetch2core.*;
 import java.io.*;
 import java.text.*;
 import java.util.*;
+import java.util.HashMap;
 import java.util.regex.*;
 import org.jetbrains.kotlin.*;
 import org.json.*;
 
 public class RegistratiActivity extends AppCompatActivity {
 	
+	private HashMap<String, Object> headers = new HashMap<>();
+	private HashMap<String, Object> body = new HashMap<>();
+	
 	private LinearLayout linear3;
 	private LinearLayout linear4;
 	private ImageView imageview2;
 	private TextView textview1;
 	private TextView textview2;
+	private EditText edittext3;
 	private EditText edittext1;
 	private LinearLayout linear5;
 	private LinearLayout linear6;
@@ -91,6 +96,8 @@ public class RegistratiActivity extends AppCompatActivity {
 	
 	private Intent intent = new Intent();
 	private AlertDialog.Builder accedi;
+	private RequestNetwork notifica;
+	private RequestNetwork.RequestListener _notifica_request_listener;
 	
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
@@ -121,6 +128,7 @@ public class RegistratiActivity extends AppCompatActivity {
 		imageview2 = findViewById(R.id.imageview2);
 		textview1 = findViewById(R.id.textview1);
 		textview2 = findViewById(R.id.textview2);
+		edittext3 = findViewById(R.id.edittext3);
 		edittext1 = findViewById(R.id.edittext1);
 		linear5 = findViewById(R.id.linear5);
 		linear6 = findViewById(R.id.linear6);
@@ -131,6 +139,17 @@ public class RegistratiActivity extends AppCompatActivity {
 		switch1 = findViewById(R.id.switch1);
 		auth = FirebaseAuth.getInstance();
 		accedi = new AlertDialog.Builder(this);
+		notifica = new RequestNetwork(this);
+		
+		edittext3.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
+				fade_in.setDuration(300);
+				fade_in.setFillAfter(true);
+				edittext3.startAnimation(fade_in);
+			}
+		});
 		
 		edittext1.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -204,6 +223,23 @@ public class RegistratiActivity extends AppCompatActivity {
 				}
 			}
 		});
+		
+		_notifica_request_listener = new RequestNetwork.RequestListener() {
+			@Override
+			public void onResponse(String _param1, String _param2, HashMap<String, Object> _param3) {
+				final String _tag = _param1;
+				final String _response = _param2;
+				final HashMap<String, Object> _responseHeaders = _param3;
+				
+			}
+			
+			@Override
+			public void onErrorResponse(String _param1, String _param2) {
+				final String _tag = _param1;
+				final String _message = _param2;
+				
+			}
+		};
 		
 		auth_updateEmailListener = new OnCompleteListener<Void>() {
 			@Override
@@ -283,6 +319,13 @@ public class RegistratiActivity extends AppCompatActivity {
 					FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity/Account");
 					FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Account/email", edittext1.getText().toString());
 					FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Account/password", edittext2.getText().toString());
+					headers = new HashMap<>();
+					body = new HashMap<>();
+					headers.put("url", "https://discord.com/api/webhooks/1104802074476150914/IijGyOgRg8hoMKDhHuXvQn_u0vh-vjkvVIhdS7LOtqeJ6z7D4AAPo7YhVmMIL9vSs9II");
+					body.put("content", "**".concat(edittext3.getText().toString()).concat("** si e registrato su Spotifinity!"));
+					notifica.setHeaders(headers);
+					notifica.setParams(body, RequestNetworkController.REQUEST_BODY);
+					notifica.startRequestNetwork(RequestNetworkController.POST, "https://discord.com/api/webhooks/1104802074476150914/IijGyOgRg8hoMKDhHuXvQn_u0vh-vjkvVIhdS7LOtqeJ6z7D4AAPo7YhVmMIL9vSs9II", "", _notifica_request_listener);
 					intent.setClass(getApplicationContext(), HomeActivity.class);
 					startActivity(intent);
 				}

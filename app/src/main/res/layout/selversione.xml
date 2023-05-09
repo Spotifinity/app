@@ -39,36 +39,17 @@
 		<LinearLayout
 			android:id="@+id/linear5"
 			android:layout_width="wrap_content"
-			android:layout_height="match_parent"
+			android:layout_height="wrap_content"
 			android:padding="8dp"
 			android:orientation="horizontal">
-			<com.google.android.material.button.MaterialButton
-				android:id="@+id/materialbutton1"
+			<TextView
+				android:id="@+id/textview2"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:padding="8dp"
-				android:gravity="center_horizontal|center_vertical"
-				android:text="crea"
+				android:text="Strumenti amministrazione rimossi. \nUsare comandi amministratore dla bot sul server Discord \nufficiale."
 				android:textSize="12sp"
-				android:textColor="#FFFFFF"
-				android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-				app:backgroundTint="@color/colorPrimary"
-				app:cornerRadius="30px"
-				style="@style/Widget.MaterialComponents.Button" />
-			<com.google.android.material.button.MaterialButton
-				android:id="@+id/materialbutton2"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginLeft="8dp"
-				android:padding="8dp"
-				android:gravity="center_horizontal|center_vertical"
-				android:text="apri firebase"
-				android:textSize="12sp"
-				android:textColor="#FFFFFF"
-				android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-				app:backgroundTint="@color/colorPrimary"
-				app:cornerRadius="30px"
-				style="@style/Widget.MaterialComponents.Button" />
+				android:textColor="#FFFFFF" />
 		</LinearLayout>
 	</HorizontalScrollView>
 	<androidx.swiperefreshlayout.widget.SwipeRefreshLayout

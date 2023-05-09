@@ -50,7 +50,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.button.*;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -96,8 +95,7 @@ public class SelversioneActivity extends AppCompatActivity {
 	private ImageView imageview2;
 	private TextView textview1;
 	private LinearLayout linear5;
-	private MaterialButton materialbutton1;
-	private MaterialButton materialbutton2;
+	private TextView textview2;
 	private ListView listview1;
 	
 	private AlertDialog.Builder scarica;
@@ -147,8 +145,7 @@ public class SelversioneActivity extends AppCompatActivity {
 		imageview2 = findViewById(R.id.imageview2);
 		textview1 = findViewById(R.id.textview1);
 		linear5 = findViewById(R.id.linear5);
-		materialbutton1 = findViewById(R.id.materialbutton1);
-		materialbutton2 = findViewById(R.id.materialbutton2);
+		textview2 = findViewById(R.id.textview2);
 		listview1 = findViewById(R.id.listview1);
 		scarica = new AlertDialog.Builder(this);
 		elimina = new AlertDialog.Builder(this);
@@ -186,31 +183,6 @@ public class SelversioneActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View _view) {
 				finish();
-			}
-		});
-		
-		materialbutton1.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View _view) {
-				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
-				fade_in.setDuration(300);
-				fade_in.setFillAfter(true);
-				materialbutton1.startAnimation(fade_in);
-				intent.setClass(getApplicationContext(), AggiungiActivity.class);
-				startActivity(intent);
-			}
-		});
-		
-		materialbutton2.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View _view) {
-				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
-				fade_in.setDuration(300);
-				fade_in.setFillAfter(true);
-				materialbutton2.startAnimation(fade_in);
-				firebase.setAction(Intent.ACTION_VIEW);
-				firebase.setData(Uri.parse("https://console.firebase.google.com/u/0/project/xwallet-d0e19/database/xwallet-d0e19-default-rtdb/data"));
-				startActivity(firebase);
 			}
 		});
 		
@@ -393,10 +365,9 @@ public class SelversioneActivity extends AppCompatActivity {
 		swiperefreshlayout1.setRefreshing(true);
 		listview1.setSelector(android.R.color.transparent);
 		textview1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
-		materialbutton1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
-		materialbutton2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
+		textview2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
 		if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/admin")) {
-			hscroll4.setVisibility(View.GONE);
+			linear5.setVisibility(View.GONE);
 		}
 		scarica = new AlertDialog.Builder(this,AlertDialog.THEME_DEVICE_DEFAULT_DARK);
 		elimina = new AlertDialog.Builder(this,AlertDialog.THEME_DEVICE_DEFAULT_DARK);
