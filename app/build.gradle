@@ -11,8 +11,8 @@ android {
 		applicationId "jk.spotifinity"
 		minSdkVersion 21
 		targetSdkVersion 29
-		versionCode 1
-		versionName "4"
+		versionCode 11
+		versionName "7"
 	}
 	
 	buildTypes {

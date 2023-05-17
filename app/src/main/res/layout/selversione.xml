@@ -22,7 +22,7 @@
 			android:scaleType="centerInside" />
 		<TextView
 			android:id="@+id/textview1"
-			android:layout_width="match_parent"
+			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginLeft="5dp"
 			android:padding="8dp"
@@ -30,41 +30,41 @@
 			android:textSize="20sp"
 			android:textStyle="bold"
 			android:textColor="#FFFFFF" />
-	</LinearLayout>
-	<HorizontalScrollView
-		android:id="@+id/hscroll4"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:background="#424242">
 		<LinearLayout
-			android:id="@+id/linear5"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:padding="8dp"
-			android:orientation="horizontal">
-			<TextView
-				android:id="@+id/textview2"
+			android:id="@+id/linear4"
+			android:layout_width="match_parent"
+			android:layout_height="25dp"
+			android:gravity="right"
+			android:orientation="horizontal"
+			android:layout_gravity="center_vertical">
+			<LinearLayout
+				android:id="@+id/linear5"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:padding="8dp"
-				android:text="Strumenti amministrazione rimossi. \nUsare comandi amministratore dla bot sul server Discord \nufficiale."
-				android:textSize="12sp"
-				android:textColor="#FFFFFF" />
+				android:orientation="horizontal">
+				<ProgressBar
+					android:id="@+id/progressbar1"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginRight="8dp"
+					android:indeterminate="false"
+					style="?android:progressBarStyle" />
+			</LinearLayout>
+			<ImageView
+				android:id="@+id/imageview3"
+				android:layout_width="25dp"
+				android:layout_height="25dp"
+				android:layout_marginRight="10dp"
+				android:src="@drawable/ic_help_white"
+				android:scaleType="centerCrop" />
 		</LinearLayout>
-	</HorizontalScrollView>
-	<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-		android:id="@+id/swiperefreshlayout1"
+	</LinearLayout>
+	<ListView
+		android:id="@+id/listview1"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
+		android:padding="8dp"
 		android:background="#000000"
-		android:orientation="vertical">
-		<ListView
-			android:id="@+id/listview1"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:padding="8dp"
-			android:background="#000000"
-			android:dividerHeight="5dp"
-			android:choiceMode="none" />
-	</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+		android:dividerHeight="5dp"
+		android:choiceMode="none" />
 </LinearLayout>

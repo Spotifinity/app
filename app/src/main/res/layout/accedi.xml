@@ -22,7 +22,7 @@
 			android:scaleType="centerInside" />
 		<TextView
 			android:id="@+id/textview1"
-			android:layout_width="match_parent"
+			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginLeft="5dp"
 			android:padding="8dp"
@@ -30,6 +30,20 @@
 			android:textSize="20sp"
 			android:textStyle="bold"
 			android:textColor="#FFFFFF" />
+		<LinearLayout
+			android:id="@+id/linear12"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="right"
+			android:orientation="horizontal">
+			<ProgressBar
+				android:id="@+id/progressbar1"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="8dp"
+				android:indeterminate="false"
+				style="?android:progressBarStyle" />
+		</LinearLayout>
 	</LinearLayout>
 	<LinearLayout
 		android:id="@+id/linear4"
@@ -48,10 +62,33 @@
 			android:textSize="12sp"
 			android:textColor="#FFFFFF" />
 		<EditText
-			android:id="@+id/edittext1"
-			android:layout_width="200dp"
+			android:id="@+id/edittext3"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_marginTop="10dp"
+			android:layout_margin="10dp"
+			android:padding="8dp"
+			android:textSize="12sp"
+			android:textColor="#FFFFFF"
+			android:hint="Username"
+			android:textColorHint="#424242"
+			android:singleLine="true"
+			android:imeOptions="actionNext"
+			android:layout_gravity="center_horizontal" />
+		<TextView
+			android:id="@+id/textview7"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="10dp"
+			android:gravity="right"
+			android:text="0/16"
+			android:textSize="12sp"
+			android:textStyle="italic"
+			android:textColor="#424242" />
+		<EditText
+			android:id="@+id/edittext1"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="10dp"
 			android:padding="8dp"
 			android:textSize="12sp"
 			android:textColor="#FFFFFF"
@@ -60,51 +97,58 @@
 			android:singleLine="true"
 			android:imeOptions="actionNext"
 			android:layout_gravity="center_horizontal" />
-		<LinearLayout
-			android:id="@+id/linear5"
+		<EditText
+			android:id="@+id/edittext2"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:layout_margin="10dp"
 			android:padding="8dp"
-			android:gravity="center_horizontal"
-			android:orientation="horizontal">
-			<EditText
-				android:id="@+id/edittext2"
-				android:layout_width="200dp"
-				android:layout_height="wrap_content"
-				android:padding="8dp"
-				android:textSize="12sp"
-				android:textColor="#FFFFFF"
-				android:hint="Password"
-				android:textColorHint="#424242"
-				android:singleLine="true"
-				android:inputType="textPassword"
-				android:imeOptions="actionDone" />
-		</LinearLayout>
+			android:textSize="12sp"
+			android:textColor="#FFFFFF"
+			android:hint="Password"
+			android:textColorHint="#424242"
+			android:singleLine="true"
+			android:inputType="textPassword"
+			android:imeOptions="actionDone" />
 		<LinearLayout
-			android:id="@+id/linear6"
+			android:id="@+id/linear9"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:layout_margin="10dp"
 			android:padding="8dp"
-			android:gravity="center_horizontal"
+			android:background="#212121"
+			android:gravity="center_vertical"
 			android:orientation="horizontal">
-			<Switch
-				android:id="@+id/switch1"
+			<TextView
+				android:id="@+id/textview5"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:padding="8dp"
-				android:text="Mostra la password "
+				android:text="Mostra la password"
 				android:textSize="12sp"
-				android:textColor="#FFFFFF"
-				android:layout_gravity="center_horizontal" />
+				android:textColor="#FFFFFF" />
+			<TextView
+				android:id="@+id/textview6"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="8dp"
+				android:textSize="12sp"
+				android:textColor="#616161" />
+			<LinearLayout
+				android:id="@+id/linear10"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="right"
+				android:orientation="horizontal">
+				<CheckBox
+					android:id="@+id/checkbox3"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:padding="8dp"
+					android:textSize="12sp"
+					android:textColor="#000000" />
+			</LinearLayout>
 		</LinearLayout>
-		<TextView
-			android:id="@+id/textview3"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:gravity="center_horizontal"
-			android:textSize="12sp"
-			android:textColor="#FFFFFF"
-			android:layout_gravity="center_vertical" />
 		<com.google.android.material.button.MaterialButton
 			android:id="@+id/materialbutton1"
 			android:layout_width="200dp"
@@ -113,18 +157,12 @@
 			android:gravity="center_horizontal|center_vertical"
 			android:text="accedi"
 			android:textSize="12sp"
+			android:textStyle="bold"
 			android:textColor="#FFFFFF"
 			android:layout_gravity="center_horizontal"
 			android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
 			app:backgroundTint="@color/colorPrimary"
 			app:cornerRadius="30px"
 			style="@style/Widget.MaterialComponents.Button" />
-		<ProgressBar
-			android:id="@+id/progressbar1"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:padding="8dp"
-			android:indeterminate="false"
-			style="?android:progressBarStyle" />
 	</LinearLayout>
 </LinearLayout>

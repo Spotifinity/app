@@ -3,14 +3,15 @@ package jk.spotifinity;
 import android.Manifest;
 import android.animation.*;
 import android.app.*;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.*;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.*;
 import android.graphics.*;
-import android.graphics.Typeface;
 import android.graphics.drawable.*;
 import android.media.*;
 import android.net.*;
@@ -32,6 +33,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
 import androidx.annotation.*;
@@ -64,17 +66,27 @@ import org.json.*;
 public class ImpostazioniActivity extends AppCompatActivity {
 	
 	private String Percorso = "";
+	private String Username = "";
+	private String Lunghezza = "";
+	private String Finale = "";
+	private boolean Limitato = false;
 	
 	private LinearLayout linear3;
-	private LinearLayout linear4;
+	private ScrollView vscroll2;
 	private ImageView imageview2;
 	private TextView textview1;
 	private LinearLayout linear7;
 	private ProgressBar progressbar1;
 	private MaterialButton materialbutton1;
+	private LinearLayout linear4;
+	private TextView textview26;
 	private LinearLayout linear6;
 	private LinearLayout linear13;
+	private TextView textview27;
+	private LinearLayout linear27;
+	private LinearLayout linear23;
 	private LinearLayout linear16;
+	private LinearLayout linear30;
 	private MaterialButton materialbutton2;
 	private Switch switch2;
 	private TextView textview3;
@@ -83,10 +95,28 @@ public class ImpostazioniActivity extends AppCompatActivity {
 	private EditText edittext1;
 	private TextView textview15;
 	private LinearLayout linear15;
+	private LinearLayout linear28;
+	private TextView textview24;
+	private EditText edittext2;
+	private TextView textview28;
+	private TextView textview25;
+	private LinearLayout linear29;
+	private LinearLayout linear24;
+	private TextView textview21;
+	private MaterialButton materialbutton3;
+	private TextView textview22;
+	private LinearLayout linear25;
+	private TextView textview23;
 	private LinearLayout linear17;
 	private TextView textview17;
+	private MaterialButton materialbutton4;
 	private TextView textview18;
 	private LinearLayout linear18;
+	private LinearLayout linear31;
+	private TextView textview29;
+	private MaterialButton materialbutton5;
+	private TextView textview30;
+	private LinearLayout linear32;
 	
 	private Intent intent = new Intent();
 	private AlertDialog.Builder warning;
@@ -103,6 +133,8 @@ public class ImpostazioniActivity extends AppCompatActivity {
 	private OnCompleteListener<AuthResult> auth_phoneAuthListener;
 	private OnCompleteListener<AuthResult> auth_googleSignInListener;
 	
+	private SharedPreferences Lingua;
+	private SharedPreferences User;
 	
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
@@ -129,15 +161,21 @@ public class ImpostazioniActivity extends AppCompatActivity {
 	
 	private void initialize(Bundle _savedInstanceState) {
 		linear3 = findViewById(R.id.linear3);
-		linear4 = findViewById(R.id.linear4);
+		vscroll2 = findViewById(R.id.vscroll2);
 		imageview2 = findViewById(R.id.imageview2);
 		textview1 = findViewById(R.id.textview1);
 		linear7 = findViewById(R.id.linear7);
 		progressbar1 = findViewById(R.id.progressbar1);
 		materialbutton1 = findViewById(R.id.materialbutton1);
+		linear4 = findViewById(R.id.linear4);
+		textview26 = findViewById(R.id.textview26);
 		linear6 = findViewById(R.id.linear6);
 		linear13 = findViewById(R.id.linear13);
+		textview27 = findViewById(R.id.textview27);
+		linear27 = findViewById(R.id.linear27);
+		linear23 = findViewById(R.id.linear23);
 		linear16 = findViewById(R.id.linear16);
+		linear30 = findViewById(R.id.linear30);
 		materialbutton2 = findViewById(R.id.materialbutton2);
 		switch2 = findViewById(R.id.switch2);
 		textview3 = findViewById(R.id.textview3);
@@ -146,13 +184,33 @@ public class ImpostazioniActivity extends AppCompatActivity {
 		edittext1 = findViewById(R.id.edittext1);
 		textview15 = findViewById(R.id.textview15);
 		linear15 = findViewById(R.id.linear15);
+		linear28 = findViewById(R.id.linear28);
+		textview24 = findViewById(R.id.textview24);
+		edittext2 = findViewById(R.id.edittext2);
+		textview28 = findViewById(R.id.textview28);
+		textview25 = findViewById(R.id.textview25);
+		linear29 = findViewById(R.id.linear29);
+		linear24 = findViewById(R.id.linear24);
+		textview21 = findViewById(R.id.textview21);
+		materialbutton3 = findViewById(R.id.materialbutton3);
+		textview22 = findViewById(R.id.textview22);
+		linear25 = findViewById(R.id.linear25);
+		textview23 = findViewById(R.id.textview23);
 		linear17 = findViewById(R.id.linear17);
 		textview17 = findViewById(R.id.textview17);
+		materialbutton4 = findViewById(R.id.materialbutton4);
 		textview18 = findViewById(R.id.textview18);
 		linear18 = findViewById(R.id.linear18);
+		linear31 = findViewById(R.id.linear31);
+		textview29 = findViewById(R.id.textview29);
+		materialbutton5 = findViewById(R.id.materialbutton5);
+		textview30 = findViewById(R.id.textview30);
+		linear32 = findViewById(R.id.linear32);
 		warning = new AlertDialog.Builder(this);
 		disconnessione = new AlertDialog.Builder(this);
 		auth = FirebaseAuth.getInstance();
+		Lingua = getSharedPreferences("lingua", Activity.MODE_PRIVATE);
+		User = getSharedPreferences("account", Activity.MODE_PRIVATE);
 		
 		imageview2.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -172,7 +230,25 @@ public class ImpostazioniActivity extends AppCompatActivity {
 							progressbar1.setVisibility(View.INVISIBLE);
 							materialbutton1.setVisibility(View.INVISIBLE);
 							Percorso = edittext1.getText().toString();
-							SketchwareUtil.showMessage(getApplicationContext(), "Salvato con successo");
+							Username = edittext2.getText().toString();
+							User.edit().putString("username", edittext2.getText().toString()).commit();
+							
+							{
+								DisplayMetrics screen = new DisplayMetrics();
+								getWindowManager().getDefaultDisplay().getMetrics(screen);
+								double dp = 10;
+								double logicalDensity = screen.density;
+								int px = (int) Math.ceil(dp * logicalDensity);
+								Toast ImpostazioniActivityToast = Toast.makeText(ImpostazioniActivity.this, "Salvato con successo", 2000);
+								View ImpostazioniActivityView = ImpostazioniActivityToast.getView();
+								ImpostazioniActivityView.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#424242")));
+								
+								
+								TextView ImpostazioniActivityText = ImpostazioniActivityView.findViewById(android.R.id.message);
+								ImpostazioniActivityText.setTextColor(Color.parseColor("#ffffff"));
+								ImpostazioniActivityText.setShadowLayer(0,0,0,0);
+								ImpostazioniActivityToast.show();
+							}
 							finish();
 						}
 					});
@@ -182,7 +258,39 @@ public class ImpostazioniActivity extends AppCompatActivity {
 							finish();
 						}
 					});
-					warning.create().show();
+					
+					{
+						final AlertDialog alert = warning.show();
+						DisplayMetrics screen = new DisplayMetrics();
+						getWindowManager().getDefaultDisplay().getMetrics(screen);
+						double dp = 10;
+						double logicalDensity = screen.density;
+						int px = (int) Math.ceil(dp * logicalDensity);
+						alert.getWindow().getDecorView().setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#242424")));
+							alert.getWindow().getDecorView().setPadding(8,8,8,8);
+						alert.show();
+						
+						alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#16DB63"));
+							alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#16DB63"));
+							alert.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.parseColor("#16DB63"));
+						alert.getWindow().setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+						alert.getWindow().getDecorView().setTranslationY(-20);
+						TextView textT = (TextView)alert.getWindow().getDecorView().findViewById(android.R.id.message);
+						Spannable text = new SpannableString(textT.getText().toString()); 
+						text.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE); 
+						alert.setMessage(text);
+						
+						int titleId = getResources().getIdentifier( "alertTitle", "id", "android" ); 
+						if (titleId > 0) 
+						{ 
+							TextView dialogTitle = (TextView) alert.getWindow().getDecorView().findViewById(titleId); 
+							if (dialogTitle != null) 
+							{
+								Spannable title = new SpannableString(dialogTitle.getText().toString()); 
+								title.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, title.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE); 
+								alert.setTitle(title);
+							} 
+						}}
 				}
 				else {
 					finish();
@@ -193,38 +301,50 @@ public class ImpostazioniActivity extends AppCompatActivity {
 		materialbutton1.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
-				fade_in.setDuration(300);
-				fade_in.setFillAfter(true);
-				materialbutton1.startAnimation(fade_in);
 				progressbar1.setVisibility(View.VISIBLE);
 				FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/percorso.txt", edittext1.getText().toString());
 				Percorso = edittext1.getText().toString();
+				Username = edittext2.getText().toString();
+				User.edit().putString("username", edittext2.getText().toString()).commit();
 				materialbutton1.setVisibility(View.INVISIBLE);
 				progressbar1.setVisibility(View.INVISIBLE);
-				SketchwareUtil.showMessage(getApplicationContext(), "Salvato con successo");
+				
+				{
+					DisplayMetrics screen = new DisplayMetrics();
+					getWindowManager().getDefaultDisplay().getMetrics(screen);
+					double dp = 10;
+					double logicalDensity = screen.density;
+					int px = (int) Math.ceil(dp * logicalDensity);
+					Toast ImpostazioniActivityToast = Toast.makeText(ImpostazioniActivity.this, "Salvato con successo", 2000);
+					View ImpostazioniActivityView = ImpostazioniActivityToast.getView();
+					ImpostazioniActivityView.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#424242")));
+					
+					
+					TextView ImpostazioniActivityText = ImpostazioniActivityView.findViewById(android.R.id.message);
+					ImpostazioniActivityText.setTextColor(Color.parseColor("#ffffff"));
+					ImpostazioniActivityText.setShadowLayer(0,0,0,0);
+					ImpostazioniActivityToast.show();
+				}
+			}
+		});
+		
+		linear23.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				
 			}
 		});
 		
 		linear16.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
-				fade_in.setDuration(300);
-				fade_in.setFillAfter(true);
-				linear16.startAnimation(fade_in);
-				intent.setClass(getApplicationContext(), SocialActivity.class);
-				startActivity(intent);
+				
 			}
 		});
 		
 		materialbutton2.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
-				fade_in.setDuration(300);
-				fade_in.setFillAfter(true);
-				materialbutton2.startAnimation(fade_in);
 				disconnessione.setTitle("Disconnettiti");
 				disconnessione.setMessage("Vuoi davvero disconnetterti al tuo account?");
 				disconnessione.setPositiveButton("Si", new DialogInterface.OnClickListener() {
@@ -242,7 +362,39 @@ public class ImpostazioniActivity extends AppCompatActivity {
 						
 					}
 				});
-				disconnessione.create().show();
+				
+				{
+					final AlertDialog alert = disconnessione.show();
+					DisplayMetrics screen = new DisplayMetrics();
+					getWindowManager().getDefaultDisplay().getMetrics(screen);
+					double dp = 10;
+					double logicalDensity = screen.density;
+					int px = (int) Math.ceil(dp * logicalDensity);
+					alert.getWindow().getDecorView().setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#242424")));
+						alert.getWindow().getDecorView().setPadding(8,8,8,8);
+					alert.show();
+					
+					alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#16DB63"));
+						alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#16DB63"));
+						alert.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.parseColor("#16DB63"));
+					alert.getWindow().setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+					alert.getWindow().getDecorView().setTranslationY(-20);
+					TextView textT = (TextView)alert.getWindow().getDecorView().findViewById(android.R.id.message);
+					Spannable text = new SpannableString(textT.getText().toString()); 
+					text.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE); 
+					alert.setMessage(text);
+					
+					int titleId = getResources().getIdentifier( "alertTitle", "id", "android" ); 
+					if (titleId > 0) 
+					{ 
+						TextView dialogTitle = (TextView) alert.getWindow().getDecorView().findViewById(titleId); 
+						if (dialogTitle != null) 
+						{
+							Spannable title = new SpannableString(dialogTitle.getText().toString()); 
+							title.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, title.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE); 
+							alert.setTitle(title);
+						} 
+					}}
 			}
 		});
 		
@@ -252,7 +404,7 @@ public class ImpostazioniActivity extends AppCompatActivity {
 				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
 				fade_in.setDuration(300);
 				fade_in.setFillAfter(true);
-				linear6.startAnimation(fade_in);
+				switch2.startAnimation(fade_in);
 			}
 		});
 		
@@ -299,6 +451,101 @@ public class ImpostazioniActivity extends AppCompatActivity {
 			@Override
 			public void afterTextChanged(Editable _param1) {
 				
+			}
+		});
+		
+		edittext2.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				
+			}
+		});
+		
+		edittext2.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence _param1, int _param2, int _param3, int _param4) {
+				final String _charSeq = _param1.toString();
+				if (Limitato) {
+					if (_charSeq.length() == 17) {
+						edittext2.setText(Finale);
+					}
+					if (_charSeq.length() < 16) {
+						Limitato = false;
+						textview28.setTextColor(0xFFFFFFFF);
+						textview28.setText(String.valueOf((long)(_charSeq.length())).concat("/16"));
+					}
+				}
+				else {
+					textview28.setTextColor(0xFF424242);
+					if (_charSeq.equals(Username)) {
+						materialbutton1.setVisibility(View.INVISIBLE);
+					}
+					else {
+						materialbutton1.setVisibility(View.VISIBLE);
+					}
+					textview28.setText(String.valueOf((long)(_charSeq.length())).concat("/16"));
+					if (_charSeq.length() > 10) {
+						textview28.setTextColor(0xFFFFFFFF);
+					}
+					else {
+						textview28.setTextColor(0xFF424242);
+					}
+					if (_charSeq.length() == 16) {
+						Finale = _charSeq;
+						Limitato = true;
+						textview28.setTextColor(0xFFF44336);
+					}
+				}
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence _param1, int _param2, int _param3, int _param4) {
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable _param1) {
+				
+			}
+		});
+		
+		materialbutton3.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				
+			}
+		});
+		
+		materialbutton4.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				intent.setClass(getApplicationContext(), SocialActivity.class);
+				startActivity(intent);
+			}
+		});
+		
+		materialbutton5.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				FileUtil.deleteFile("storage/emulated/0/Android/data/jk.spotifinity/skipUpdate");
+				
+				{
+					DisplayMetrics screen = new DisplayMetrics();
+					getWindowManager().getDefaultDisplay().getMetrics(screen);
+					double dp = 10;
+					double logicalDensity = screen.density;
+					int px = (int) Math.ceil(dp * logicalDensity);
+					Toast ImpostazioniActivityToast = Toast.makeText(ImpostazioniActivity.this, "Aggiornamenti automatici riattivati", 2000);
+					View ImpostazioniActivityView = ImpostazioniActivityToast.getView();
+					ImpostazioniActivityView.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#424242")));
+					
+					
+					TextView ImpostazioniActivityText = ImpostazioniActivityView.findViewById(android.R.id.message);
+					ImpostazioniActivityText.setTextColor(Color.parseColor("#ffffff"));
+					ImpostazioniActivityText.setShadowLayer(0,0,0,0);
+					ImpostazioniActivityToast.show();
+				}
+				linear30.setVisibility(View.GONE);
 			}
 		});
 		
@@ -393,25 +640,340 @@ public class ImpostazioniActivity extends AppCompatActivity {
 	}
 	
 	private void initializeLogic() {
-		warning = new AlertDialog.Builder(this,AlertDialog.THEME_DEVICE_DEFAULT_DARK);
-		disconnessione = new AlertDialog.Builder(this,AlertDialog.THEME_DEVICE_DEFAULT_DARK);
+		
+		{
+			materialbutton1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#16DB63")));
+			materialbutton1.setRippleColor(ColorStateList.valueOf(Color.parseColor("#3AFF87")));
+			materialbutton1.setLetterSpacing(0);
+			DisplayMetrics screen = new DisplayMetrics();
+			getWindowManager().getDefaultDisplay().getMetrics(screen);
+			float logicalDensity = screen.density;
+			int px = (int) Math.ceil(10 * logicalDensity);
+			
+			materialbutton1.setCornerRadius(px);
+			materialbutton1.setOnTouchListener(new View.OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					switch (event.getAction()){
+						case MotionEvent.ACTION_DOWN:{
+							ObjectAnimator scaleX = new ObjectAnimator();
+							scaleX.setTarget(materialbutton1);
+							scaleX.setPropertyName("scaleX");
+							scaleX.setFloatValues(0.9f);
+							scaleX.setDuration(100);
+							scaleX.start();
+							
+							ObjectAnimator scaleY = new ObjectAnimator();
+							scaleY.setTarget(materialbutton1);
+							scaleY.setPropertyName("scaleY");
+							scaleY.setFloatValues(0.9f);
+							scaleY.setDuration(100);
+							scaleY.start();
+							break;
+						}
+						case MotionEvent.ACTION_UP:{
+							
+							ObjectAnimator scaleX = new ObjectAnimator();
+							scaleX.setTarget(materialbutton1);
+							scaleX.setPropertyName("scaleX");
+							scaleX.setFloatValues((float)1);
+							scaleX.setDuration(100);
+							scaleX.start();
+							
+							ObjectAnimator scaleY = new ObjectAnimator();
+							scaleY.setTarget(materialbutton1);
+							scaleY.setPropertyName("scaleY");
+							scaleY.setFloatValues((float)1);
+							scaleY.setDuration(100);
+							scaleY.start();
+							
+							break;
+						}
+					}
+					return false;
+				}
+			});
+		}
+		
+		{
+			materialbutton2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#16DB63")));
+			materialbutton2.setRippleColor(ColorStateList.valueOf(Color.parseColor("#3AFF87")));
+			materialbutton2.setLetterSpacing(0);
+			DisplayMetrics screen = new DisplayMetrics();
+			getWindowManager().getDefaultDisplay().getMetrics(screen);
+			float logicalDensity = screen.density;
+			int px = (int) Math.ceil(10 * logicalDensity);
+			
+			materialbutton2.setCornerRadius(px);
+			materialbutton2.setOnTouchListener(new View.OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					switch (event.getAction()){
+						case MotionEvent.ACTION_DOWN:{
+							ObjectAnimator scaleX = new ObjectAnimator();
+							scaleX.setTarget(materialbutton2);
+							scaleX.setPropertyName("scaleX");
+							scaleX.setFloatValues(0.9f);
+							scaleX.setDuration(100);
+							scaleX.start();
+							
+							ObjectAnimator scaleY = new ObjectAnimator();
+							scaleY.setTarget(materialbutton2);
+							scaleY.setPropertyName("scaleY");
+							scaleY.setFloatValues(0.9f);
+							scaleY.setDuration(100);
+							scaleY.start();
+							break;
+						}
+						case MotionEvent.ACTION_UP:{
+							
+							ObjectAnimator scaleX = new ObjectAnimator();
+							scaleX.setTarget(materialbutton2);
+							scaleX.setPropertyName("scaleX");
+							scaleX.setFloatValues((float)1);
+							scaleX.setDuration(100);
+							scaleX.start();
+							
+							ObjectAnimator scaleY = new ObjectAnimator();
+							scaleY.setTarget(materialbutton2);
+							scaleY.setPropertyName("scaleY");
+							scaleY.setFloatValues((float)1);
+							scaleY.setDuration(100);
+							scaleY.start();
+							
+							break;
+						}
+					}
+					return false;
+				}
+			});
+		}
+		
+		{
+			materialbutton3.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#16DB63")));
+			materialbutton3.setRippleColor(ColorStateList.valueOf(Color.parseColor("#3AFF87")));
+			materialbutton3.setLetterSpacing(0);
+			DisplayMetrics screen = new DisplayMetrics();
+			getWindowManager().getDefaultDisplay().getMetrics(screen);
+			float logicalDensity = screen.density;
+			int px = (int) Math.ceil(10 * logicalDensity);
+			
+			materialbutton3.setCornerRadius(px);
+			materialbutton3.setOnTouchListener(new View.OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					switch (event.getAction()){
+						case MotionEvent.ACTION_DOWN:{
+							ObjectAnimator scaleX = new ObjectAnimator();
+							scaleX.setTarget(materialbutton3);
+							scaleX.setPropertyName("scaleX");
+							scaleX.setFloatValues(0.9f);
+							scaleX.setDuration(100);
+							scaleX.start();
+							
+							ObjectAnimator scaleY = new ObjectAnimator();
+							scaleY.setTarget(materialbutton3);
+							scaleY.setPropertyName("scaleY");
+							scaleY.setFloatValues(0.9f);
+							scaleY.setDuration(100);
+							scaleY.start();
+							break;
+						}
+						case MotionEvent.ACTION_UP:{
+							
+							ObjectAnimator scaleX = new ObjectAnimator();
+							scaleX.setTarget(materialbutton3);
+							scaleX.setPropertyName("scaleX");
+							scaleX.setFloatValues((float)1);
+							scaleX.setDuration(100);
+							scaleX.start();
+							
+							ObjectAnimator scaleY = new ObjectAnimator();
+							scaleY.setTarget(materialbutton3);
+							scaleY.setPropertyName("scaleY");
+							scaleY.setFloatValues((float)1);
+							scaleY.setDuration(100);
+							scaleY.start();
+							
+							break;
+						}
+					}
+					return false;
+				}
+			});
+		}
+		
+		{
+			materialbutton4.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#16DB63")));
+			materialbutton4.setRippleColor(ColorStateList.valueOf(Color.parseColor("#3AFF87")));
+			materialbutton4.setLetterSpacing(0);
+			DisplayMetrics screen = new DisplayMetrics();
+			getWindowManager().getDefaultDisplay().getMetrics(screen);
+			float logicalDensity = screen.density;
+			int px = (int) Math.ceil(10 * logicalDensity);
+			
+			materialbutton4.setCornerRadius(px);
+			materialbutton4.setOnTouchListener(new View.OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					switch (event.getAction()){
+						case MotionEvent.ACTION_DOWN:{
+							ObjectAnimator scaleX = new ObjectAnimator();
+							scaleX.setTarget(materialbutton4);
+							scaleX.setPropertyName("scaleX");
+							scaleX.setFloatValues(0.9f);
+							scaleX.setDuration(100);
+							scaleX.start();
+							
+							ObjectAnimator scaleY = new ObjectAnimator();
+							scaleY.setTarget(materialbutton4);
+							scaleY.setPropertyName("scaleY");
+							scaleY.setFloatValues(0.9f);
+							scaleY.setDuration(100);
+							scaleY.start();
+							break;
+						}
+						case MotionEvent.ACTION_UP:{
+							
+							ObjectAnimator scaleX = new ObjectAnimator();
+							scaleX.setTarget(materialbutton4);
+							scaleX.setPropertyName("scaleX");
+							scaleX.setFloatValues((float)1);
+							scaleX.setDuration(100);
+							scaleX.start();
+							
+							ObjectAnimator scaleY = new ObjectAnimator();
+							scaleY.setTarget(materialbutton4);
+							scaleY.setPropertyName("scaleY");
+							scaleY.setFloatValues((float)1);
+							scaleY.setDuration(100);
+							scaleY.start();
+							
+							break;
+						}
+					}
+					return false;
+				}
+			});
+		}
+		
+		{
+			materialbutton5.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#16DB63")));
+			materialbutton5.setRippleColor(ColorStateList.valueOf(Color.parseColor("#3AFF87")));
+			materialbutton5.setLetterSpacing(0);
+			DisplayMetrics screen = new DisplayMetrics();
+			getWindowManager().getDefaultDisplay().getMetrics(screen);
+			float logicalDensity = screen.density;
+			int px = (int) Math.ceil(10 * logicalDensity);
+			
+			materialbutton5.setCornerRadius(px);
+			materialbutton5.setOnTouchListener(new View.OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					switch (event.getAction()){
+						case MotionEvent.ACTION_DOWN:{
+							ObjectAnimator scaleX = new ObjectAnimator();
+							scaleX.setTarget(materialbutton5);
+							scaleX.setPropertyName("scaleX");
+							scaleX.setFloatValues(0.9f);
+							scaleX.setDuration(100);
+							scaleX.start();
+							
+							ObjectAnimator scaleY = new ObjectAnimator();
+							scaleY.setTarget(materialbutton5);
+							scaleY.setPropertyName("scaleY");
+							scaleY.setFloatValues(0.9f);
+							scaleY.setDuration(100);
+							scaleY.start();
+							break;
+						}
+						case MotionEvent.ACTION_UP:{
+							
+							ObjectAnimator scaleX = new ObjectAnimator();
+							scaleX.setTarget(materialbutton5);
+							scaleX.setPropertyName("scaleX");
+							scaleX.setFloatValues((float)1);
+							scaleX.setDuration(100);
+							scaleX.start();
+							
+							ObjectAnimator scaleY = new ObjectAnimator();
+							scaleY.setTarget(materialbutton5);
+							scaleY.setPropertyName("scaleY");
+							scaleY.setFloatValues((float)1);
+							scaleY.setDuration(100);
+							scaleY.start();
+							
+							break;
+						}
+					}
+					return false;
+				}
+			});
+		}
+		
+		DisplayMetrics linear6Screen = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(linear6Screen);
+		double linear6DP = 10;
+		double linear6LogicalDensity = linear6Screen.density;
+		int linear6PX = (int) Math.ceil(linear6DP * linear6LogicalDensity);
+		linear6.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#212121")); return this; } }.getIns((int)linear6PX, (int)0));
+		linear6.setElevation(0);
+		linear6.setTranslationZ(0);
+		
+		DisplayMetrics linear13Screen = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(linear13Screen);
+		double linear13DP = 10;
+		double linear13LogicalDensity = linear13Screen.density;
+		int linear13PX = (int) Math.ceil(linear13DP * linear13LogicalDensity);
+		linear13.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#212121")); return this; } }.getIns((int)linear13PX, (int)0));
+		linear13.setElevation(0);
+		linear13.setTranslationZ(0);
+		
+		DisplayMetrics linear16Screen = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(linear16Screen);
+		double linear16DP = 10;
+		double linear16LogicalDensity = linear16Screen.density;
+		int linear16PX = (int) Math.ceil(linear16DP * linear16LogicalDensity);
+		linear16.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#212121")); return this; } }.getIns((int)linear16PX, (int)0));
+		linear16.setElevation(0);
+		linear16.setTranslationZ(0);
+		
+		DisplayMetrics linear23Screen = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(linear23Screen);
+		double linear23DP = 10;
+		double linear23LogicalDensity = linear23Screen.density;
+		int linear23PX = (int) Math.ceil(linear23DP * linear23LogicalDensity);
+		linear23.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#212121")); return this; } }.getIns((int)linear23PX, (int)0));
+		linear23.setElevation(0);
+		linear23.setTranslationZ(0);
+		
+		DisplayMetrics linear27Screen = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(linear27Screen);
+		double linear27DP = 10;
+		double linear27LogicalDensity = linear27Screen.density;
+		int linear27PX = (int) Math.ceil(linear27DP * linear27LogicalDensity);
+		linear27.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#212121")); return this; } }.getIns((int)linear27PX, (int)0));
+		linear27.setElevation(0);
+		linear27.setTranslationZ(0);
+		
+		DisplayMetrics linear30Screen = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(linear30Screen);
+		double linear30DP = 10;
+		double linear30LogicalDensity = linear30Screen.density;
+		int linear30PX = (int) Math.ceil(linear30DP * linear30LogicalDensity);
+		linear30.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#212121")); return this; } }.getIns((int)linear30PX, (int)0));
+		linear30.setElevation(0);
+		linear30.setTranslationZ(0);
 		if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni")) {
 			FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni");
 		}
-		textview1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
-		switch2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
-		textview3.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
-		materialbutton1.setVisibility(View.INVISIBLE);
-		linear6.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)30, 0xFF424242));
-		linear13.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)30, 0xFF424242));
-		linear16.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)30, 0xFF424242));
-		textview15.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
-		textview16.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
-		edittext1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
-		materialbutton1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
-		materialbutton2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
-		textview17.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
-		textview18.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
+		if (Lingua.contains("lingua")) {
+			textview23.setText(Lingua.getString("lingua", ""));
+		}
+		else {
+			textview23.setText("Italiano");
+		}
+		linear23.setVisibility(View.GONE);
 	}
 	
 	@Override
@@ -424,12 +986,42 @@ public class ImpostazioniActivity extends AppCompatActivity {
 			switch2.setChecked(false);
 		}
 		edittext1.setText(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/percorso.txt"));
+		edittext2.setText(User.getString("username", ""));
 		progressbar1.setVisibility(View.INVISIBLE);
 		materialbutton1.setVisibility(View.INVISIBLE);
 		Percorso = FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/percorso.txt");
 		if (edittext1.getText().toString().equals("")) {
 			FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/percorso.txt", "storage/emulated/0/Download");
-			SketchwareUtil.showMessage(getApplicationContext(), "Rilevato un problema ma ho risolto da solo!");
+			
+			{
+				DisplayMetrics screen = new DisplayMetrics();
+				getWindowManager().getDefaultDisplay().getMetrics(screen);
+				double dp = 10;
+				double logicalDensity = screen.density;
+				int px = (int) Math.ceil(dp * logicalDensity);
+				Toast ImpostazioniActivityToast = Toast.makeText(ImpostazioniActivity.this, "Rilevato un problema ma ho risolto da solo!", 2000);
+				View ImpostazioniActivityView = ImpostazioniActivityToast.getView();
+				ImpostazioniActivityView.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#424242")));
+				
+				
+				TextView ImpostazioniActivityText = ImpostazioniActivityView.findViewById(android.R.id.message);
+				ImpostazioniActivityText.setTextColor(Color.parseColor("#ffffff"));
+				ImpostazioniActivityText.setShadowLayer(0,0,0,0);
+				ImpostazioniActivityToast.show();
+			}
+		}
+		textview28.setText(String.valueOf((long)(edittext2.getText().toString().length())).concat("/16"));
+		if (edittext2.getText().toString().length() > 10) {
+			textview28.setTextColor(0xFFFFFFFF);
+		}
+		else {
+			textview28.setTextColor(0xFF616161);
+		}
+		if (edittext2.getText().toString().length() == 16) {
+			textview28.setTextColor(0xFFF44336);
+		}
+		if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/skipUpdate")) {
+			linear30.setVisibility(View.GONE);
 		}
 	}
 	
@@ -446,7 +1038,23 @@ public class ImpostazioniActivity extends AppCompatActivity {
 					progressbar1.setVisibility(View.INVISIBLE);
 					materialbutton1.setVisibility(View.INVISIBLE);
 					Percorso = edittext1.getText().toString();
-					SketchwareUtil.showMessage(getApplicationContext(), "Salvato con successo");
+					
+					{
+						DisplayMetrics screen = new DisplayMetrics();
+						getWindowManager().getDefaultDisplay().getMetrics(screen);
+						double dp = 10;
+						double logicalDensity = screen.density;
+						int px = (int) Math.ceil(dp * logicalDensity);
+						Toast ImpostazioniActivityToast = Toast.makeText(ImpostazioniActivity.this, "Salvato con successo", 2000);
+						View ImpostazioniActivityView = ImpostazioniActivityToast.getView();
+						ImpostazioniActivityView.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#424242")));
+						
+						
+						TextView ImpostazioniActivityText = ImpostazioniActivityView.findViewById(android.R.id.message);
+						ImpostazioniActivityText.setTextColor(Color.parseColor("#ffffff"));
+						ImpostazioniActivityText.setShadowLayer(0,0,0,0);
+						ImpostazioniActivityToast.show();
+					}
 					finish();
 				}
 			});
@@ -456,7 +1064,39 @@ public class ImpostazioniActivity extends AppCompatActivity {
 					finish();
 				}
 			});
-			warning.create().show();
+			
+			{
+				final AlertDialog alert = warning.show();
+				DisplayMetrics screen = new DisplayMetrics();
+				getWindowManager().getDefaultDisplay().getMetrics(screen);
+				double dp = 10;
+				double logicalDensity = screen.density;
+				int px = (int) Math.ceil(dp * logicalDensity);
+				alert.getWindow().getDecorView().setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#242424")));
+					alert.getWindow().getDecorView().setPadding(8,8,8,8);
+				alert.show();
+				
+				alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#16DB63"));
+					alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#16DB63"));
+					alert.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.parseColor("#16DB63"));
+				alert.getWindow().setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+				alert.getWindow().getDecorView().setTranslationY(-20);
+				TextView textT = (TextView)alert.getWindow().getDecorView().findViewById(android.R.id.message);
+				Spannable text = new SpannableString(textT.getText().toString()); 
+				text.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE); 
+				alert.setMessage(text);
+				
+				int titleId = getResources().getIdentifier( "alertTitle", "id", "android" ); 
+				if (titleId > 0) 
+				{ 
+					TextView dialogTitle = (TextView) alert.getWindow().getDecorView().findViewById(titleId); 
+					if (dialogTitle != null) 
+					{
+						Spannable title = new SpannableString(dialogTitle.getText().toString()); 
+						title.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, title.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE); 
+						alert.setTitle(title);
+					} 
+				}}
 		}
 		else {
 			finish();

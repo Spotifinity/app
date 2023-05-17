@@ -20,7 +20,8 @@
 			android:layout_marginLeft="8dp"
 			android:layout_marginRight="8dp"
 			android:text="TextView"
-			android:textSize="12sp"
+			android:textSize="16sp"
+			android:textStyle="bold"
 			android:textColor="#FFFFFF" />
 		<TextView
 			android:id="@+id/textview3"

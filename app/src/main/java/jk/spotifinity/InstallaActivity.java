@@ -4,12 +4,13 @@ import android.Manifest;
 import android.animation.*;
 import android.app.*;
 import android.content.*;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.*;
 import android.graphics.*;
-import android.graphics.Typeface;
 import android.graphics.drawable.*;
 import android.media.*;
 import android.net.*;
@@ -73,11 +74,13 @@ public class InstallaActivity extends AppCompatActivity {
 	private TextView textview1;
 	private LinearLayout linear6;
 	private LinearLayout linear9;
-	private TextView textview10;
+	private LinearLayout linear12;
+	private ProgressBar progressbar2;
 	private TextView textview8;
 	private TextView textview3;
-	private ProgressBar progressbar2;
+	private MaterialButton materialbutton2;
 	private MaterialButton materialbutton1;
+	private TextView textview10;
 	private LinearLayout linear7;
 	private TextView textview6;
 	private TextView textview7;
@@ -122,11 +125,13 @@ public class InstallaActivity extends AppCompatActivity {
 		textview1 = findViewById(R.id.textview1);
 		linear6 = findViewById(R.id.linear6);
 		linear9 = findViewById(R.id.linear9);
-		textview10 = findViewById(R.id.textview10);
+		linear12 = findViewById(R.id.linear12);
+		progressbar2 = findViewById(R.id.progressbar2);
 		textview8 = findViewById(R.id.textview8);
 		textview3 = findViewById(R.id.textview3);
-		progressbar2 = findViewById(R.id.progressbar2);
+		materialbutton2 = findViewById(R.id.materialbutton2);
 		materialbutton1 = findViewById(R.id.materialbutton1);
+		textview10 = findViewById(R.id.textview10);
 		linear7 = findViewById(R.id.linear7);
 		textview6 = findViewById(R.id.textview6);
 		textview7 = findViewById(R.id.textview7);
@@ -142,13 +147,147 @@ public class InstallaActivity extends AppCompatActivity {
 			}
 		});
 		
+		materialbutton2.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				//this moblock crate APKBILDERBD
+				//https://youtube.com/channel/UCU2ez8M6S1Zod1jFHifH__g
+				
+				final PRDownloaderConfig config = PRDownloaderConfig.newBuilder()
+					.setDatabaseEnabled(true)
+					.build();
+				PRDownloader.initialize(InstallaActivity.this, config);
+				
+				materialbutton2.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+						URLFile = textview4.getText().toString();
+						dirPath = FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/percorso.txt").concat("/");
+							if (Status.RUNNING == PRDownloader.getStatus(downloadId)) {
+									PRDownloader.pause(downloadId);
+									return;
+							}
+							materialbutton2.setEnabled(false);
+							progressbar2.setIndeterminate(true);
+							progressbar2.getIndeterminateDrawable().setColorFilter(Color.BLUE, android.graphics.PorterDuff.Mode.SRC_IN);
+							if (Status.PAUSED == PRDownloader.getStatus(downloadId)) {
+									PRDownloader.resume(downloadId);
+									return;
+							}
+							downloadId = PRDownloader.download(URLFile, dirPath, "mod.apk")
+								.build()
+								.setOnStartOrResumeListener(new OnStartOrResumeListener() {
+										@Override
+										public void onStartOrResume() {
+												progressbar2.setIndeterminate(false);
+												materialbutton2.setEnabled(true);
+												materialbutton2.setText("Pause");
+												imageview2.setEnabled(true);
+										}
+							})
+							.setOnPauseListener(new OnPauseListener() {
+									@Override
+									public void onPause() {
+											materialbutton2.setText("Resume");
+									}
+							})
+							.setOnCancelListener(new OnCancelListener() {
+									@Override
+									public void onCancel() {
+											materialbutton2.setText("Start");
+											imageview2.setEnabled(false);
+											progressbar2.setProgress(0);
+											textview3.setText("");
+											downloadId = 0;
+											progressbar2.setIndeterminate(false);
+									}
+							})
+							.setOnProgressListener(new OnProgressListener() {
+									@Override
+									public void onProgress(Progress progress) {
+											long progressPercent = progress.currentBytes * 100 / progress.totalBytes;
+											progressbar2.setProgress((int) progressPercent);
+											textview3.setText(Utilss.getProgressDisplayLine(progress.currentBytes, progress.totalBytes));
+											progressbar2.setIndeterminate(false);
+									}
+							})
+							.start(new OnDownloadListener() {
+									@Override
+									public void onDownloadComplete() {
+											
+											imageview2.setEnabled(false);
+											materialbutton2.setText("Completed");
+								
+								if (!FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/percorso.txt").concat("/").endsWith("/")){
+									downloadedFile = FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/percorso.txt").concat("/") + "/" + "mod.apk";
+								} else {
+									downloadedFile =  FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/percorso.txt").concat("/")+"mod.apk";
+								}
+								
+								finish.vibrate((long)(100));
+								com.google.android.material.snackbar.Snackbar.make(linear1, "APK installato con successo!", com.google.android.material.snackbar.Snackbar.LENGTH_SHORT).setAction("Installa app", new View.OnClickListener(){
+									@Override
+									public void onClick(View _view) {
+										materialbutton1.setVisibility(View.GONE);
+										textview2.setText("Download completato");
+										textview10.setVisibility(View.GONE);
+										intent.putExtra("ver", Version);
+										intent.setClass(getApplicationContext(), ConfiguraActivity.class);
+										startActivity(intent);
+										String apkFile = FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/percorso.txt").concat("/mod.apk");
+										    java.io.File file = new java.io.File(apkFile);
+										    if(file.exists()) {
+												        Intent intent = new Intent(Intent.ACTION_VIEW);
+												        intent.setDataAndType(uriFromFile(getApplicationContext(), new java.io.File(apkFile)), "application/vnd.android.package-archive");
+												        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+												        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+												        try {
+														            getApplicationContext().startActivity(intent);
+														        } catch (ActivityNotFoundException e) {
+														            e.printStackTrace();
+														            Log.e("TAG", "Error in opening the file!");
+														        }
+												    }else{
+												        SketchwareUtil.showMessage(getApplicationContext(), "File not found!".concat("\n".concat("ملف غير موجود")));
+												    }
+									}
+									
+									
+									Uri uriFromFile(Context context, java.io.File file) {
+										    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+												        return androidx.core.content.FileProvider.getUriForFile(context,context.getApplicationContext().getPackageName() + ".provider", file); 
+												    } else {
+												        return Uri.fromFile(file);
+												    }
+									}
+								}).show();
+									}
+									@Override
+									public void onError(Error error) {
+											materialbutton2.setText("Start");
+											Toast.makeText(getApplicationContext(), "Some error occurred" + "1", Toast.LENGTH_SHORT).show();
+											textview3.setText("");
+											progressbar2.setProgress(0);
+											downloadId = 0;
+											imageview2.setEnabled(false);
+											progressbar2.setIndeterminate(false);
+											materialbutton2.setEnabled(true);
+									}
+							});
+					}
+				});
+				
+				imageview2.setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View view) {
+								PRDownloader.cancel(downloadId);
+						}
+				});
+			}
+		});
+		
 		materialbutton1.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
-				fade_in.setDuration(300);
-				fade_in.setFillAfter(true);
-				materialbutton1.startAnimation(fade_in);
 				//this moblock crate APKBILDERBD
 				//https://youtube.com/channel/UCU2ez8M6S1Zod1jFHifH__g
 				
@@ -225,6 +364,8 @@ public class InstallaActivity extends AppCompatActivity {
 								finish.vibrate((long)(100));
 								textview2.setText("Download completato");
 								textview10.setVisibility(View.GONE);
+								FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/configurazione", "");
+								FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/configurazioneVer", Version);
 								intent.putExtra("ver", Version);
 								intent.setClass(getApplicationContext(), ConfiguraActivity.class);
 								startActivity(intent);
@@ -277,19 +418,139 @@ public class InstallaActivity extends AppCompatActivity {
 				});
 			}
 		});
+		
+		textview4.setOnLongClickListener(new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View _view) {
+				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
+				fade_in.setDuration(300);
+				fade_in.setFillAfter(true);
+				textview4.startAnimation(fade_in);
+				((ClipboardManager) getSystemService(getApplicationContext().CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("clipboard", textview4.getText().toString()));
+				SketchwareUtil.showMessage(getApplicationContext(), "Copiato negli appunti");
+				return true;
+			}
+		});
 	}
 	
 	private void initializeLogic() {
-		textview1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
-		textview6.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
-		textview8.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
-		textview2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
-		textview4.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
-		textview7.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
-		textview3.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
-		textview10.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
-		materialbutton1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
-		linear5.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)30, 0xFF424242));
+		
+		{
+			materialbutton1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#16DB63")));
+			materialbutton1.setRippleColor(ColorStateList.valueOf(Color.parseColor("#3AFF87")));
+			materialbutton1.setLetterSpacing(0);
+			DisplayMetrics screen = new DisplayMetrics();
+			getWindowManager().getDefaultDisplay().getMetrics(screen);
+			float logicalDensity = screen.density;
+			int px = (int) Math.ceil(10 * logicalDensity);
+			
+			materialbutton1.setCornerRadius(px);
+			materialbutton1.setOnTouchListener(new View.OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					switch (event.getAction()){
+						case MotionEvent.ACTION_DOWN:{
+							ObjectAnimator scaleX = new ObjectAnimator();
+							scaleX.setTarget(materialbutton1);
+							scaleX.setPropertyName("scaleX");
+							scaleX.setFloatValues(0.9f);
+							scaleX.setDuration(100);
+							scaleX.start();
+							
+							ObjectAnimator scaleY = new ObjectAnimator();
+							scaleY.setTarget(materialbutton1);
+							scaleY.setPropertyName("scaleY");
+							scaleY.setFloatValues(0.9f);
+							scaleY.setDuration(100);
+							scaleY.start();
+							break;
+						}
+						case MotionEvent.ACTION_UP:{
+							
+							ObjectAnimator scaleX = new ObjectAnimator();
+							scaleX.setTarget(materialbutton1);
+							scaleX.setPropertyName("scaleX");
+							scaleX.setFloatValues((float)1);
+							scaleX.setDuration(100);
+							scaleX.start();
+							
+							ObjectAnimator scaleY = new ObjectAnimator();
+							scaleY.setTarget(materialbutton1);
+							scaleY.setPropertyName("scaleY");
+							scaleY.setFloatValues((float)1);
+							scaleY.setDuration(100);
+							scaleY.start();
+							
+							break;
+						}
+					}
+					return false;
+				}
+			});
+		}
+		
+		{
+			materialbutton2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#16DB63")));
+			materialbutton2.setRippleColor(ColorStateList.valueOf(Color.parseColor("#3AFF87")));
+			materialbutton2.setLetterSpacing(0);
+			DisplayMetrics screen = new DisplayMetrics();
+			getWindowManager().getDefaultDisplay().getMetrics(screen);
+			float logicalDensity = screen.density;
+			int px = (int) Math.ceil(10 * logicalDensity);
+			
+			materialbutton2.setCornerRadius(px);
+			materialbutton2.setOnTouchListener(new View.OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					switch (event.getAction()){
+						case MotionEvent.ACTION_DOWN:{
+							ObjectAnimator scaleX = new ObjectAnimator();
+							scaleX.setTarget(materialbutton2);
+							scaleX.setPropertyName("scaleX");
+							scaleX.setFloatValues(0.9f);
+							scaleX.setDuration(100);
+							scaleX.start();
+							
+							ObjectAnimator scaleY = new ObjectAnimator();
+							scaleY.setTarget(materialbutton2);
+							scaleY.setPropertyName("scaleY");
+							scaleY.setFloatValues(0.9f);
+							scaleY.setDuration(100);
+							scaleY.start();
+							break;
+						}
+						case MotionEvent.ACTION_UP:{
+							
+							ObjectAnimator scaleX = new ObjectAnimator();
+							scaleX.setTarget(materialbutton2);
+							scaleX.setPropertyName("scaleX");
+							scaleX.setFloatValues((float)1);
+							scaleX.setDuration(100);
+							scaleX.start();
+							
+							ObjectAnimator scaleY = new ObjectAnimator();
+							scaleY.setTarget(materialbutton2);
+							scaleY.setPropertyName("scaleY");
+							scaleY.setFloatValues((float)1);
+							scaleY.setDuration(100);
+							scaleY.start();
+							
+							break;
+						}
+					}
+					return false;
+				}
+			});
+		}
+		
+		DisplayMetrics linear5Screen = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(linear5Screen);
+		double linear5DP = 10;
+		double linear5LogicalDensity = linear5Screen.density;
+		int linear5PX = (int) Math.ceil(linear5DP * linear5LogicalDensity);
+		linear5.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#212121")); return this; } }.getIns((int)linear5PX, (int)0));
+		linear5.setElevation(0);
+		linear5.setTranslationZ(0);
 	}
 	
 	@Override
@@ -302,6 +563,7 @@ public class InstallaActivity extends AppCompatActivity {
 		Version = getIntent().getStringExtra("ver");
 		if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/modSviluppatore")) {
 			linear7.setVisibility(View.GONE);
+			materialbutton2.setVisibility(View.GONE);
 		}
 	}
 	

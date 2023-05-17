@@ -72,6 +72,17 @@ public class MainActivity extends AppCompatActivity {
 	private OnCompleteListener<AuthResult> auth_googleSignInListener;
 	
 	private AlertDialog.Builder accedi;
+	private RequestNetwork updater;
+	private RequestNetwork.RequestListener _updater_request_listener;
+	private RequestNetwork version;
+	private RequestNetwork.RequestListener _version_request_listener;
+	private RequestNetwork poll;
+	private RequestNetwork.RequestListener _poll_request_listener;
+	private RequestNetwork pollNome;
+	private RequestNetwork.RequestListener _pollNome_request_listener;
+	private RequestNetwork pollLink;
+	private RequestNetwork.RequestListener _pollLink_request_listener;
+	private Intent configurazione = new Intent();
 	
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
@@ -103,6 +114,96 @@ public class MainActivity extends AppCompatActivity {
 		dialog2 = new AlertDialog.Builder(this);
 		auth = FirebaseAuth.getInstance();
 		accedi = new AlertDialog.Builder(this);
+		updater = new RequestNetwork(this);
+		version = new RequestNetwork(this);
+		poll = new RequestNetwork(this);
+		pollNome = new RequestNetwork(this);
+		pollLink = new RequestNetwork(this);
+		
+		_updater_request_listener = new RequestNetwork.RequestListener() {
+			@Override
+			public void onResponse(String _param1, String _param2, HashMap<String, Object> _param3) {
+				final String _tag = _param1;
+				final String _response = _param2;
+				final HashMap<String, Object> _responseHeaders = _param3;
+				intent.putExtra("updater", _response);
+			}
+			
+			@Override
+			public void onErrorResponse(String _param1, String _param2) {
+				final String _tag = _param1;
+				final String _message = _param2;
+				
+			}
+		};
+		
+		_version_request_listener = new RequestNetwork.RequestListener() {
+			@Override
+			public void onResponse(String _param1, String _param2, HashMap<String, Object> _param3) {
+				final String _tag = _param1;
+				final String _response = _param2;
+				final HashMap<String, Object> _responseHeaders = _param3;
+				intent.putExtra("version", _response);
+			}
+			
+			@Override
+			public void onErrorResponse(String _param1, String _param2) {
+				final String _tag = _param1;
+				final String _message = _param2;
+				
+			}
+		};
+		
+		_poll_request_listener = new RequestNetwork.RequestListener() {
+			@Override
+			public void onResponse(String _param1, String _param2, HashMap<String, Object> _param3) {
+				final String _tag = _param1;
+				final String _response = _param2;
+				final HashMap<String, Object> _responseHeaders = _param3;
+				intent.putExtra("poll", _response);
+			}
+			
+			@Override
+			public void onErrorResponse(String _param1, String _param2) {
+				final String _tag = _param1;
+				final String _message = _param2;
+				
+			}
+		};
+		
+		_pollNome_request_listener = new RequestNetwork.RequestListener() {
+			@Override
+			public void onResponse(String _param1, String _param2, HashMap<String, Object> _param3) {
+				final String _tag = _param1;
+				final String _response = _param2;
+				final HashMap<String, Object> _responseHeaders = _param3;
+				intent.putExtra("pollNome", _response);
+			}
+			
+			@Override
+			public void onErrorResponse(String _param1, String _param2) {
+				final String _tag = _param1;
+				final String _message = _param2;
+				
+			}
+		};
+		
+		_pollLink_request_listener = new RequestNetwork.RequestListener() {
+			@Override
+			public void onResponse(String _param1, String _param2, HashMap<String, Object> _param3) {
+				final String _tag = _param1;
+				final String _response = _param2;
+				final HashMap<String, Object> _responseHeaders = _param3;
+				intent.putExtra("pollLink", _response);
+			}
+			
+			@Override
+			public void onErrorResponse(String _param1, String _param2) {
+				final String _tag = _param1;
+				final String _message = _param2;
+				
+			}
+		};
 		
 		auth_updateEmailListener = new OnCompleteListener<Void>() {
 			@Override
@@ -190,14 +291,30 @@ public class MainActivity extends AppCompatActivity {
 					startActivity(intent);
 				}
 				else {
+					if (_errorMessage.equals("The user account has been disabled by an administrator.")) {
+						intent.putExtra("ban", "0");
+						intent.setClass(getApplicationContext(), BannatoActivity.class);
+						startActivity(intent);
+					}
+					if (_errorMessage.equals("There is no user record corresponding to this identifier. The user may have been deleted.")) {
+						intent.putExtra("ban", "1");
+						intent.setClass(getApplicationContext(), BannatoActivity.class);
+						startActivity(intent);
+					}
 					accedi.setTitle("Errore");
 					if (_errorMessage.equals("The user account has been disabled by an administrator.")) {
-						accedi.setMessage("Il tuo account Spotifinity e stato disabilitato.\nSe si tratta di un errore e/o vuoi fare ricorso entra nel canale Telegram ufficiale e contatta il supporto.");
+						accedi.setMessage("Il tuo account Spotifinity e stato sospeso.");
 					}
 					else {
-						accedi.setMessage(_errorMessage);
+						if (_errorMessage.equals("There is no user record corresponding to this identifier. The user may have been deleted.")) {
+							accedi.setMessage("Il tuo account Spotifinity e stato eliminato e non puoi più creare nuovi account.");
+							
+						}
+						else {
+							accedi.setMessage(_errorMessage);
+						}
 					}
-					accedi.setPositiveButton("disconnettiti", new DialogInterface.OnClickListener() {
+					accedi.setPositiveButton("esci", new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface _dialog, int _which) {
 							FirebaseAuth.getInstance().signOut();
@@ -210,12 +327,43 @@ public class MainActivity extends AppCompatActivity {
 					accedi.setNegativeButton("supporto", new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface _dialog, int _which) {
-							intent.setAction(Intent.ACTION_VIEW);
-							intent.setData(Uri.parse("https://t.me/spotifinity"));
+							intent.setClass(getApplicationContext(), SocialActivity.class);
 							startActivity(intent);
 						}
 					});
-					accedi.create().show();
+					
+					{
+						final AlertDialog alert = accedi.show();
+						DisplayMetrics screen = new DisplayMetrics();
+						getWindowManager().getDefaultDisplay().getMetrics(screen);
+						double dp = 10;
+						double logicalDensity = screen.density;
+						int px = (int) Math.ceil(dp * logicalDensity);
+						alert.getWindow().getDecorView().setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#242424")));
+							alert.getWindow().getDecorView().setPadding(8,8,8,8);
+						alert.show();
+						
+						alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#16DB63"));
+							alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#16DB63"));
+							alert.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.parseColor("#16DB63"));
+						alert.getWindow().setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+						alert.getWindow().getDecorView().setTranslationY(-20);
+						TextView textT = (TextView)alert.getWindow().getDecorView().findViewById(android.R.id.message);
+						Spannable text = new SpannableString(textT.getText().toString()); 
+						text.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE); 
+						alert.setMessage(text);
+						
+						int titleId = getResources().getIdentifier( "alertTitle", "id", "android" ); 
+						if (titleId > 0) 
+						{ 
+							TextView dialogTitle = (TextView) alert.getWindow().getDecorView().findViewById(titleId); 
+							if (dialogTitle != null) 
+							{
+								Spannable title = new SpannableString(dialogTitle.getText().toString()); 
+								title.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, title.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE); 
+								alert.setTitle(title);
+							} 
+						}}
 				}
 			}
 		};
@@ -230,28 +378,43 @@ public class MainActivity extends AppCompatActivity {
 	}
 	
 	private void initializeLogic() {
-		dialog = new AlertDialog.Builder(this,AlertDialog.THEME_DEVICE_DEFAULT_DARK);
-		dialog2 = new AlertDialog.Builder(this,AlertDialog.THEME_DEVICE_DEFAULT_DARK);
-		accedi = new AlertDialog.Builder(this,AlertDialog.THEME_DEVICE_DEFAULT_DARK);
-		if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity")) {
-			FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity");
+		if (FileUtil.isExistFile("storage/emulated/0/Android/data/.bans/Spotifinity")) {
+			intent.putExtra("ban", "1");
+			intent.setClass(getApplicationContext(), BannatoActivity.class);
+			startActivity(intent);
+		}
+		else {
+			updater.startRequestNetwork(RequestNetworkController.GET, "https://pastefy.ga/V64UVdii/raw", "", _updater_request_listener);
+			version.startRequestNetwork(RequestNetworkController.GET, "https://pastefy.ga/3DjQQQZG/raw", "", _version_request_listener);
+			poll.startRequestNetwork(RequestNetworkController.GET, "https://pastefy.ga/AoC5b38b/raw", "", _poll_request_listener);
+			pollNome.startRequestNetwork(RequestNetworkController.GET, "https://pastefy.ga/NaUiBndI/raw", "", _pollNome_request_listener);
+			pollLink.startRequestNetwork(RequestNetworkController.GET, "https://pastefy.ga/45ITHFZO/raw", "", _pollLink_request_listener);
+			dialog = new AlertDialog.Builder(this,AlertDialog.THEME_DEVICE_DEFAULT_DARK);
+			dialog2 = new AlertDialog.Builder(this,AlertDialog.THEME_DEVICE_DEFAULT_DARK);
+			accedi = new AlertDialog.Builder(this,AlertDialog.THEME_DEVICE_DEFAULT_DARK);
+			if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity")) {
+				FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity");
+			}
 		}
 	}
 	
 	@Override
 	public void onStart() {
 		super.onStart();
-		if (!FileUtil.isExistFile("storage/emulated/0/Android/data/com.spotify.music") && FileUtil.isExistFile("storage/emulated/0/spotifinity/configurazione")) {
-			intent.setClass(getApplicationContext(), ConfiguraActivity.class);
+		if (FileUtil.isExistFile("storage/emulated/0/Android/data/.bans/Spotifinity")) {
+			intent.putExtra("ban", "1");
+			intent.setClass(getApplicationContext(), BannatoActivity.class);
 			startActivity(intent);
-		}
-		if (FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Account")) {
-			FirebaseAuth.getInstance().signOut();
-			auth.signInWithEmailAndPassword(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Account/email"), FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Account/password")).addOnCompleteListener(MainActivity.this, _auth_sign_in_listener);
 		}
 		else {
-			intent.setClass(getApplicationContext(), BenvenutoActivity.class);
-			startActivity(intent);
+			if (FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Account")) {
+				FirebaseAuth.getInstance().signOut();
+				auth.signInWithEmailAndPassword(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Account/email"), FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Account/password")).addOnCompleteListener(MainActivity.this, _auth_sign_in_listener);
+			}
+			else {
+				intent.setClass(getApplicationContext(), BenvenutoActivity.class);
+				startActivity(intent);
+			}
 		}
 	}
 	public void _ApriApp(final String _app) {

@@ -6,7 +6,6 @@ import android.content.*;
 import android.content.Intent;
 import android.content.res.*;
 import android.graphics.*;
-import android.graphics.Typeface;
 import android.graphics.drawable.*;
 import android.media.*;
 import android.net.*;
@@ -95,10 +94,6 @@ public class BenvenutoActivity extends AppCompatActivity {
 		materialbutton2.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
-				fade_in.setDuration(300);
-				fade_in.setFillAfter(true);
-				materialbutton2.startAnimation(fade_in);
 				intent.setClass(getApplicationContext(), RegistratiActivity.class);
 				startActivity(intent);
 			}
@@ -107,10 +102,6 @@ public class BenvenutoActivity extends AppCompatActivity {
 		materialbutton1.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
-				fade_in.setDuration(300);
-				fade_in.setFillAfter(true);
-				materialbutton1.startAnimation(fade_in);
 				intent.setClass(getApplicationContext(), AccediActivity.class);
 				startActivity(intent);
 			}
@@ -207,15 +198,119 @@ public class BenvenutoActivity extends AppCompatActivity {
 	}
 	
 	private void initializeLogic() {
-		textview1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
-		textview2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
-		materialbutton1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
-		materialbutton2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
+		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+			Window w =BenvenutoActivity.this.getWindow();
+			w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+			w.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); w.setStatusBarColor(0xFF000000);
+		}
+		
+		{
+			materialbutton1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#16DB63")));
+			materialbutton1.setRippleColor(ColorStateList.valueOf(Color.parseColor("#3AFF87")));
+			materialbutton1.setLetterSpacing(0);
+			DisplayMetrics screen = new DisplayMetrics();
+			getWindowManager().getDefaultDisplay().getMetrics(screen);
+			float logicalDensity = screen.density;
+			int px = (int) Math.ceil(10 * logicalDensity);
+			
+			materialbutton1.setCornerRadius(px);
+			materialbutton1.setOnTouchListener(new View.OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					switch (event.getAction()){
+						case MotionEvent.ACTION_DOWN:{
+							ObjectAnimator scaleX = new ObjectAnimator();
+							scaleX.setTarget(materialbutton1);
+							scaleX.setPropertyName("scaleX");
+							scaleX.setFloatValues(0.9f);
+							scaleX.setDuration(100);
+							scaleX.start();
+							
+							ObjectAnimator scaleY = new ObjectAnimator();
+							scaleY.setTarget(materialbutton1);
+							scaleY.setPropertyName("scaleY");
+							scaleY.setFloatValues(0.9f);
+							scaleY.setDuration(100);
+							scaleY.start();
+							break;
+						}
+						case MotionEvent.ACTION_UP:{
+							
+							ObjectAnimator scaleX = new ObjectAnimator();
+							scaleX.setTarget(materialbutton1);
+							scaleX.setPropertyName("scaleX");
+							scaleX.setFloatValues((float)1);
+							scaleX.setDuration(100);
+							scaleX.start();
+							
+							ObjectAnimator scaleY = new ObjectAnimator();
+							scaleY.setTarget(materialbutton1);
+							scaleY.setPropertyName("scaleY");
+							scaleY.setFloatValues((float)1);
+							scaleY.setDuration(100);
+							scaleY.start();
+							
+							break;
+						}
+					}
+					return false;
+				}
+			});
+		}
+		
+		{
+			materialbutton2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#16DB63")));
+			materialbutton2.setRippleColor(ColorStateList.valueOf(Color.parseColor("#3AFF87")));
+			materialbutton2.setLetterSpacing(0);
+			DisplayMetrics screen = new DisplayMetrics();
+			getWindowManager().getDefaultDisplay().getMetrics(screen);
+			float logicalDensity = screen.density;
+			int px = (int) Math.ceil(10 * logicalDensity);
+			
+			materialbutton2.setCornerRadius(px);
+			materialbutton2.setOnTouchListener(new View.OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					switch (event.getAction()){
+						case MotionEvent.ACTION_DOWN:{
+							ObjectAnimator scaleX = new ObjectAnimator();
+							scaleX.setTarget(materialbutton2);
+							scaleX.setPropertyName("scaleX");
+							scaleX.setFloatValues(0.9f);
+							scaleX.setDuration(100);
+							scaleX.start();
+							
+							ObjectAnimator scaleY = new ObjectAnimator();
+							scaleY.setTarget(materialbutton2);
+							scaleY.setPropertyName("scaleY");
+							scaleY.setFloatValues(0.9f);
+							scaleY.setDuration(100);
+							scaleY.start();
+							break;
+						}
+						case MotionEvent.ACTION_UP:{
+							
+							ObjectAnimator scaleX = new ObjectAnimator();
+							scaleX.setTarget(materialbutton2);
+							scaleX.setPropertyName("scaleX");
+							scaleX.setFloatValues((float)1);
+							scaleX.setDuration(100);
+							scaleX.start();
+							
+							ObjectAnimator scaleY = new ObjectAnimator();
+							scaleY.setTarget(materialbutton2);
+							scaleY.setPropertyName("scaleY");
+							scaleY.setFloatValues((float)1);
+							scaleY.setDuration(100);
+							scaleY.start();
+							
+							break;
+						}
+					}
+					return false;
+				}
+			});
+		}
 	}
 	
-	@Override
-	public void onStart() {
-		super.onStart();
-		
-	}
 }

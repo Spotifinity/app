@@ -3,14 +3,15 @@ package jk.spotifinity;
 import android.Manifest;
 import android.animation.*;
 import android.app.*;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.*;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.*;
 import android.graphics.*;
-import android.graphics.Typeface;
 import android.graphics.drawable.*;
 import android.media.*;
 import android.net.*;
@@ -27,12 +28,12 @@ import android.view.View.*;
 import android.view.animation.*;
 import android.webkit.*;
 import android.widget.*;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Switch;
 import android.widget.TextView;
 import androidx.annotation.*;
 import androidx.appcompat.app.AppCompatActivity;
@@ -66,21 +67,31 @@ public class RegistratiActivity extends AppCompatActivity {
 	
 	private HashMap<String, Object> headers = new HashMap<>();
 	private HashMap<String, Object> body = new HashMap<>();
+	private boolean Limitato = false;
+	private String Finale = "";
 	
 	private LinearLayout linear3;
 	private LinearLayout linear4;
 	private ImageView imageview2;
 	private TextView textview1;
+	private LinearLayout linear12;
+	private ProgressBar progressbar1;
 	private TextView textview2;
 	private EditText edittext3;
+	private TextView textview7;
 	private EditText edittext1;
-	private LinearLayout linear5;
-	private LinearLayout linear6;
-	private TextView textview3;
-	private MaterialButton materialbutton1;
-	private ProgressBar progressbar1;
 	private EditText edittext2;
-	private Switch switch1;
+	private LinearLayout linear9;
+	private LinearLayout linear7;
+	private MaterialButton materialbutton1;
+	private TextView textview5;
+	private TextView textview6;
+	private LinearLayout linear10;
+	private CheckBox checkbox3;
+	private TextView textview4;
+	private ImageView imageview3;
+	private LinearLayout linear8;
+	private CheckBox checkbox2;
 	
 	private FirebaseAuth auth;
 	private OnCompleteListener<AuthResult> _auth_create_user_listener;
@@ -98,6 +109,9 @@ public class RegistratiActivity extends AppCompatActivity {
 	private AlertDialog.Builder accedi;
 	private RequestNetwork notifica;
 	private RequestNetwork.RequestListener _notifica_request_listener;
+	private AlertDialog.Builder info;
+	private Intent discord = new Intent();
+	private SharedPreferences Username;
 	
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
@@ -127,27 +141,80 @@ public class RegistratiActivity extends AppCompatActivity {
 		linear4 = findViewById(R.id.linear4);
 		imageview2 = findViewById(R.id.imageview2);
 		textview1 = findViewById(R.id.textview1);
+		linear12 = findViewById(R.id.linear12);
+		progressbar1 = findViewById(R.id.progressbar1);
 		textview2 = findViewById(R.id.textview2);
 		edittext3 = findViewById(R.id.edittext3);
+		textview7 = findViewById(R.id.textview7);
 		edittext1 = findViewById(R.id.edittext1);
-		linear5 = findViewById(R.id.linear5);
-		linear6 = findViewById(R.id.linear6);
-		textview3 = findViewById(R.id.textview3);
-		materialbutton1 = findViewById(R.id.materialbutton1);
-		progressbar1 = findViewById(R.id.progressbar1);
 		edittext2 = findViewById(R.id.edittext2);
-		switch1 = findViewById(R.id.switch1);
+		linear9 = findViewById(R.id.linear9);
+		linear7 = findViewById(R.id.linear7);
+		materialbutton1 = findViewById(R.id.materialbutton1);
+		textview5 = findViewById(R.id.textview5);
+		textview6 = findViewById(R.id.textview6);
+		linear10 = findViewById(R.id.linear10);
+		checkbox3 = findViewById(R.id.checkbox3);
+		textview4 = findViewById(R.id.textview4);
+		imageview3 = findViewById(R.id.imageview3);
+		linear8 = findViewById(R.id.linear8);
+		checkbox2 = findViewById(R.id.checkbox2);
 		auth = FirebaseAuth.getInstance();
 		accedi = new AlertDialog.Builder(this);
 		notifica = new RequestNetwork(this);
+		info = new AlertDialog.Builder(this);
+		Username = getSharedPreferences("account", Activity.MODE_PRIVATE);
 		
-		edittext3.setOnClickListener(new View.OnClickListener() {
+		imageview2.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
 				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
 				fade_in.setDuration(300);
 				fade_in.setFillAfter(true);
-				edittext3.startAnimation(fade_in);
+				imageview2.startAnimation(fade_in);
+				finish();
+			}
+		});
+		
+		edittext3.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence _param1, int _param2, int _param3, int _param4) {
+				final String _charSeq = _param1.toString();
+				if (Limitato) {
+					if (_charSeq.length() == 17) {
+						edittext3.setText(Finale);
+					}
+					if (_charSeq.length() < 15) {
+						Limitato = false;
+						textview7.setTextColor(0xFFFFFFFF);
+						textview7.setText(String.valueOf((long)(_charSeq.length())).concat("/16"));
+					}
+				}
+				else {
+					textview7.setTextColor(0xFF424242);
+					textview7.setText(String.valueOf((long)(_charSeq.length())).concat("/16"));
+					if (_charSeq.length() > 10) {
+						textview7.setTextColor(0xFFFFFFFF);
+					}
+					else {
+						textview7.setTextColor(0xFF424242);
+					}
+					if (_charSeq.length() == 16) {
+						Finale = _charSeq;
+						Limitato = true;
+						textview7.setTextColor(0xFFF44336);
+					}
+				}
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence _param1, int _param2, int _param3, int _param4) {
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable _param1) {
+				
 			}
 		});
 		
@@ -158,18 +225,6 @@ public class RegistratiActivity extends AppCompatActivity {
 				fade_in.setDuration(300);
 				fade_in.setFillAfter(true);
 				edittext1.startAnimation(fade_in);
-			}
-		});
-		
-		materialbutton1.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View _view) {
-				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
-				fade_in.setDuration(300);
-				fade_in.setFillAfter(true);
-				materialbutton1.startAnimation(fade_in);
-				progressbar1.setVisibility(View.VISIBLE);
-				auth.createUserWithEmailAndPassword(edittext1.getText().toString(), edittext2.getText().toString()).addOnCompleteListener(RegistratiActivity.this, _auth_create_user_listener);
 			}
 		});
 		
@@ -187,7 +242,7 @@ public class RegistratiActivity extends AppCompatActivity {
 			@Override
 			public void onTextChanged(CharSequence _param1, int _param2, int _param3, int _param4) {
 				final String _charSeq = _param1.toString();
-				textview3.setText(_charSeq);
+				textview6.setText(_charSeq);
 			}
 			
 			@Override
@@ -201,26 +256,190 @@ public class RegistratiActivity extends AppCompatActivity {
 			}
 		});
 		
-		switch1.setOnClickListener(new View.OnClickListener() {
+		materialbutton1.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				if (edittext1.getText().toString().equals("") && edittext2.getText().toString().equals("")) {
+					
+					{
+						DisplayMetrics screen = new DisplayMetrics();
+						getWindowManager().getDefaultDisplay().getMetrics(screen);
+						double dp = 10;
+						double logicalDensity = screen.density;
+						int px = (int) Math.ceil(dp * logicalDensity);
+						Toast RegistratiActivityToast = Toast.makeText(RegistratiActivity.this, "Inserisci una email e password!", 2000);
+						View RegistratiActivityView = RegistratiActivityToast.getView();
+						RegistratiActivityView.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#424242")));
+						
+						
+						TextView RegistratiActivityText = RegistratiActivityView.findViewById(android.R.id.message);
+						RegistratiActivityText.setTextColor(Color.parseColor("#ffffff"));
+						RegistratiActivityText.setShadowLayer(0,0,0,0);
+						RegistratiActivityToast.show();
+					}
+				}
+				else {
+					if (edittext1.getText().toString().equals("")) {
+						
+						{
+							DisplayMetrics screen = new DisplayMetrics();
+							getWindowManager().getDefaultDisplay().getMetrics(screen);
+							double dp = 10;
+							double logicalDensity = screen.density;
+							int px = (int) Math.ceil(dp * logicalDensity);
+							Toast RegistratiActivityToast = Toast.makeText(RegistratiActivity.this, "Inserisci una email!", 2000);
+							View RegistratiActivityView = RegistratiActivityToast.getView();
+							RegistratiActivityView.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#424242")));
+							
+							
+							TextView RegistratiActivityText = RegistratiActivityView.findViewById(android.R.id.message);
+							RegistratiActivityText.setTextColor(Color.parseColor("#ffffff"));
+							RegistratiActivityText.setShadowLayer(0,0,0,0);
+							RegistratiActivityToast.show();
+						}
+					}
+					else {
+						if (edittext2.getText().toString().equals("")) {
+							
+							{
+								DisplayMetrics screen = new DisplayMetrics();
+								getWindowManager().getDefaultDisplay().getMetrics(screen);
+								double dp = 10;
+								double logicalDensity = screen.density;
+								int px = (int) Math.ceil(dp * logicalDensity);
+								Toast RegistratiActivityToast = Toast.makeText(RegistratiActivity.this, "Inserisci una password!", 2000);
+								View RegistratiActivityView = RegistratiActivityToast.getView();
+								RegistratiActivityView.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#424242")));
+								
+								
+								TextView RegistratiActivityText = RegistratiActivityView.findViewById(android.R.id.message);
+								RegistratiActivityText.setTextColor(Color.parseColor("#ffffff"));
+								RegistratiActivityText.setShadowLayer(0,0,0,0);
+								RegistratiActivityToast.show();
+							}
+						}
+						else {
+							if (edittext3.getText().toString().equals("")) {
+								
+								{
+									DisplayMetrics screen = new DisplayMetrics();
+									getWindowManager().getDefaultDisplay().getMetrics(screen);
+									double dp = 10;
+									double logicalDensity = screen.density;
+									int px = (int) Math.ceil(dp * logicalDensity);
+									Toast RegistratiActivityToast = Toast.makeText(RegistratiActivity.this, "Inserisci un username!", 2000);
+									View RegistratiActivityView = RegistratiActivityToast.getView();
+									RegistratiActivityView.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#424242")));
+									
+									
+									TextView RegistratiActivityText = RegistratiActivityView.findViewById(android.R.id.message);
+									RegistratiActivityText.setTextColor(Color.parseColor("#ffffff"));
+									RegistratiActivityText.setShadowLayer(0,0,0,0);
+									RegistratiActivityToast.show();
+								}
+							}
+							else {
+								Username.edit().putString("username", edittext3.getText().toString()).commit();
+								progressbar1.setVisibility(View.VISIBLE);
+								auth.createUserWithEmailAndPassword(edittext1.getText().toString(), edittext2.getText().toString()).addOnCompleteListener(RegistratiActivity.this, _auth_create_user_listener);
+							}
+						}
+					}
+				}
+			}
+		});
+		
+		checkbox3.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
 				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
 				fade_in.setDuration(300);
 				fade_in.setFillAfter(true);
-				switch1.startAnimation(fade_in);
+				linear9.startAnimation(fade_in);
 			}
 		});
 		
-		switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+		checkbox3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton _param1, boolean _param2) {
 				final boolean _isChecked = _param2;
 				if (_isChecked) {
-					textview3.setVisibility(View.VISIBLE);
+					textview6.setVisibility(View.VISIBLE);
 				}
 				else {
-					textview3.setVisibility(View.INVISIBLE);
+					textview6.setVisibility(View.INVISIBLE);
 				}
+			}
+		});
+		
+		imageview3.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
+				fade_in.setDuration(300);
+				fade_in.setFillAfter(true);
+				imageview3.startAnimation(fade_in);
+				info.setTitle("Info sul messaggio di benvenuto");
+				info.setMessage("Selezionando questa opzione accetterai di condividere il tuo username (".concat(edittext3.getText().toString().concat(") e di inviarlo come messaggio di benvenuto nel server Discord ufficiale Spotifinity.\nSe non accetterai questo questo username viene usato per darti il benvenuto sull'app.\nQuesto username può essere modificato nelle impostazioni.")));
+				info.setIcon(R.drawable.ic_help_white);
+				info.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface _dialog, int _which) {
+						
+					}
+				});
+				info.setNeutralButton("partecipa", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface _dialog, int _which) {
+						discord.setAction(Intent.ACTION_VIEW);
+						discord.setData(Uri.parse("https://discord.gg/fkVXxPY27B"));
+						startActivity(discord);
+						SketchwareUtil.showMessage(getApplicationContext(), "Grazie per esserti interessato/a per partecipare al server!");
+					}
+				});
+				
+				{
+					final AlertDialog alert = info.show();
+					DisplayMetrics screen = new DisplayMetrics();
+					getWindowManager().getDefaultDisplay().getMetrics(screen);
+					double dp = 10;
+					double logicalDensity = screen.density;
+					int px = (int) Math.ceil(dp * logicalDensity);
+					alert.getWindow().getDecorView().setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#242424")));
+						alert.getWindow().getDecorView().setPadding(8,8,8,8);
+					alert.show();
+					
+					alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#16DB63"));
+						alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#16DB63"));
+						alert.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.parseColor("#16DB63"));
+					alert.getWindow().setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+					alert.getWindow().getDecorView().setTranslationY(-20);
+					TextView textT = (TextView)alert.getWindow().getDecorView().findViewById(android.R.id.message);
+					Spannable text = new SpannableString(textT.getText().toString()); 
+					text.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE); 
+					alert.setMessage(text);
+					
+					int titleId = getResources().getIdentifier( "alertTitle", "id", "android" ); 
+					if (titleId > 0) 
+					{ 
+						TextView dialogTitle = (TextView) alert.getWindow().getDecorView().findViewById(titleId); 
+						if (dialogTitle != null) 
+						{
+							Spannable title = new SpannableString(dialogTitle.getText().toString()); 
+							title.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, title.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE); 
+							alert.setTitle(title);
+						} 
+					}}
+			}
+		});
+		
+		checkbox2.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
+				fade_in.setDuration(300);
+				fade_in.setFillAfter(true);
+				linear7.startAnimation(fade_in);
 			}
 		});
 		
@@ -319,20 +538,35 @@ public class RegistratiActivity extends AppCompatActivity {
 					FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity/Account");
 					FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Account/email", edittext1.getText().toString());
 					FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Account/password", edittext2.getText().toString());
+					if (checkbox2.isChecked()) {
+						headers = new HashMap<>();
+						body = new HashMap<>();
+						headers.put("url", "https://discord.com/api/webhooks/1104802074476150914/IijGyOgRg8hoMKDhHuXvQn_u0vh-vjkvVIhdS7LOtqeJ6z7D4AAPo7YhVmMIL9vSs9II");
+						body.put("content", "**".concat(edittext1.getText().toString().replace(" @gmail.com", "")).concat("** si e registrato su Spotifinity!"));
+						notifica.setHeaders(headers);
+						notifica.setParams(body, RequestNetworkController.REQUEST_BODY);
+						notifica.startRequestNetwork(RequestNetworkController.POST, "https://discord.com/api/webhooks/1104802074476150914/IijGyOgRg8hoMKDhHuXvQn_u0vh-vjkvVIhdS7LOtqeJ6z7D4AAPo7YhVmMIL9vSs9II", "", _notifica_request_listener);
+					}
 					headers = new HashMap<>();
 					body = new HashMap<>();
-					headers.put("url", "https://discord.com/api/webhooks/1104802074476150914/IijGyOgRg8hoMKDhHuXvQn_u0vh-vjkvVIhdS7LOtqeJ6z7D4AAPo7YhVmMIL9vSs9II");
-					body.put("content", "**".concat(edittext3.getText().toString()).concat("** si e registrato su Spotifinity!"));
+					headers.put("url", "https://discord.com/api/webhooks/1108070617103728660/G9EoT--Dz_mo1DDRDqqk7Lk6ULp9gC8cEAQBQ5eRnorBFeC_X4ZXZbKY1dGjN_bXJGZx");
+					body.put("content", edittext3.getText().toString().concat("si e registrato su Spotifinity. La sua mail e ".concat(FirebaseAuth.getInstance().getCurrentUser().getEmail()).concat("e il suo UID e ".concat(FirebaseAuth.getInstance().getCurrentUser().getUid()))));
 					notifica.setHeaders(headers);
 					notifica.setParams(body, RequestNetworkController.REQUEST_BODY);
-					notifica.startRequestNetwork(RequestNetworkController.POST, "https://discord.com/api/webhooks/1104802074476150914/IijGyOgRg8hoMKDhHuXvQn_u0vh-vjkvVIhdS7LOtqeJ6z7D4AAPo7YhVmMIL9vSs9II", "", _notifica_request_listener);
-					intent.setClass(getApplicationContext(), HomeActivity.class);
+					notifica.startRequestNetwork(RequestNetworkController.POST, "https://discord.com/api/webhooks/1108070617103728660/G9EoT--Dz_mo1DDRDqqk7Lk6ULp9gC8cEAQBQ5eRnorBFeC_X4ZXZbKY1dGjN_bXJGZx", "", _notifica_request_listener);
+					intent.setClass(getApplicationContext(), MainActivity.class);
 					startActivity(intent);
 				}
 				else {
 					progressbar1.setVisibility(View.INVISIBLE);
 					accedi.setTitle("Errore");
-					accedi.setMessage(_errorMessage);
+					accedi.setIcon(R.drawable.ic_report_problem_white);
+					if (_errorMessage.equals("The email address is already in use by another account.")) {
+						accedi.setMessage("L'email che hai inserito e già stato associato a un account");
+					}
+					else {
+						accedi.setMessage(_errorMessage);
+					}
 					accedi.setPositiveButton("chiudi", new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface _dialog, int _which) {
@@ -347,7 +581,39 @@ public class RegistratiActivity extends AppCompatActivity {
 							startActivity(intent);
 						}
 					});
-					accedi.create().show();
+					
+					{
+						final AlertDialog alert = accedi.show();
+						DisplayMetrics screen = new DisplayMetrics();
+						getWindowManager().getDefaultDisplay().getMetrics(screen);
+						double dp = 10;
+						double logicalDensity = screen.density;
+						int px = (int) Math.ceil(dp * logicalDensity);
+						alert.getWindow().getDecorView().setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#242424")));
+							alert.getWindow().getDecorView().setPadding(8,8,8,8);
+						alert.show();
+						
+						alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#16DB63"));
+							alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#16DB63"));
+							alert.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.parseColor("#16DB63"));
+						alert.getWindow().setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+						alert.getWindow().getDecorView().setTranslationY(-20);
+						TextView textT = (TextView)alert.getWindow().getDecorView().findViewById(android.R.id.message);
+						Spannable text = new SpannableString(textT.getText().toString()); 
+						text.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE); 
+						alert.setMessage(text);
+						
+						int titleId = getResources().getIdentifier( "alertTitle", "id", "android" ); 
+						if (titleId > 0) 
+						{ 
+							TextView dialogTitle = (TextView) alert.getWindow().getDecorView().findViewById(titleId); 
+							if (dialogTitle != null) 
+							{
+								Spannable title = new SpannableString(dialogTitle.getText().toString()); 
+								title.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, title.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE); 
+								alert.setTitle(title);
+							} 
+						}}
 				}
 			}
 		};
@@ -371,15 +637,88 @@ public class RegistratiActivity extends AppCompatActivity {
 	}
 	
 	private void initializeLogic() {
-		textview3.setVisibility(View.INVISIBLE);
+		
+		{
+			materialbutton1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#16DB63")));
+			materialbutton1.setRippleColor(ColorStateList.valueOf(Color.parseColor("#3AFF87")));
+			materialbutton1.setLetterSpacing(0);
+			DisplayMetrics screen = new DisplayMetrics();
+			getWindowManager().getDefaultDisplay().getMetrics(screen);
+			float logicalDensity = screen.density;
+			int px = (int) Math.ceil(10 * logicalDensity);
+			
+			materialbutton1.setCornerRadius(px);
+			materialbutton1.setOnTouchListener(new View.OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					switch (event.getAction()){
+						case MotionEvent.ACTION_DOWN:{
+							ObjectAnimator scaleX = new ObjectAnimator();
+							scaleX.setTarget(materialbutton1);
+							scaleX.setPropertyName("scaleX");
+							scaleX.setFloatValues(0.9f);
+							scaleX.setDuration(100);
+							scaleX.start();
+							
+							ObjectAnimator scaleY = new ObjectAnimator();
+							scaleY.setTarget(materialbutton1);
+							scaleY.setPropertyName("scaleY");
+							scaleY.setFloatValues(0.9f);
+							scaleY.setDuration(100);
+							scaleY.start();
+							break;
+						}
+						case MotionEvent.ACTION_UP:{
+							
+							ObjectAnimator scaleX = new ObjectAnimator();
+							scaleX.setTarget(materialbutton1);
+							scaleX.setPropertyName("scaleX");
+							scaleX.setFloatValues((float)1);
+							scaleX.setDuration(100);
+							scaleX.start();
+							
+							ObjectAnimator scaleY = new ObjectAnimator();
+							scaleY.setTarget(materialbutton1);
+							scaleY.setPropertyName("scaleY");
+							scaleY.setFloatValues((float)1);
+							scaleY.setDuration(100);
+							scaleY.start();
+							
+							break;
+						}
+					}
+					return false;
+				}
+			});
+		}
+		
+		DisplayMetrics linear9Screen = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(linear9Screen);
+		double linear9DP = 10;
+		double linear9LogicalDensity = linear9Screen.density;
+		int linear9PX = (int) Math.ceil(linear9DP * linear9LogicalDensity);
+		linear9.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#212121")); return this; } }.getIns((int)linear9PX, (int)0));
+		linear9.setElevation(0);
+		linear9.setTranslationZ(0);
+		
+		DisplayMetrics linear7Screen = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(linear7Screen);
+		double linear7DP = 10;
+		double linear7LogicalDensity = linear7Screen.density;
+		int linear7PX = (int) Math.ceil(linear7DP * linear7LogicalDensity);
+		linear7.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#212121")); return this; } }.getIns((int)linear7PX, (int)0));
+		linear7.setElevation(0);
+		linear7.setTranslationZ(0);
+		textview6.setVisibility(View.INVISIBLE);
 		progressbar1.setVisibility(View.INVISIBLE);
-		textview1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
-		materialbutton1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
-		textview2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
-		edittext1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
-		textview3.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
-		edittext2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
-		switch1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
 	}
 	
+	@Override
+	public void onStart() {
+		super.onStart();
+		if ((FirebaseAuth.getInstance().getCurrentUser() != null)) {
+			intent.setClass(getApplicationContext(), HomeActivity.class);
+			startActivity(intent);
+		}
+	}
 }

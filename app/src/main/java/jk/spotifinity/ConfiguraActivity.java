@@ -7,7 +7,6 @@ import android.content.*;
 import android.content.pm.PackageManager;
 import android.content.res.*;
 import android.graphics.*;
-import android.graphics.Typeface;
 import android.graphics.drawable.*;
 import android.media.*;
 import android.net.*;
@@ -96,10 +95,6 @@ public class ConfiguraActivity extends AppCompatActivity {
 		materialbutton1.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
-				fade_in.setDuration(300);
-				fade_in.setFillAfter(true);
-				materialbutton1.startAnimation(fade_in);
 				_ApriApp("com.spotify.music");
 				wait = new TimerTask() {
 					@Override
@@ -108,8 +103,24 @@ public class ConfiguraActivity extends AppCompatActivity {
 							@Override
 							public void run() {
 								FileUtil.deleteFile("storage/emulated/0/Android/data/jk.spotifinity/configurazione");
-								FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/downloaded.txt", getIntent().getStringExtra("ver"));
-								SketchwareUtil.showMessage(getApplicationContext(), "App configurata!");
+								FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/downloaded.txt", FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/configurazioneVer"));
+								
+								{
+									DisplayMetrics screen = new DisplayMetrics();
+									getWindowManager().getDefaultDisplay().getMetrics(screen);
+									double dp = 10;
+									double logicalDensity = screen.density;
+									int px = (int) Math.ceil(dp * logicalDensity);
+									Toast ConfiguraActivityToast = Toast.makeText(ConfiguraActivity.this, "App configurata!", 2000);
+									View ConfiguraActivityView = ConfiguraActivityToast.getView();
+									ConfiguraActivityView.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#424242")));
+									
+									
+									TextView ConfiguraActivityText = ConfiguraActivityView.findViewById(android.R.id.message);
+									ConfiguraActivityText.setTextColor(Color.parseColor("#ffffff"));
+									ConfiguraActivityText.setShadowLayer(0,0,0,0);
+									ConfiguraActivityToast.show();
+								}
 								finish();
 							}
 						});
@@ -121,10 +132,69 @@ public class ConfiguraActivity extends AppCompatActivity {
 	}
 	
 	private void initializeLogic() {
-		materialbutton1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
-		textview11.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
-		textview10.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
-		linear7.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)30, 0xFF424242));
+		
+		{
+			materialbutton1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#16DB63")));
+			materialbutton1.setRippleColor(ColorStateList.valueOf(Color.parseColor("#3AFF87")));
+			materialbutton1.setLetterSpacing(0);
+			DisplayMetrics screen = new DisplayMetrics();
+			getWindowManager().getDefaultDisplay().getMetrics(screen);
+			float logicalDensity = screen.density;
+			int px = (int) Math.ceil(10 * logicalDensity);
+			
+			materialbutton1.setCornerRadius(px);
+			materialbutton1.setOnTouchListener(new View.OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					switch (event.getAction()){
+						case MotionEvent.ACTION_DOWN:{
+							ObjectAnimator scaleX = new ObjectAnimator();
+							scaleX.setTarget(materialbutton1);
+							scaleX.setPropertyName("scaleX");
+							scaleX.setFloatValues(0.9f);
+							scaleX.setDuration(100);
+							scaleX.start();
+							
+							ObjectAnimator scaleY = new ObjectAnimator();
+							scaleY.setTarget(materialbutton1);
+							scaleY.setPropertyName("scaleY");
+							scaleY.setFloatValues(0.9f);
+							scaleY.setDuration(100);
+							scaleY.start();
+							break;
+						}
+						case MotionEvent.ACTION_UP:{
+							
+							ObjectAnimator scaleX = new ObjectAnimator();
+							scaleX.setTarget(materialbutton1);
+							scaleX.setPropertyName("scaleX");
+							scaleX.setFloatValues((float)1);
+							scaleX.setDuration(100);
+							scaleX.start();
+							
+							ObjectAnimator scaleY = new ObjectAnimator();
+							scaleY.setTarget(materialbutton1);
+							scaleY.setPropertyName("scaleY");
+							scaleY.setFloatValues((float)1);
+							scaleY.setDuration(100);
+							scaleY.start();
+							
+							break;
+						}
+					}
+					return false;
+				}
+			});
+		}
+		
+		DisplayMetrics linear7Screen = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(linear7Screen);
+		double linear7DP = 10;
+		double linear7LogicalDensity = linear7Screen.density;
+		int linear7PX = (int) Math.ceil(linear7DP * linear7LogicalDensity);
+		linear7.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#212121")); return this; } }.getIns((int)linear7PX, (int)0));
+		linear7.setElevation(0);
+		linear7.setTranslationZ(0);
 	}
 	
 	@Override
@@ -135,7 +205,11 @@ public class ConfiguraActivity extends AppCompatActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/configurazione", "");
+		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+			Window w =ConfiguraActivity.this.getWindow();
+			w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+			w.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); w.setStatusBarColor(0xFF000000);
+		}
 	}
 	public void _ApriApp(final String _app) {
 		Intent launchIntent = getPackageManager().getLaunchIntentForPackage(_app);  { startActivity(launchIntent);}

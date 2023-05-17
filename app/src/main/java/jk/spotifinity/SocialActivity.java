@@ -6,7 +6,6 @@ import android.content.*;
 import android.content.Intent;
 import android.content.res.*;
 import android.graphics.*;
-import android.graphics.Typeface;
 import android.graphics.drawable.*;
 import android.media.*;
 import android.net.*;
@@ -51,12 +50,16 @@ public class SocialActivity extends AppCompatActivity {
 	private TextView textview1;
 	private LinearLayout linear5;
 	private LinearLayout linear8;
+	private LinearLayout linear11;
 	private LinearLayout linear6;
 	private LinearLayout linear7;
 	private TextView textview2;
 	private LinearLayout linear9;
 	private LinearLayout linear10;
 	private TextView textview3;
+	private LinearLayout linear12;
+	private LinearLayout linear13;
+	private TextView textview4;
 	
 	private Intent intent = new Intent();
 	
@@ -76,12 +79,16 @@ public class SocialActivity extends AppCompatActivity {
 		textview1 = findViewById(R.id.textview1);
 		linear5 = findViewById(R.id.linear5);
 		linear8 = findViewById(R.id.linear8);
+		linear11 = findViewById(R.id.linear11);
 		linear6 = findViewById(R.id.linear6);
 		linear7 = findViewById(R.id.linear7);
 		textview2 = findViewById(R.id.textview2);
 		linear9 = findViewById(R.id.linear9);
 		linear10 = findViewById(R.id.linear10);
 		textview3 = findViewById(R.id.textview3);
+		linear12 = findViewById(R.id.linear12);
+		linear13 = findViewById(R.id.linear13);
+		textview4 = findViewById(R.id.textview4);
 		
 		imageview2.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -97,10 +104,6 @@ public class SocialActivity extends AppCompatActivity {
 		linear5.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
-				fade_in.setDuration(300);
-				fade_in.setFillAfter(true);
-				linear5.startAnimation(fade_in);
 				intent.setAction(Intent.ACTION_VIEW);
 				intent.setData(Uri.parse("https://discord.gg/fkVXxPY27B"));
 				startActivity(intent);
@@ -110,23 +113,176 @@ public class SocialActivity extends AppCompatActivity {
 		linear8.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
-				fade_in.setDuration(300);
-				fade_in.setFillAfter(true);
-				linear8.startAnimation(fade_in);
 				intent.setAction(Intent.ACTION_VIEW);
 				intent.setData(Uri.parse("https://t.me/spotifinity"));
+				startActivity(intent);
+			}
+		});
+		
+		linear11.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				intent.setAction(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse("https://chat.whatsapp.com/DvJIznEqk0kGMf8vrjm8Dv"));
 				startActivity(intent);
 			}
 		});
 	}
 	
 	private void initializeLogic() {
-		linear5.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)30, 0xFF424242));
-		textview1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
-		textview2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
-		linear8.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)30, 0xFF424242));
-		textview3.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
+		
+		DisplayMetrics linear5Screen = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(linear5Screen);
+		double linear5DP = 10;
+		double linear5LogicalDensity = linear5Screen.density;
+		int linear5PX = (int) Math.ceil(linear5DP * linear5LogicalDensity);
+		linear5.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#212121")); return this; } }.getIns((int)linear5PX, (int)0));
+		linear5.setElevation(0);
+		linear5.setTranslationZ(0);
+		linear5.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				switch (event.getAction()){
+					case MotionEvent.ACTION_DOWN:{
+						ObjectAnimator scaleX = new ObjectAnimator();
+						scaleX.setTarget(linear5);
+						scaleX.setPropertyName("scaleX");
+						scaleX.setFloatValues(0.9f);
+						scaleX.setDuration(100);
+						scaleX.start();
+						
+						ObjectAnimator scaleY = new ObjectAnimator();
+						scaleY.setTarget(linear5);
+						scaleY.setPropertyName("scaleY");
+						scaleY.setFloatValues(0.9f);
+						scaleY.setDuration(100);
+						scaleY.start();
+						break;
+					}
+					case MotionEvent.ACTION_UP:{
+						
+						ObjectAnimator scaleX = new ObjectAnimator();
+						scaleX.setTarget(linear5);
+						scaleX.setPropertyName("scaleX");
+						scaleX.setFloatValues((float)1);
+						scaleX.setDuration(100);
+						scaleX.start();
+						
+						ObjectAnimator scaleY = new ObjectAnimator();
+						scaleY.setTarget(linear5);
+						scaleY.setPropertyName("scaleY");
+						scaleY.setFloatValues((float)1);
+						scaleY.setDuration(100);
+						scaleY.start();
+						
+						break;
+					}
+				}
+				return false;
+			}
+		});
+		
+		DisplayMetrics linear8Screen = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(linear8Screen);
+		double linear8DP = 10;
+		double linear8LogicalDensity = linear8Screen.density;
+		int linear8PX = (int) Math.ceil(linear8DP * linear8LogicalDensity);
+		linear8.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#212121")); return this; } }.getIns((int)linear8PX, (int)0));
+		linear8.setElevation(0);
+		linear8.setTranslationZ(0);
+		linear8.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				switch (event.getAction()){
+					case MotionEvent.ACTION_DOWN:{
+						ObjectAnimator scaleX = new ObjectAnimator();
+						scaleX.setTarget(linear8);
+						scaleX.setPropertyName("scaleX");
+						scaleX.setFloatValues(0.9f);
+						scaleX.setDuration(100);
+						scaleX.start();
+						
+						ObjectAnimator scaleY = new ObjectAnimator();
+						scaleY.setTarget(linear8);
+						scaleY.setPropertyName("scaleY");
+						scaleY.setFloatValues(0.9f);
+						scaleY.setDuration(100);
+						scaleY.start();
+						break;
+					}
+					case MotionEvent.ACTION_UP:{
+						
+						ObjectAnimator scaleX = new ObjectAnimator();
+						scaleX.setTarget(linear8);
+						scaleX.setPropertyName("scaleX");
+						scaleX.setFloatValues((float)1);
+						scaleX.setDuration(100);
+						scaleX.start();
+						
+						ObjectAnimator scaleY = new ObjectAnimator();
+						scaleY.setTarget(linear8);
+						scaleY.setPropertyName("scaleY");
+						scaleY.setFloatValues((float)1);
+						scaleY.setDuration(100);
+						scaleY.start();
+						
+						break;
+					}
+				}
+				return false;
+			}
+		});
+		
+		DisplayMetrics linear11Screen = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(linear11Screen);
+		double linear11DP = 10;
+		double linear11LogicalDensity = linear11Screen.density;
+		int linear11PX = (int) Math.ceil(linear11DP * linear11LogicalDensity);
+		linear11.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#212121")); return this; } }.getIns((int)linear11PX, (int)0));
+		linear11.setElevation(0);
+		linear11.setTranslationZ(0);
+		linear11.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				switch (event.getAction()){
+					case MotionEvent.ACTION_DOWN:{
+						ObjectAnimator scaleX = new ObjectAnimator();
+						scaleX.setTarget(linear11);
+						scaleX.setPropertyName("scaleX");
+						scaleX.setFloatValues(0.9f);
+						scaleX.setDuration(100);
+						scaleX.start();
+						
+						ObjectAnimator scaleY = new ObjectAnimator();
+						scaleY.setTarget(linear11);
+						scaleY.setPropertyName("scaleY");
+						scaleY.setFloatValues(0.9f);
+						scaleY.setDuration(100);
+						scaleY.start();
+						break;
+					}
+					case MotionEvent.ACTION_UP:{
+						
+						ObjectAnimator scaleX = new ObjectAnimator();
+						scaleX.setTarget(linear11);
+						scaleX.setPropertyName("scaleX");
+						scaleX.setFloatValues((float)1);
+						scaleX.setDuration(100);
+						scaleX.start();
+						
+						ObjectAnimator scaleY = new ObjectAnimator();
+						scaleY.setTarget(linear11);
+						scaleY.setPropertyName("scaleY");
+						scaleY.setFloatValues((float)1);
+						scaleY.setDuration(100);
+						scaleY.start();
+						
+						break;
+					}
+				}
+				return false;
+			}
+		});
 	}
 	
 }

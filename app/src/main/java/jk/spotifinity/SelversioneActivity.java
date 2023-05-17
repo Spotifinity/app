@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.*;
 import android.graphics.*;
-import android.graphics.Typeface;
 import android.graphics.drawable.*;
 import android.media.*;
 import android.net.*;
@@ -28,10 +27,10 @@ import android.widget.*;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.*;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,8 +42,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.room.*;
 import androidx.sqlite.db.*;
 import androidx.sqlite.db.framework.*;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -90,13 +87,13 @@ public class SelversioneActivity extends AppCompatActivity {
 	private ArrayList<String> Aggiunto = new ArrayList<>();
 	
 	private LinearLayout linear3;
-	private HorizontalScrollView hscroll4;
-	private SwipeRefreshLayout swiperefreshlayout1;
+	private ListView listview1;
 	private ImageView imageview2;
 	private TextView textview1;
+	private LinearLayout linear4;
 	private LinearLayout linear5;
-	private TextView textview2;
-	private ListView listview1;
+	private ImageView imageview3;
+	private ProgressBar progressbar1;
 	
 	private AlertDialog.Builder scarica;
 	private StorageReference download = _firebase_storage.getReference("mod");
@@ -114,6 +111,7 @@ public class SelversioneActivity extends AppCompatActivity {
 	private ChildEventListener _ver_child_listener;
 	private AlertDialog.Builder aggiungi;
 	private Intent firebase = new Intent();
+	private AlertDialog.Builder aiuto;
 	
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
@@ -140,51 +138,17 @@ public class SelversioneActivity extends AppCompatActivity {
 	
 	private void initialize(Bundle _savedInstanceState) {
 		linear3 = findViewById(R.id.linear3);
-		hscroll4 = findViewById(R.id.hscroll4);
-		swiperefreshlayout1 = findViewById(R.id.swiperefreshlayout1);
+		listview1 = findViewById(R.id.listview1);
 		imageview2 = findViewById(R.id.imageview2);
 		textview1 = findViewById(R.id.textview1);
+		linear4 = findViewById(R.id.linear4);
 		linear5 = findViewById(R.id.linear5);
-		textview2 = findViewById(R.id.textview2);
-		listview1 = findViewById(R.id.listview1);
+		imageview3 = findViewById(R.id.imageview3);
+		progressbar1 = findViewById(R.id.progressbar1);
 		scarica = new AlertDialog.Builder(this);
 		elimina = new AlertDialog.Builder(this);
 		aggiungi = new AlertDialog.Builder(this);
-		
-		swiperefreshlayout1.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-			@Override
-			public void onRefresh() {
-				ver.addListenerForSingleValueEvent(new ValueEventListener() {
-					@Override
-					public void onDataChange(DataSnapshot _dataSnapshot) {
-						lista = new ArrayList<>();
-						try {
-							GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {};
-							for (DataSnapshot _data : _dataSnapshot.getChildren()) {
-								HashMap<String, Object> _map = _data.getValue(_ind);
-								lista.add(_map);
-							}
-						}
-						catch (Exception _e) {
-							_e.printStackTrace();
-						}
-						listview1.setAdapter(new Listview1Adapter(lista));
-						((BaseAdapter)listview1.getAdapter()).notifyDataSetChanged();
-					}
-					@Override
-					public void onCancelled(DatabaseError _databaseError) {
-					}
-				});
-				swiperefreshlayout1.setRefreshing(false);
-			}
-		});
-		
-		imageview2.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View _view) {
-				finish();
-			}
-		});
+		aiuto = new AlertDialog.Builder(this);
 		
 		listview1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -205,6 +169,96 @@ public class SelversioneActivity extends AppCompatActivity {
 				final int _position = _param3;
 				
 				return true;
+			}
+		});
+		
+		imageview2.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				finish();
+			}
+		});
+		
+		linear5.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				
+				{
+					DisplayMetrics screen = new DisplayMetrics();
+					getWindowManager().getDefaultDisplay().getMetrics(screen);
+					double dp = 10;
+					double logicalDensity = screen.density;
+					int px = (int) Math.ceil(dp * logicalDensity);
+					Toast SelversioneActivityToast = Toast.makeText(SelversioneActivity.this, "Connessione in corso...", 2000);
+					View SelversioneActivityView = SelversioneActivityToast.getView();
+					SelversioneActivityView.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#424242")));
+					
+					
+					TextView SelversioneActivityText = SelversioneActivityView.findViewById(android.R.id.message);
+					SelversioneActivityText.setTextColor(Color.parseColor("#ffffff"));
+					SelversioneActivityText.setShadowLayer(0,0,0,0);
+					SelversioneActivityToast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL,0 ,100);
+					SelversioneActivityToast.show();
+				}
+			}
+		});
+		
+		imageview3.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
+				fade_in.setDuration(300);
+				fade_in.setFillAfter(true);
+				imageview3.startAnimation(fade_in);
+				aiuto.setTitle("Aiuto");
+				aiuto.setMessage("Per scaricare la mod semplicemente seleziona in questa lista la versione della mod da installare (la mod più recente e indicata) e clicca sul tasto \"Inizia l'installazione\".");
+				aiuto.setIcon(R.drawable.ic_help_white);
+				aiuto.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface _dialog, int _which) {
+						
+					}
+				});
+				aiuto.setNegativeButton("supporto", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface _dialog, int _which) {
+						intent.setClass(getApplicationContext(), SocialActivity.class);
+						startActivity(intent);
+					}
+				});
+				
+				{
+					final AlertDialog alert = aiuto.show();
+					DisplayMetrics screen = new DisplayMetrics();
+					getWindowManager().getDefaultDisplay().getMetrics(screen);
+					double dp = 10;
+					double logicalDensity = screen.density;
+					int px = (int) Math.ceil(dp * logicalDensity);
+					alert.getWindow().getDecorView().setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#242424")));
+						alert.getWindow().getDecorView().setPadding(8,8,8,8);
+					alert.show();
+					
+					alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#16DB63"));
+						alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#16DB63"));
+						alert.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.parseColor("#16DB63"));
+					alert.getWindow().setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+					alert.getWindow().getDecorView().setTranslationY(-20);
+					TextView textT = (TextView)alert.getWindow().getDecorView().findViewById(android.R.id.message);
+					Spannable text = new SpannableString(textT.getText().toString()); 
+					text.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE); 
+					alert.setMessage(text);
+					
+					int titleId = getResources().getIdentifier( "alertTitle", "id", "android" ); 
+					if (titleId > 0) 
+					{ 
+						TextView dialogTitle = (TextView) alert.getWindow().getDecorView().findViewById(titleId); 
+						if (dialogTitle != null) 
+						{
+							Spannable title = new SpannableString(dialogTitle.getText().toString()); 
+							title.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, title.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE); 
+							alert.setTitle(title);
+						} 
+					}}
 			}
 		});
 		
@@ -261,7 +315,6 @@ public class SelversioneActivity extends AppCompatActivity {
 				GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {};
 				final String _childKey = _param1.getKey();
 				final HashMap<String, Object> _childValue = _param1.getValue(_ind);
-				swiperefreshlayout1.setRefreshing(true);
 				ver.addListenerForSingleValueEvent(new ValueEventListener() {
 					@Override
 					public void onDataChange(DataSnapshot _dataSnapshot) {
@@ -283,7 +336,6 @@ public class SelversioneActivity extends AppCompatActivity {
 					public void onCancelled(DatabaseError _databaseError) {
 					}
 				});
-				swiperefreshlayout1.setRefreshing(false);
 			}
 			
 			@Override
@@ -291,7 +343,6 @@ public class SelversioneActivity extends AppCompatActivity {
 				GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {};
 				final String _childKey = _param1.getKey();
 				final HashMap<String, Object> _childValue = _param1.getValue(_ind);
-				swiperefreshlayout1.setRefreshing(true);
 				ver.addListenerForSingleValueEvent(new ValueEventListener() {
 					@Override
 					public void onDataChange(DataSnapshot _dataSnapshot) {
@@ -313,7 +364,6 @@ public class SelversioneActivity extends AppCompatActivity {
 					public void onCancelled(DatabaseError _databaseError) {
 					}
 				});
-				swiperefreshlayout1.setRefreshing(false);
 			}
 			
 			@Override
@@ -326,7 +376,6 @@ public class SelversioneActivity extends AppCompatActivity {
 				GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {};
 				final String _childKey = _param1.getKey();
 				final HashMap<String, Object> _childValue = _param1.getValue(_ind);
-				swiperefreshlayout1.setRefreshing(true);
 				ver.addListenerForSingleValueEvent(new ValueEventListener() {
 					@Override
 					public void onDataChange(DataSnapshot _dataSnapshot) {
@@ -348,7 +397,6 @@ public class SelversioneActivity extends AppCompatActivity {
 					public void onCancelled(DatabaseError _databaseError) {
 					}
 				});
-				swiperefreshlayout1.setRefreshing(false);
 			}
 			
 			@Override
@@ -362,24 +410,14 @@ public class SelversioneActivity extends AppCompatActivity {
 	}
 	
 	private void initializeLogic() {
-		swiperefreshlayout1.setRefreshing(true);
-		listview1.setSelector(android.R.color.transparent);
-		textview1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
-		textview2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
-		if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/admin")) {
-			linear5.setVisibility(View.GONE);
-		}
 		scarica = new AlertDialog.Builder(this,AlertDialog.THEME_DEVICE_DEFAULT_DARK);
 		elimina = new AlertDialog.Builder(this,AlertDialog.THEME_DEVICE_DEFAULT_DARK);
+		aiuto = new AlertDialog.Builder(this,AlertDialog.THEME_DEVICE_DEFAULT_DARK);
+		listview1.setSelector(android.R.color.transparent);
 	}
 	
-	@Override
-	public void onStart() {
-		super.onStart();
-		
-	}
-	public void _FalseRefresh() {
-		swiperefreshlayout1.setRefreshing(false);
+	public void _EndLoader() {
+		linear5.setVisibility(View.INVISIBLE);
 	}
 	
 	public class Listview1Adapter extends BaseAdapter {
@@ -420,12 +458,65 @@ public class SelversioneActivity extends AppCompatActivity {
 			final ImageView imageview1 = _view.findViewById(R.id.imageview1);
 			final TextView textview2 = _view.findViewById(R.id.textview2);
 			
-			_FalseRefresh();
-			linear1.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)30, 0xFF424242));
-			linear2.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)30, 0xFF05AF34));
-			textview2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
-			textview1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/extra_bold.ttf"), 0);
-			textview3.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/bold.ttf"), 0);
+			DisplayMetrics linear1Screen = new DisplayMetrics();
+			getWindowManager().getDefaultDisplay().getMetrics(linear1Screen);
+			double linear1DP = 10;
+			double linear1LogicalDensity = linear1Screen.density;
+			int linear1PX = (int) Math.ceil(linear1DP * linear1LogicalDensity);
+			linear1.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#212121")); return this; } }.getIns((int)linear1PX, (int)0));
+			linear1.setElevation(0);
+			linear1.setTranslationZ(0);
+			linear1.setOnTouchListener(new View.OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					switch (event.getAction()){
+						case MotionEvent.ACTION_DOWN:{
+							ObjectAnimator scaleX = new ObjectAnimator();
+							scaleX.setTarget(linear1);
+							scaleX.setPropertyName("scaleX");
+							scaleX.setFloatValues(0.9f);
+							scaleX.setDuration(100);
+							scaleX.start();
+							
+							ObjectAnimator scaleY = new ObjectAnimator();
+							scaleY.setTarget(linear1);
+							scaleY.setPropertyName("scaleY");
+							scaleY.setFloatValues(0.9f);
+							scaleY.setDuration(100);
+							scaleY.start();
+							break;
+						}
+						case MotionEvent.ACTION_UP:{
+							
+							ObjectAnimator scaleX = new ObjectAnimator();
+							scaleX.setTarget(linear1);
+							scaleX.setPropertyName("scaleX");
+							scaleX.setFloatValues((float)1);
+							scaleX.setDuration(100);
+							scaleX.start();
+							
+							ObjectAnimator scaleY = new ObjectAnimator();
+							scaleY.setTarget(linear1);
+							scaleY.setPropertyName("scaleY");
+							scaleY.setFloatValues((float)1);
+							scaleY.setDuration(100);
+							scaleY.start();
+							
+							break;
+						}
+					}
+					return false;
+				}
+			});
+			DisplayMetrics linear2Screen = new DisplayMetrics();
+			getWindowManager().getDefaultDisplay().getMetrics(linear2Screen);
+			double linear2DP = 10;
+			double linear2LogicalDensity = linear2Screen.density;
+			int linear2PX = (int) Math.ceil(linear2DP * linear2LogicalDensity);
+			linear2.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#16DB63")); return this; } }.getIns((int)linear2PX, (int)0));
+			linear2.setElevation(0);
+			linear2.setTranslationZ(0);
+			_EndLoader();
 			textview1.setText(lista.get((int)_position).get("Versione").toString().replace("_", "."));
 			textview3.setText(lista.get((int)_position).get("Novità").toString());
 			if (!lista.get((int)_position).get("Versione").toString().replace("_", ".").equals(getIntent().getStringExtra("ultima"))) {
@@ -434,10 +525,6 @@ public class SelversioneActivity extends AppCompatActivity {
 			linear1.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View _view) {
-					ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
-					fade_in.setDuration(300);
-					fade_in.setFillAfter(true);
-					linear1.startAnimation(fade_in);
 					installa.setAction(Intent.ACTION_VIEW);
 					installa.setClass(getApplicationContext(), InstallaActivity.class);
 					installa.putExtra("link", lista.get((int)_position).get("Link").toString().replace("_", "."));

@@ -44,7 +44,7 @@
 			android:layout_height="wrap_content"
 			android:layout_margin="10dp"
 			android:padding="8dp"
-			android:background="#424242"
+			android:background="#212121"
 			android:orientation="horizontal">
 			<LinearLayout
 				android:id="@+id/linear6"
@@ -54,8 +54,8 @@
 				android:orientation="horizontal">
 				<LinearLayout
 					android:id="@+id/linear7"
-					android:layout_width="35dp"
-					android:layout_height="35dp"
+					android:layout_width="25dp"
+					android:layout_height="25dp"
 					android:background="@drawable/discord"
 					android:orientation="vertical" />
 				<TextView
@@ -65,7 +65,6 @@
 					android:padding="8dp"
 					android:text="Discord"
 					android:textSize="14sp"
-					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
 			</LinearLayout>
 		</LinearLayout>
@@ -75,7 +74,7 @@
 			android:layout_height="wrap_content"
 			android:layout_margin="10dp"
 			android:padding="8dp"
-			android:background="#424242"
+			android:background="#212121"
 			android:orientation="horizontal">
 			<LinearLayout
 				android:id="@+id/linear9"
@@ -85,8 +84,8 @@
 				android:orientation="horizontal">
 				<LinearLayout
 					android:id="@+id/linear10"
-					android:layout_width="35dp"
-					android:layout_height="35dp"
+					android:layout_width="25dp"
+					android:layout_height="25dp"
 					android:background="@drawable/telegram"
 					android:orientation="vertical" />
 				<TextView
@@ -96,7 +95,36 @@
 					android:padding="8dp"
 					android:text="Telegram"
 					android:textSize="14sp"
-					android:textStyle="bold"
+					android:textColor="#FFFFFF" />
+			</LinearLayout>
+		</LinearLayout>
+		<LinearLayout
+			android:id="@+id/linear11"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="10dp"
+			android:padding="8dp"
+			android:background="#212121"
+			android:orientation="horizontal">
+			<LinearLayout
+				android:id="@+id/linear12"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="center_vertical"
+				android:orientation="horizontal">
+				<LinearLayout
+					android:id="@+id/linear13"
+					android:layout_width="25dp"
+					android:layout_height="25dp"
+					android:background="@drawable/whatsapp"
+					android:orientation="vertical" />
+				<TextView
+					android:id="@+id/textview4"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:padding="8dp"
+					android:text="WhatsApp"
+					android:textSize="14sp"
 					android:textColor="#FFFFFF" />
 			</LinearLayout>
 		</LinearLayout>

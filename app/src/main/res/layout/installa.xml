@@ -43,7 +43,7 @@
 			android:layout_height="wrap_content"
 			android:layout_margin="10dp"
 			android:padding="8dp"
-			android:background="#424242"
+			android:background="#212121"
 			android:orientation="vertical">
 			<LinearLayout
 				android:id="@+id/linear6"
@@ -59,6 +59,7 @@
 					android:paddingBottom="8dp"
 					android:text="Versione: ..."
 					android:textSize="16sp"
+					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
 				<TextView
 					android:id="@+id/textview3"
@@ -68,19 +69,29 @@
 					android:text="Pronto per l'installazione"
 					android:textSize="12sp"
 					android:textColor="#FFFFFF" />
-				<ProgressBar
-					android:id="@+id/progressbar2"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:indeterminate="false"
-					style="?android:progressBarStyleHorizontal" />
 			</LinearLayout>
 			<LinearLayout
 				android:id="@+id/linear9"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:gravity="center_horizontal"
-				android:orientation="horizontal">
+				android:orientation="horizontal"
+				android:layout_gravity="center_horizontal">
+				<com.google.android.material.button.MaterialButton
+					android:id="@+id/materialbutton2"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginRight="10dp"
+					android:padding="8dp"
+					android:gravity="center_horizontal|center_vertical"
+					android:text="Solo APK"
+					android:textSize="12sp"
+					android:textStyle="bold"
+					android:textColor="#FFFFFF"
+					android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+					app:backgroundTint="@color/colorPrimary"
+					app:cornerRadius="30px"
+					style="@style/Widget.MaterialComponents.Button" />
 				<com.google.android.material.button.MaterialButton
 					android:id="@+id/materialbutton1"
 					android:layout_width="match_parent"
@@ -89,20 +100,35 @@
 					android:gravity="center_horizontal|center_vertical"
 					android:text="Inizia l'installazione"
 					android:textSize="12sp"
+					android:textStyle="bold"
 					android:textColor="#FFFFFF"
 					android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
 					app:backgroundTint="@color/colorPrimary"
 					app:cornerRadius="30px"
 					style="@style/Widget.MaterialComponents.Button" />
 			</LinearLayout>
-			<TextView
-				android:id="@+id/textview10"
+			<LinearLayout
+				android:id="@+id/linear12"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:gravity="center_horizontal"
-				android:text="Clicca 2 volte per installare"
-				android:textSize="12sp"
-				android:textColor="#616161" />
+				android:padding="8dp"
+				android:orientation="horizontal">
+				<TextView
+					android:id="@+id/textview10"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:gravity="center_horizontal"
+					android:text="Clicca 2 volte per installare"
+					android:textSize="12sp"
+					android:textStyle="italic"
+					android:textColor="#424242" />
+			</LinearLayout>
+			<ProgressBar
+				android:id="@+id/progressbar2"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:indeterminate="false"
+				style="?android:progressBarStyleHorizontal" />
 		</LinearLayout>
 		<LinearLayout
 			android:id="@+id/linear8"
@@ -128,7 +154,7 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:textSize="12sp"
-					android:textColor="#616161" />
+					android:textColor="#424242" />
 			</LinearLayout>
 			<TextView
 				android:id="@+id/textview6"
@@ -137,6 +163,7 @@
 				android:padding="8dp"
 				android:text="Registro cambiamenti"
 				android:textSize="20sp"
+				android:textStyle="bold"
 				android:textColor="#FFFFFF" />
 			<TextView
 				android:id="@+id/textview7"
