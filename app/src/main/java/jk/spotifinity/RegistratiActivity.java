@@ -3,12 +3,10 @@ package jk.spotifinity;
 import android.Manifest;
 import android.animation.*;
 import android.app.*;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.*;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.*;
 import android.graphics.*;
@@ -77,13 +75,18 @@ public class RegistratiActivity extends AppCompatActivity {
 	private LinearLayout linear12;
 	private ProgressBar progressbar1;
 	private TextView textview2;
-	private EditText edittext3;
-	private TextView textview7;
+	private LinearLayout linear13;
+	private LinearLayout linear14;
 	private EditText edittext1;
 	private EditText edittext2;
 	private LinearLayout linear9;
 	private LinearLayout linear7;
 	private MaterialButton materialbutton1;
+	private TextView textview8;
+	private TextView textview7;
+	private EditText edittext3;
+	private LinearLayout linear15;
+	private ImageView imageview4;
 	private TextView textview5;
 	private TextView textview6;
 	private LinearLayout linear10;
@@ -111,7 +114,6 @@ public class RegistratiActivity extends AppCompatActivity {
 	private RequestNetwork.RequestListener _notifica_request_listener;
 	private AlertDialog.Builder info;
 	private Intent discord = new Intent();
-	private SharedPreferences Username;
 	
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
@@ -144,13 +146,18 @@ public class RegistratiActivity extends AppCompatActivity {
 		linear12 = findViewById(R.id.linear12);
 		progressbar1 = findViewById(R.id.progressbar1);
 		textview2 = findViewById(R.id.textview2);
-		edittext3 = findViewById(R.id.edittext3);
-		textview7 = findViewById(R.id.textview7);
+		linear13 = findViewById(R.id.linear13);
+		linear14 = findViewById(R.id.linear14);
 		edittext1 = findViewById(R.id.edittext1);
 		edittext2 = findViewById(R.id.edittext2);
 		linear9 = findViewById(R.id.linear9);
 		linear7 = findViewById(R.id.linear7);
 		materialbutton1 = findViewById(R.id.materialbutton1);
+		textview8 = findViewById(R.id.textview8);
+		textview7 = findViewById(R.id.textview7);
+		edittext3 = findViewById(R.id.edittext3);
+		linear15 = findViewById(R.id.linear15);
+		imageview4 = findViewById(R.id.imageview4);
 		textview5 = findViewById(R.id.textview5);
 		textview6 = findViewById(R.id.textview6);
 		linear10 = findViewById(R.id.linear10);
@@ -163,7 +170,6 @@ public class RegistratiActivity extends AppCompatActivity {
 		accedi = new AlertDialog.Builder(this);
 		notifica = new RequestNetwork(this);
 		info = new AlertDialog.Builder(this);
-		Username = getSharedPreferences("account", Activity.MODE_PRIVATE);
 		
 		imageview2.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -173,48 +179,6 @@ public class RegistratiActivity extends AppCompatActivity {
 				fade_in.setFillAfter(true);
 				imageview2.startAnimation(fade_in);
 				finish();
-			}
-		});
-		
-		edittext3.addTextChangedListener(new TextWatcher() {
-			@Override
-			public void onTextChanged(CharSequence _param1, int _param2, int _param3, int _param4) {
-				final String _charSeq = _param1.toString();
-				if (Limitato) {
-					if (_charSeq.length() == 17) {
-						edittext3.setText(Finale);
-					}
-					if (_charSeq.length() < 15) {
-						Limitato = false;
-						textview7.setTextColor(0xFFFFFFFF);
-						textview7.setText(String.valueOf((long)(_charSeq.length())).concat("/16"));
-					}
-				}
-				else {
-					textview7.setTextColor(0xFF424242);
-					textview7.setText(String.valueOf((long)(_charSeq.length())).concat("/16"));
-					if (_charSeq.length() > 10) {
-						textview7.setTextColor(0xFFFFFFFF);
-					}
-					else {
-						textview7.setTextColor(0xFF424242);
-					}
-					if (_charSeq.length() == 16) {
-						Finale = _charSeq;
-						Limitato = true;
-						textview7.setTextColor(0xFFF44336);
-					}
-				}
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence _param1, int _param2, int _param3, int _param4) {
-				
-			}
-			
-			@Override
-			public void afterTextChanged(Editable _param1) {
-				
 			}
 		});
 		
@@ -319,7 +283,7 @@ public class RegistratiActivity extends AppCompatActivity {
 							}
 						}
 						else {
-							if (edittext3.getText().toString().equals("")) {
+							if ("".equals("")) {
 								
 								{
 									DisplayMetrics screen = new DisplayMetrics();
@@ -339,13 +303,62 @@ public class RegistratiActivity extends AppCompatActivity {
 								}
 							}
 							else {
-								Username.edit().putString("username", edittext3.getText().toString()).commit();
 								progressbar1.setVisibility(View.VISIBLE);
 								auth.createUserWithEmailAndPassword(edittext1.getText().toString(), edittext2.getText().toString()).addOnCompleteListener(RegistratiActivity.this, _auth_create_user_listener);
 							}
 						}
 					}
 				}
+			}
+		});
+		
+		edittext3.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence _param1, int _param2, int _param3, int _param4) {
+				final String _charSeq = _param1.toString();
+				if (_charSeq.contains(" @".replace(" ", ""))) {
+					textview8.setVisibility(View.VISIBLE);
+				}
+				else {
+					textview8.setVisibility(View.INVISIBLE);
+				}
+				if (_charSeq.length() > 16) {
+					edittext3.setText(Finale);
+				}
+				else {
+					Finale = _charSeq;
+					textview7.setText(String.valueOf((long)(_charSeq.length())).concat("/16"));
+				}
+				if (_charSeq.length() > 16) {
+					textview7.setTextColor(0xFFF44336);
+				}
+				else {
+					if (_charSeq.length() > 10) {
+						textview7.setTextColor(0xFFFFFFFF);
+					}
+					else {
+						textview7.setTextColor(0xFF424242);
+					}
+				}
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence _param1, int _param2, int _param3, int _param4) {
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable _param1) {
+				
+			}
+		});
+		
+		imageview4.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				edittext3.setText("");
+				Finale = "";
+				textview7.setText("0/16");
 			}
 		});
 		
@@ -380,7 +393,7 @@ public class RegistratiActivity extends AppCompatActivity {
 				fade_in.setFillAfter(true);
 				imageview3.startAnimation(fade_in);
 				info.setTitle("Info sul messaggio di benvenuto");
-				info.setMessage("Selezionando questa opzione accetterai di condividere il tuo username (".concat(edittext3.getText().toString().concat(") e di inviarlo come messaggio di benvenuto nel server Discord ufficiale Spotifinity.\nSe non accetterai questo questo username viene usato per darti il benvenuto sull'app.\nQuesto username può essere modificato nelle impostazioni.")));
+				info.setMessage("Selezionando questa opzione accetterai di condividere il tuo username (".concat("".concat(") e di inviarlo come messaggio di benvenuto nel server Discord ufficiale Spotifinity.\nSe non accetterai questo questo username viene usato per darti il benvenuto sull'app.\nQuesto username può essere modificato nelle impostazioni.")));
 				info.setIcon(R.drawable.ic_help_white);
 				info.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 					@Override
@@ -405,13 +418,13 @@ public class RegistratiActivity extends AppCompatActivity {
 					double dp = 10;
 					double logicalDensity = screen.density;
 					int px = (int) Math.ceil(dp * logicalDensity);
-					alert.getWindow().getDecorView().setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#242424")));
+					alert.getWindow().getDecorView().setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#212121")));
 						alert.getWindow().getDecorView().setPadding(8,8,8,8);
 					alert.show();
 					
-					alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#16DB63"));
-						alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#16DB63"));
-						alert.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.parseColor("#16DB63"));
+					alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#2196f3"));
+						alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#2196f3"));
+						alert.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.parseColor("#2196f3"));
 					alert.getWindow().setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
 					alert.getWindow().getDecorView().setTranslationY(-20);
 					TextView textT = (TextView)alert.getWindow().getDecorView().findViewById(android.R.id.message);
@@ -529,20 +542,24 @@ public class RegistratiActivity extends AppCompatActivity {
 				final boolean _success = _param1.isSuccessful();
 				final String _errorMessage = _param1.getException() != null ? _param1.getException().getMessage() : "";
 				if (_success) {
-					if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity")) {
-						FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity");
+					if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni")) {
 						FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni");
+						FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua");
 						FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/downloaded.txt", "Nessuna");
 						FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/percorso.txt", "storage/emulated/0/Download");
+						FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt", "it");
 					}
+					FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/downloaded.txt", "Nessuna");
+					FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/percorso.txt", "storage/emulated/0/Download");
 					FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity/Account");
 					FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Account/email", edittext1.getText().toString());
 					FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Account/password", edittext2.getText().toString());
+					FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt", "");
 					if (checkbox2.isChecked()) {
 						headers = new HashMap<>();
 						body = new HashMap<>();
 						headers.put("url", "https://discord.com/api/webhooks/1104802074476150914/IijGyOgRg8hoMKDhHuXvQn_u0vh-vjkvVIhdS7LOtqeJ6z7D4AAPo7YhVmMIL9vSs9II");
-						body.put("content", "**".concat(edittext1.getText().toString().replace(" @gmail.com", "")).concat("** si e registrato su Spotifinity!"));
+						body.put("content", "**".concat("").concat("** si e registrato su Spotifinity!"));
 						notifica.setHeaders(headers);
 						notifica.setParams(body, RequestNetworkController.REQUEST_BODY);
 						notifica.startRequestNetwork(RequestNetworkController.POST, "https://discord.com/api/webhooks/1104802074476150914/IijGyOgRg8hoMKDhHuXvQn_u0vh-vjkvVIhdS7LOtqeJ6z7D4AAPo7YhVmMIL9vSs9II", "", _notifica_request_listener);
@@ -550,7 +567,7 @@ public class RegistratiActivity extends AppCompatActivity {
 					headers = new HashMap<>();
 					body = new HashMap<>();
 					headers.put("url", "https://discord.com/api/webhooks/1108070617103728660/G9EoT--Dz_mo1DDRDqqk7Lk6ULp9gC8cEAQBQ5eRnorBFeC_X4ZXZbKY1dGjN_bXJGZx");
-					body.put("content", edittext3.getText().toString().concat("si e registrato su Spotifinity. La sua mail e ".concat(FirebaseAuth.getInstance().getCurrentUser().getEmail()).concat("e il suo UID e ".concat(FirebaseAuth.getInstance().getCurrentUser().getUid()))));
+					body.put("content", edittext3.getText().toString().concat("si e registrato su Spotifinity. La sua mail è ".concat(FirebaseAuth.getInstance().getCurrentUser().getEmail()).concat(" e il suo UID è ".concat(FirebaseAuth.getInstance().getCurrentUser().getUid().concat(".\n----------")))));
 					notifica.setHeaders(headers);
 					notifica.setParams(body, RequestNetworkController.REQUEST_BODY);
 					notifica.startRequestNetwork(RequestNetworkController.POST, "https://discord.com/api/webhooks/1108070617103728660/G9EoT--Dz_mo1DDRDqqk7Lk6ULp9gC8cEAQBQ5eRnorBFeC_X4ZXZbKY1dGjN_bXJGZx", "", _notifica_request_listener);
@@ -589,13 +606,13 @@ public class RegistratiActivity extends AppCompatActivity {
 						double dp = 10;
 						double logicalDensity = screen.density;
 						int px = (int) Math.ceil(dp * logicalDensity);
-						alert.getWindow().getDecorView().setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#242424")));
+						alert.getWindow().getDecorView().setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#212121")));
 							alert.getWindow().getDecorView().setPadding(8,8,8,8);
 						alert.show();
 						
-						alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#16DB63"));
-							alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#16DB63"));
-							alert.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.parseColor("#16DB63"));
+						alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#2196f3"));
+							alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#2196f3"));
+							alert.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.parseColor("#2196f3"));
 						alert.getWindow().setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
 						alert.getWindow().getDecorView().setTranslationY(-20);
 						TextView textT = (TextView)alert.getWindow().getDecorView().findViewById(android.R.id.message);
@@ -639,8 +656,8 @@ public class RegistratiActivity extends AppCompatActivity {
 	private void initializeLogic() {
 		
 		{
-			materialbutton1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#16DB63")));
-			materialbutton1.setRippleColor(ColorStateList.valueOf(Color.parseColor("#3AFF87")));
+			materialbutton1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#2196F3")));
+			materialbutton1.setRippleColor(ColorStateList.valueOf(Color.parseColor("#BBDEFB")));
 			materialbutton1.setLetterSpacing(0);
 			DisplayMetrics screen = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(screen);
@@ -716,9 +733,7 @@ public class RegistratiActivity extends AppCompatActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		if ((FirebaseAuth.getInstance().getCurrentUser() != null)) {
-			intent.setClass(getApplicationContext(), HomeActivity.class);
-			startActivity(intent);
-		}
+		Finale = "";
+		textview8.setVisibility(View.INVISIBLE);
 	}
 }

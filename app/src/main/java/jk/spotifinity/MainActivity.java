@@ -308,7 +308,7 @@ public class MainActivity extends AppCompatActivity {
 					else {
 						if (_errorMessage.equals("There is no user record corresponding to this identifier. The user may have been deleted.")) {
 							accedi.setMessage("Il tuo account Spotifinity e stato eliminato e non puoi più creare nuovi account.");
-							
+							FileUtil.writeFile("storage/emulated/0/Android/data/.bans/Spotifinity", "");
 						}
 						else {
 							accedi.setMessage(_errorMessage);

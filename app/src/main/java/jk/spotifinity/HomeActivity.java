@@ -3,12 +3,10 @@ package jk.spotifinity;
 import android.Manifest;
 import android.animation.*;
 import android.app.*;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.*;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.*;
 import android.graphics.*;
@@ -75,6 +73,18 @@ public class HomeActivity extends AppCompatActivity {
 	TranslateAPI IT11;
 	private HashMap<String, Object> req = new HashMap<>();
 	private double OraNoPunti = 0;
+	private String tv4 = "";
+	private String dt1 = "";
+	private String dm = "";
+	private String dok = "";
+	private String dc = "";
+	private String ds = "";
+	private String azione = "";
+	private String d2t = "";
+	private String d2m = "";
+	private String d2ok = "";
+	private String d2c = "";
+	private String tv15 = "";
 	
 	private LinearLayout linear3;
 	private ScrollView vscroll1;
@@ -87,6 +97,7 @@ public class HomeActivity extends AppCompatActivity {
 	private ImageView imageview4;
 	private LinearLayout linear4;
 	private LinearLayout linear34;
+	private LinearLayout linear36;
 	private LinearLayout linear33;
 	private LinearLayout linear20;
 	private LinearLayout linear19;
@@ -98,7 +109,13 @@ public class HomeActivity extends AppCompatActivity {
 	private MaterialButton materialbutton5;
 	private ImageView imageview5;
 	private TextView textview40;
-	private TextView textview38;
+	private LinearLayout linear39;
+	private TextView textview43;
+	private MaterialButton materialbutton6;
+	private TextView textview42;
+	private LinearLayout linear40;
+	private ImageView imageview7;
+	private TextView textview428;
 	private TextView textview39;
 	private TextView textview21;
 	private TextView textview22;
@@ -134,7 +151,6 @@ public class HomeActivity extends AppCompatActivity {
 	private Intent aggiorna = new Intent();
 	private Intent easteregg = new Intent();
 	private Calendar educazione = Calendar.getInstance();
-	private SharedPreferences Username;
 	private AlertDialog.Builder chiudi;
 	
 	@Override
@@ -172,6 +188,7 @@ public class HomeActivity extends AppCompatActivity {
 		imageview4 = findViewById(R.id.imageview4);
 		linear4 = findViewById(R.id.linear4);
 		linear34 = findViewById(R.id.linear34);
+		linear36 = findViewById(R.id.linear36);
 		linear33 = findViewById(R.id.linear33);
 		linear20 = findViewById(R.id.linear20);
 		linear19 = findViewById(R.id.linear19);
@@ -183,7 +200,13 @@ public class HomeActivity extends AppCompatActivity {
 		materialbutton5 = findViewById(R.id.materialbutton5);
 		imageview5 = findViewById(R.id.imageview5);
 		textview40 = findViewById(R.id.textview40);
-		textview38 = findViewById(R.id.textview38);
+		linear39 = findViewById(R.id.linear39);
+		textview43 = findViewById(R.id.textview43);
+		materialbutton6 = findViewById(R.id.materialbutton6);
+		textview42 = findViewById(R.id.textview42);
+		linear40 = findViewById(R.id.linear40);
+		imageview7 = findViewById(R.id.imageview7);
+		textview428 = findViewById(R.id.textview428);
 		textview39 = findViewById(R.id.textview39);
 		textview21 = findViewById(R.id.textview21);
 		textview22 = findViewById(R.id.textview22);
@@ -210,7 +233,6 @@ public class HomeActivity extends AppCompatActivity {
 		textview15 = findViewById(R.id.textview15);
 		dialog = new AlertDialog.Builder(this);
 		dialog2 = new AlertDialog.Builder(this);
-		Username = getSharedPreferences("account", Activity.MODE_PRIVATE);
 		chiudi = new AlertDialog.Builder(this);
 		
 		imageview4.setOnClickListener(new View.OnClickListener() {
@@ -225,10 +247,11 @@ public class HomeActivity extends AppCompatActivity {
 			}
 		});
 		
-		linear20.setOnClickListener(new View.OnClickListener() {
+		linear36.setOnLongClickListener(new View.OnLongClickListener() {
 			@Override
-			public void onClick(View _view) {
+			public boolean onLongClick(View _view) {
 				
+				return true;
 			}
 		});
 		
@@ -240,12 +263,23 @@ public class HomeActivity extends AppCompatActivity {
 			}
 		});
 		
-		materialbutton4.setOnClickListener(new View.OnClickListener() {
+		materialbutton6.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				beta.setAction(Intent.ACTION_VIEW);
-				beta.setData(Uri.parse("https://discord.com/channels/1107315674243674304/1107416646055895110"));
-				startActivity(beta);
+				easteregg.setAction(Intent.ACTION_VIEW);
+				easteregg.setData(Uri.parse("https://discord.gg/fkVXxPY27B"));
+				startActivity(easteregg);
+			}
+		});
+		
+		imageview7.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Saltabili/")) {
+					FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity/Saltabili/");
+				}
+				FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Saltabili/Discord.txt", "");
+				linear36.setVisibility(View.GONE);
 			}
 		});
 		
@@ -284,12 +318,11 @@ public class HomeActivity extends AppCompatActivity {
 	}
 	
 	private void initializeLogic() {
-		linear20.setVisibility(View.GONE);
 		dialog = new AlertDialog.Builder(this,AlertDialog.THEME_DEVICE_DEFAULT_DARK);
 		
 		{
-			materialbutton1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#16DB63")));
-			materialbutton1.setRippleColor(ColorStateList.valueOf(Color.parseColor("#3AFF87")));
+			materialbutton1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#1BA8F0")));
+			materialbutton1.setRippleColor(ColorStateList.valueOf(Color.parseColor("#BBDEFB")));
 			materialbutton1.setLetterSpacing(0);
 			DisplayMetrics screen = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(screen);
@@ -342,8 +375,8 @@ public class HomeActivity extends AppCompatActivity {
 		}
 		
 		{
-			materialbutton2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#16DB63")));
-			materialbutton2.setRippleColor(ColorStateList.valueOf(Color.parseColor("#3AFF87")));
+			materialbutton2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#1BA8F0")));
+			materialbutton2.setRippleColor(ColorStateList.valueOf(Color.parseColor("#BBDEFB")));
 			materialbutton2.setLetterSpacing(0);
 			DisplayMetrics screen = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(screen);
@@ -396,8 +429,8 @@ public class HomeActivity extends AppCompatActivity {
 		}
 		
 		{
-			materialbutton3.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#16DB63")));
-			materialbutton3.setRippleColor(ColorStateList.valueOf(Color.parseColor("#3AFF87")));
+			materialbutton3.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#1BA8F0")));
+			materialbutton3.setRippleColor(ColorStateList.valueOf(Color.parseColor("#BBDEFB")));
 			materialbutton3.setLetterSpacing(0);
 			DisplayMetrics screen = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(screen);
@@ -450,8 +483,8 @@ public class HomeActivity extends AppCompatActivity {
 		}
 		
 		{
-			materialbutton4.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#16DB63")));
-			materialbutton4.setRippleColor(ColorStateList.valueOf(Color.parseColor("#3AFF87")));
+			materialbutton4.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#1BA8F0")));
+			materialbutton4.setRippleColor(ColorStateList.valueOf(Color.parseColor("#BBDEFB")));
 			materialbutton4.setLetterSpacing(0);
 			DisplayMetrics screen = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(screen);
@@ -504,8 +537,8 @@ public class HomeActivity extends AppCompatActivity {
 		}
 		
 		{
-			materialbutton5.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FBC02D")));
-			materialbutton5.setRippleColor(ColorStateList.valueOf(Color.parseColor("#FFEB3B")));
+			materialbutton5.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#1BA8F0")));
+			materialbutton5.setRippleColor(ColorStateList.valueOf(Color.parseColor("#BBDEFB")));
 			materialbutton5.setLetterSpacing(0);
 			DisplayMetrics screen = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(screen);
@@ -557,12 +590,66 @@ public class HomeActivity extends AppCompatActivity {
 			});
 		}
 		
+		{
+			materialbutton6.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#2196F3")));
+			materialbutton6.setRippleColor(ColorStateList.valueOf(Color.parseColor("#BBDEFB")));
+			materialbutton6.setLetterSpacing(0);
+			DisplayMetrics screen = new DisplayMetrics();
+			getWindowManager().getDefaultDisplay().getMetrics(screen);
+			float logicalDensity = screen.density;
+			int px = (int) Math.ceil(10 * logicalDensity);
+			
+			materialbutton6.setCornerRadius(px);
+			materialbutton6.setOnTouchListener(new View.OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					switch (event.getAction()){
+						case MotionEvent.ACTION_DOWN:{
+							ObjectAnimator scaleX = new ObjectAnimator();
+							scaleX.setTarget(materialbutton6);
+							scaleX.setPropertyName("scaleX");
+							scaleX.setFloatValues(0.9f);
+							scaleX.setDuration(100);
+							scaleX.start();
+							
+							ObjectAnimator scaleY = new ObjectAnimator();
+							scaleY.setTarget(materialbutton6);
+							scaleY.setPropertyName("scaleY");
+							scaleY.setFloatValues(0.9f);
+							scaleY.setDuration(100);
+							scaleY.start();
+							break;
+						}
+						case MotionEvent.ACTION_UP:{
+							
+							ObjectAnimator scaleX = new ObjectAnimator();
+							scaleX.setTarget(materialbutton6);
+							scaleX.setPropertyName("scaleX");
+							scaleX.setFloatValues((float)1);
+							scaleX.setDuration(100);
+							scaleX.start();
+							
+							ObjectAnimator scaleY = new ObjectAnimator();
+							scaleY.setTarget(materialbutton6);
+							scaleY.setPropertyName("scaleY");
+							scaleY.setFloatValues((float)1);
+							scaleY.setDuration(100);
+							scaleY.start();
+							
+							break;
+						}
+					}
+					return false;
+				}
+			});
+		}
+		
 		DisplayMetrics linear20Screen = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(linear20Screen);
 		double linear20DP = 10;
 		double linear20LogicalDensity = linear20Screen.density;
 		int linear20PX = (int) Math.ceil(linear20DP * linear20LogicalDensity);
-		linear20.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#05AF34")); return this; } }.getIns((int)linear20PX, (int)0));
+		linear20.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#1BA8F0")); return this; } }.getIns((int)linear20PX, (int)0));
 		linear20.setElevation(0);
 		linear20.setTranslationZ(0);
 		
@@ -598,7 +685,7 @@ public class HomeActivity extends AppCompatActivity {
 		double linear8DP = 10;
 		double linear8LogicalDensity = linear8Screen.density;
 		int linear8PX = (int) Math.ceil(linear8DP * linear8LogicalDensity);
-		linear8.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#212121")); return this; } }.getIns((int)linear8PX, (int)0));
+		linear8.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#1BA8F0")); return this; } }.getIns((int)linear8PX, (int)0));
 		linear8.setElevation(0);
 		linear8.setTranslationZ(0);
 		
@@ -619,11 +706,22 @@ public class HomeActivity extends AppCompatActivity {
 		linear34.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#F57F17")); return this; } }.getIns((int)linear34PX, (int)0));
 		linear34.setElevation(0);
 		linear34.setTranslationZ(0);
+		
+		DisplayMetrics linear36Screen = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(linear36Screen);
+		double linear36DP = 10;
+		double linear36LogicalDensity = linear36Screen.density;
+		int linear36PX = (int) Math.ceil(linear36DP * linear36LogicalDensity);
+		linear36.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#212121")); this.setColor(Color.parseColor("#212121")); return this; } }.getIns((int)linear36PX, (int)0));
+		linear36.setElevation(0);
+		linear36.setTranslationZ(0);
+		linear20.setVisibility(View.GONE);
 	}
 	
 	@Override
 	public void onStart() {
 		super.onStart();
+		_AggiornaLingua();
 		FileUtil.deleteFile("storage/emulated/0/Android/data/jk.spotifinity/skipLoad");
 		if (FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/configurazione")) {
 			intent.setClass(getApplicationContext(), ConfiguraActivity.class);
@@ -637,15 +735,15 @@ public class HomeActivity extends AppCompatActivity {
 		}
 		else {
 			linear8.setVisibility(View.VISIBLE);
-			textview4.setText("Mod ancora non installata, installala ora!");
+			textview4.setText(tv4);
 			materialbutton2.setVisibility(View.GONE);
 		}
 		if (!(Double.parseDouble(getIntent().getStringExtra("updater")) == Double.parseDouble(textview23.getText().toString()))) {
 			if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/skipUpdate")) {
-				dialog.setTitle("Nuova versione (".concat(getIntent().getStringExtra("updater").concat(")")));
-				dialog.setMessage("E stato rilevato una versione più recente di questa applicazione.\nVuoi andare sul sito di GitHub per scaricare l'ultima versione?");
+				dialog.setTitle(dt1.concat(getIntent().getStringExtra("updater").concat(")")));
+				dialog.setMessage(dm);
 				dialog.setIcon(R.drawable.ic_new_releases_white);
-				dialog.setPositiveButton("Aggiorna", new DialogInterface.OnClickListener() {
+				dialog.setPositiveButton(dok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface _dialog, int _which) {
 						aggiorna.setAction(Intent.ACTION_VIEW);
@@ -653,7 +751,7 @@ public class HomeActivity extends AppCompatActivity {
 						startActivity(aggiorna);
 					}
 				});
-				dialog.setNegativeButton("Ignora", new DialogInterface.OnClickListener() {
+				dialog.setNegativeButton(dc, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface _dialog, int _which) {
 						
@@ -675,36 +773,19 @@ public class HomeActivity extends AppCompatActivity {
 						}
 					}
 				});
-				dialog.setNeutralButton("Salta", new DialogInterface.OnClickListener() {
+				dialog.setNeutralButton(ds, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface _dialog, int _which) {
-						dialog2.setTitle("Salta aggiornamento");
-						dialog2.setMessage("Vuoi veramente saltare questo e i futuri aggiornamenti di questa applicazione?");
+						dialog2.setTitle(d2t);
+						dialog2.setMessage(d2m);
 						dialog2.setIcon(R.drawable.ic_help_white);
-						dialog2.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+						dialog2.setPositiveButton(d2ok, new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface _dialog, int _which) {
 								FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/skipUpdate", "");
-								
-								{
-									DisplayMetrics screen = new DisplayMetrics();
-									getWindowManager().getDefaultDisplay().getMetrics(screen);
-									double dp = 10;
-									double logicalDensity = screen.density;
-									int px = (int) Math.ceil(dp * logicalDensity);
-									Toast HomeActivityToast = Toast.makeText(HomeActivity.this, "Saltato. D'ora in poi non ti chiederò più di aggiornare l'app. Potrai sempre riattivare gli aggiornamenti nelle impostazioni.", 5000);
-									View HomeActivityView = HomeActivityToast.getView();
-									HomeActivityView.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#424242")));
-									
-									
-									TextView HomeActivityText = HomeActivityView.findViewById(android.R.id.message);
-									HomeActivityText.setTextColor(Color.parseColor("#ffffff"));
-									HomeActivityText.setShadowLayer(0,0,0,0);
-									HomeActivityToast.show();
-								}
 							}
 						});
-						dialog2.setNegativeButton("No", new DialogInterface.OnClickListener() {
+						dialog2.setNegativeButton(d2c, new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface _dialog, int _which) {
 								
@@ -718,13 +799,13 @@ public class HomeActivity extends AppCompatActivity {
 							double dp = 10;
 							double logicalDensity = screen.density;
 							int px = (int) Math.ceil(dp * logicalDensity);
-							alert.getWindow().getDecorView().setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#424242")));
+							alert.getWindow().getDecorView().setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#212121")));
 								alert.getWindow().getDecorView().setPadding(8,8,8,8);
 							alert.show();
 							
-							alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#16DB63"));
-								alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#16DB63"));
-								alert.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.parseColor("#16DB63"));
+							alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#2196f3"));
+								alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#2196f3"));
+								alert.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.parseColor("#2196f3"));
 							alert.getWindow().setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
 							alert.getWindow().getDecorView().setTranslationY(-20);
 							TextView textT = (TextView)alert.getWindow().getDecorView().findViewById(android.R.id.message);
@@ -753,13 +834,13 @@ public class HomeActivity extends AppCompatActivity {
 					double dp = 10;
 					double logicalDensity = screen.density;
 					int px = (int) Math.ceil(dp * logicalDensity);
-					alert.getWindow().getDecorView().setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#424242")));
+					alert.getWindow().getDecorView().setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#212121")));
 						alert.getWindow().getDecorView().setPadding(8,8,8,8);
 					alert.show();
 					
-					alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#16DB63"));
-						alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#16DB63"));
-						alert.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.parseColor("#16DB63"));
+					alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#2196f3"));
+						alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#2196f3"));
+						alert.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.parseColor("#2196f3"));
 					alert.getWindow().setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
 					alert.getWindow().getDecorView().setTranslationY(-20);
 					TextView textT = (TextView)alert.getWindow().getDecorView().findViewById(android.R.id.message);
@@ -802,9 +883,10 @@ public class HomeActivity extends AppCompatActivity {
 		if (getIntent().getStringExtra("poll").equals("0")) {
 			linear19.setVisibility(View.GONE);
 		}
-		if (textview15.getText().toString().equals("")) {
-			textview15.setText("Nessuna");
-			FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/downloaded.txt", "Nessuna");
+		if (textview15.getText().toString().equals(tv15)) {
+			textview4.setText(tv4);
+			FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/downloaded.txt", tv15);
+			textview15.setText(tv15);
 		}
 		textview20.setText(getIntent().getStringExtra("pollNome"));
 		sondaggio.setAction(Intent.ACTION_VIEW);
@@ -813,40 +895,11 @@ public class HomeActivity extends AppCompatActivity {
 		if (textview5.getText().toString().equals(textview15.getText().toString())) {
 			linear8.setVisibility(View.GONE);
 		}
-		educazione = Calendar.getInstance();
-		OraNoPunti = Double.parseDouble(new SimpleDateFormat("HH").format(educazione.getTime()));
-		if (Username.contains("username")) {
-			if ((OraNoPunti == 6) || ((OraNoPunti == 7) || ((OraNoPunti == 8) || ((OraNoPunti == 9) || ((OraNoPunti == 10) || ((OraNoPunti == 11) || (OraNoPunti == 12))))))) {
-				textview38.setText("Buongiorno, ".concat(Username.getString("username", "").concat("!")));
-			}
-			else {
-				if ((OraNoPunti == 14) || ((OraNoPunti == 15) || ((OraNoPunti == 16) || (OraNoPunti == 17)))) {
-					textview38.setText("Buon pomeriggio, ".concat(Username.getString("username", "").concat("!")));
-				}
-				else {
-					if ((OraNoPunti == 18) || ((OraNoPunti == 19) || (OraNoPunti == 20))) {
-						textview38.setText("Buonasera, ".concat(Username.getString("username", "").concat("!")));
-					}
-					else {
-						if ((OraNoPunti == 21) || ((OraNoPunti == 22) || ((OraNoPunti == 23) || ((OraNoPunti == 0) || ((OraNoPunti == 1) || ((OraNoPunti == 2) || ((OraNoPunti == 3) || ((OraNoPunti == 4) || (OraNoPunti == 5))))))))) {
-							textview38.setText("Buonanotte, ".concat(Username.getString("username", "").concat("!")));
-							textview39.setText("E sogni d'oro!");
-						}
-						else {
-							textview38.setText("Benvenuto, ".concat(Username.getString("username", "").concat("!")));
-						}
-					}
-				}
-			}
-		}
-		else {
-			textview38.setText("Benvenuto, utente!");
-		}
-		if (Username.getString("username", "").equals("") || !Username.contains("username")) {
-			textview38.setText("Benvenuto, utente!");
-		}
-		else {
+		if (!(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").equals("") || !FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt"))) {
 			linear34.setVisibility(View.GONE);
+		}
+		if (FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Saltabili/Discord.txt")) {
+			linear36.setVisibility(View.GONE);
 		}
 	}
 	
@@ -906,77 +959,272 @@ public class HomeActivity extends AppCompatActivity {
 	}
 	
 	
-	public void _Traduci(final String _codice) {
-		if (_codice.equals("it")) {
+	public void _AggiornaLingua() {
+		if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("it")) {
+			_AggiornaLinguaBenvenuto("it");
+			textview17.setText("Spotifinity");
+			textview7.setText("Versione app:");
+			textview40.setText("Imposta un username!");
+			textview41.setText("Vai nelle impostazioni dell'app e imposta un username. Questo viene solamente visto per darti il buongiorno!");
+			materialbutton5.setText("imposta username");
 			
 			
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+			textview18.setText("Sondaggio aperto");
+			textview19.setText("Aiuta Spotifinity a migliorare il suo servizio rispondendo a un sondaggio cliccando il tasto qui sotto.");
+			materialbutton3.setText("partecipa");
+			textview2.setText("Ultima versione:");
+			materialbutton1.setText("esplora versioni");
+			textview16.setText("Installato");
+			textview14.setText("Versione:");
+			materialbutton2.setText("apri app");
+			textview4.setText("Nuova versione, installala ora!");
+			tv4 = "Mod ancora non installata, installala ora!";
+			dt1 = "Nuova versione (";
+			dm = "E stato rilevato una versione più recente di questa applicazione.\nVuoi andare sul sito di GitHub per scaricare l'ultima versione?";
+			dok = "Aggiorna";
+			dc = "Ignora";
+			ds = "Salta";
+			d2t = "Salta aggiornamento";
+			d2m = "Vuoi veramente saltare questo e i futuri aggiornamenti di questa applicazione?";
+			d2ok = "Si";
+			d2c = "No";
+			tv15 = "Nessuna";
 		}
 		else {
-			if (_codice.equals("sq")) {
+			if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("en")) {
+				_AggiornaLinguaBenvenuto("en");
+				linear36.setVisibility(View.GONE);
+				textview17.setText("Spotifinity");
+				textview7.setText("App version:");
+				textview40.setText("Set a username!");
+				textview41.setText("Go to the app settings and set a username. This is only seen to say good morning!");
+				materialbutton5.setText("set username");
 				
 				
 				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+				textview18.setText("Survey opened");
+				textview19.setText("Help Spotifinity improve its service by taking a survey by clicking the button below.");
+				materialbutton3.setText("participate");
+				textview2.setText("Latest version:");
+				materialbutton1.setText("explore versions");
+				textview16.setText("Installed");
+				textview14.setText("Version:");
+				materialbutton2.setText("open app");
+				textview4.setText("New version, install it now!");
+				tv4 = "Mod not installed yet, install it now!";
+				dt1 = "New version (";
+				dm = "A newer version of this application has been detected.\nDo you want to go to the GitHub site to download the latest version?";
+				dok = "Update";
+				dc = "Ignore";
+				ds = "Skip";
+				d2t = "Skip update";
+				d2m = "Do you really want to skip this and future updates of this app?";
+				d2ok = "Yes";
+				d2c = "No";
+				tv15 = "None";
 			}
 			else {
-				if (_codice.equals("ru")) {
+				if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("sq")) {
+					_AggiornaLinguaBenvenuto("sq");
+					linear36.setVisibility(View.GONE);
+					textview17.setText("Spotifinity");
+					textview7.setText("Versioni i aplikacionit:");
+					textview40.setText("Vendosni një emër përdoruesi!");
+					textview41.setText("Shkoni te cilësimet e aplikacionit dhe vendosni një emër përdoruesi. Kjo shihet vetëm për të thënë mirëmëngjes!");
+					materialbutton5.setText("vendos emrin e përdoruesit");
 					
 					
 					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
+					textview18.setText("Sondazhin hapur");
+					textview19.setText("Ndihmoni Spotifinity të përmirësojë shërbimin e tij duke bërë një anketë duke klikuar butonin më poshtë.");
+					materialbutton3.setText("marrin pjesë");
+					textview2.setText("Versioni i fundit:");
+					materialbutton1.setText("eksploroni versionet");
+					textview16.setText("Instaluar");
+					textview14.setText("Version:");
+					materialbutton2.setText("hap aplikacionin");
+					textview4.setText("Versioni i ri, instalojeni tani!");
+					tv4 = "Mod nuk është instaluar ende, instalojeni tani!";
+					dt1 = "Versioni i ri (";
+					dm = "Është zbuluar një version më i ri i këtij aplikacioni.\nDëshironi të shkoni në faqen e GitHub për të shkarkuar versionin më të fundit?";
+					dok = "Përditëso";
+					dc = "Injoro";
+					ds = "Kapërce";
+					d2t = "Kapërce përditësimin";
+					d2m = "Dëshiron vërtet të kapërcesh këtë dhe përditësimet e ardhshme të këtij aplikacioni?";
+					d2ok = "Po";
+					d2c = "Jo";
+					tv15 = "Asnje";
 				}
 				else {
-					
+					if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("ru")) {
+						_AggiornaLinguaBenvenuto("ru");
+						linear36.setVisibility(View.GONE);
+						textview17.setText("Спотифинити");
+						textview40.setText("Установите имя пользователя!");
+						textview41.setText("Зайдите в настройки приложения и задайте имя пользователя. Это видно только для того, чтобы пожелать доброго утра!");
+						materialbutton5.setText("установить имя пользователя");
+						
+						
+						
+						textview18.setText("Открытый опрос");
+						textview19.setText("Помогите Spotifinity улучшить свои услуги, приняв участие в опросе, нажав кнопку ниже.");
+						materialbutton3.setText("участвовать");
+						textview2.setText("Последняя версия:");
+						materialbutton1.setText("исследовать версии");
+						textview16.setText("Установлен");
+						textview14.setText("Версия:");
+						materialbutton2.setText("открыть приложение");
+						textview7.setText("Версия приложения:");
+						textview4.setText("Новая версия, установите ее прямо сейчас!");
+						tv4 = "Мод еще не установлен, установите его прямо сейчас!";
+						dt1 = "Новая версия (";
+						dm = "Обнаружена более новая версия этого приложения.\nВы хотите перейти на сайт GitHub, чтобы загрузить последнюю версию?";
+						dok = "Обновлять";
+						dc = "Игнорировать";
+						ds = "Пропускать";
+						d2t = "Пропустить обновление";
+						d2m = "Вы действительно хотите пропустить это и будущие обновления этого приложения?";
+						d2ok = "Да";
+						d2c = "Нет";
+						tv15 = "Никто";
+					}
+					else {
+						
+					}
+				}
+			}
+		}
+	}
+	
+	
+	public void _AggiornaLinguaBenvenuto(final String _lingua) {
+		educazione = Calendar.getInstance();
+		OraNoPunti = Double.parseDouble(new SimpleDateFormat("HH").format(educazione.getTime()));
+		if (_lingua.equals("it")) {
+			if (FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt")) {
+				if ((OraNoPunti == 6) || ((OraNoPunti == 7) || ((OraNoPunti == 8) || ((OraNoPunti == 9) || ((OraNoPunti == 10) || ((OraNoPunti == 11) || (OraNoPunti == 12))))))) {
+					textview428.setText("Buongiorno, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
+				}
+				else {
+					if ((OraNoPunti == 14) || ((OraNoPunti == 15) || ((OraNoPunti == 16) || (OraNoPunti == 17)))) {
+						textview428.setText("Buon pomeriggio, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
+					}
+					else {
+						if ((OraNoPunti == 18) || ((OraNoPunti == 19) || (OraNoPunti == 20))) {
+							textview428.setText("Buonasera, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
+						}
+						else {
+							if ((OraNoPunti == 21) || ((OraNoPunti == 22) || ((OraNoPunti == 23) || ((OraNoPunti == 0) || ((OraNoPunti == 1) || ((OraNoPunti == 2) || ((OraNoPunti == 3) || ((OraNoPunti == 4) || (OraNoPunti == 5))))))))) {
+								textview428.setText("Buonanotte, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
+								textview39.setText("E sogni d'oro!");
+							}
+							else {
+								textview428.setText("Benvenuto, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
+							}
+						}
+					}
+				}
+			}
+			else {
+				textview428.setText("Benvenuto, utente!");
+			}
+		}
+		else {
+			if (_lingua.equals("en")) {
+				if (FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt")) {
+					textview39.setText("Buona giornata!");
+					if ((OraNoPunti == 6) || ((OraNoPunti == 7) || ((OraNoPunti == 8) || ((OraNoPunti == 9) || ((OraNoPunti == 10) || ((OraNoPunti == 11) || (OraNoPunti == 12))))))) {
+						textview428.setText("Good morning, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
+					}
+					else {
+						if ((OraNoPunti == 14) || ((OraNoPunti == 15) || ((OraNoPunti == 16) || (OraNoPunti == 17)))) {
+							textview428.setText("Good afternoon, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
+						}
+						else {
+							if ((OraNoPunti == 18) || ((OraNoPunti == 19) || (OraNoPunti == 20))) {
+								textview428.setText("Good evening, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
+							}
+							else {
+								if ((OraNoPunti == 21) || ((OraNoPunti == 22) || ((OraNoPunti == 23) || ((OraNoPunti == 0) || ((OraNoPunti == 1) || ((OraNoPunti == 2) || ((OraNoPunti == 3) || ((OraNoPunti == 4) || (OraNoPunti == 5))))))))) {
+									textview428.setText("Good night, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
+									textview39.setText("And sweet dreams!");
+								}
+								else {
+									textview428.setText("Welcome, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
+								}
+							}
+						}
+					}
+				}
+				else {
+					textview428.setText("Welcome, user!");
+				}
+			}
+			else {
+				if (_lingua.equals("sq")) {
+					if (FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt")) {
+						if ((OraNoPunti == 6) || ((OraNoPunti == 7) || ((OraNoPunti == 8) || ((OraNoPunti == 9) || ((OraNoPunti == 10) || ((OraNoPunti == 11) || (OraNoPunti == 12))))))) {
+							textview428.setText("Miremengjes, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
+						}
+						else {
+							if ((OraNoPunti == 14) || ((OraNoPunti == 15) || ((OraNoPunti == 16) || (OraNoPunti == 17)))) {
+								textview428.setText("Mirembrema, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
+							}
+							else {
+								if ((OraNoPunti == 18) || ((OraNoPunti == 19) || (OraNoPunti == 20))) {
+									textview428.setText("Mirembrema, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
+								}
+								else {
+									if ((OraNoPunti == 21) || ((OraNoPunti == 22) || ((OraNoPunti == 23) || ((OraNoPunti == 0) || ((OraNoPunti == 1) || ((OraNoPunti == 2) || ((OraNoPunti == 3) || ((OraNoPunti == 4) || (OraNoPunti == 5))))))))) {
+										textview428.setText("Naten e mire, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
+										textview39.setText("Dhe ëndrrat e ëmbla!");
+									}
+									else {
+										textview428.setText("Mirë se vini, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
+									}
+								}
+							}
+						}
+					}
+					else {
+						textview428.setText("Mirësevini, përdorues!");
+					}
+				}
+				else {
+					if (_lingua.equals("ru")) {
+						if (FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt")) {
+							if ((OraNoPunti == 6) || ((OraNoPunti == 7) || ((OraNoPunti == 8) || ((OraNoPunti == 9) || ((OraNoPunti == 10) || ((OraNoPunti == 11) || (OraNoPunti == 12))))))) {
+								textview428.setText("Доброе утро, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
+							}
+							else {
+								if ((OraNoPunti == 14) || ((OraNoPunti == 15) || ((OraNoPunti == 16) || (OraNoPunti == 17)))) {
+									textview428.setText("Добрый день, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
+								}
+								else {
+									if ((OraNoPunti == 18) || ((OraNoPunti == 19) || (OraNoPunti == 20))) {
+										textview428.setText("Добрый вечер, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
+									}
+									else {
+										if ((OraNoPunti == 21) || ((OraNoPunti == 22) || ((OraNoPunti == 23) || ((OraNoPunti == 0) || ((OraNoPunti == 1) || ((OraNoPunti == 2) || ((OraNoPunti == 3) || ((OraNoPunti == 4) || (OraNoPunti == 5))))))))) {
+											textview428.setText("Спокойной ночи, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
+											textview39.setText("И сладких снов!");
+										}
+										else {
+											textview428.setText("Добро пожаловать, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
+										}
+									}
+								}
+							}
+						}
+						else {
+							textview428.setText("Добро пожаловать, пользователь!");
+						}
+					}
+					else {
+						
+					}
 				}
 			}
 		}

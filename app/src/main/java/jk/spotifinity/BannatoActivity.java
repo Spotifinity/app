@@ -3,7 +3,9 @@ package jk.spotifinity;
 import android.Manifest;
 import android.animation.*;
 import android.app.*;
+import android.app.AlertDialog;
 import android.content.*;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.*;
@@ -58,6 +60,12 @@ public class BannatoActivity extends AppCompatActivity {
 	
 	private HashMap<String, Object> req = new HashMap<>();
 	private HashMap<String, Object> header = new HashMap<>();
+	private String tv1 = "";
+	private String tv2 = "";
+	private String mb2 = "";
+	private String et = "";
+	private String em = "";
+	private String eok = "";
 	
 	private LinearLayout linear2;
 	private ImageView imageview1;
@@ -88,6 +96,7 @@ public class BannatoActivity extends AppCompatActivity {
 	
 	private RequestNetwork cambiaCodice;
 	private RequestNetwork.RequestListener _cambiaCodice_request_listener;
+	private AlertDialog.Builder error;
 	
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
@@ -127,6 +136,7 @@ public class BannatoActivity extends AppCompatActivity {
 		cod = new RequestNetwork(this);
 		auth = FirebaseAuth.getInstance();
 		cambiaCodice = new RequestNetwork(this);
+		error = new AlertDialog.Builder(this);
 		
 		materialbutton1.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -197,23 +207,6 @@ public class BannatoActivity extends AppCompatActivity {
 				final String _response = _param2;
 				final HashMap<String, Object> _responseHeaders = _param3;
 				if (edittext1.getText().toString().equals(_response)) {
-					
-					{
-						DisplayMetrics screen = new DisplayMetrics();
-						getWindowManager().getDefaultDisplay().getMetrics(screen);
-						double dp = 10;
-						double logicalDensity = screen.density;
-						int px = (int) Math.ceil(dp * logicalDensity);
-						Toast BannatoActivityToast = Toast.makeText(BannatoActivity.this, "Codice corretto, accesso riottenuto.", 2000);
-						View BannatoActivityView = BannatoActivityToast.getView();
-						BannatoActivityView.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#424242")));
-						
-						
-						TextView BannatoActivityText = BannatoActivityView.findViewById(android.R.id.message);
-						BannatoActivityText.setTextColor(Color.parseColor("#ffffff"));
-						BannatoActivityText.setShadowLayer(0,0,0,0);
-						BannatoActivityToast.show();
-					}
 					FileUtil.deleteFile("storage/emulated/0/Android/data/.bans/Spotifinity");
 					FirebaseAuth.getInstance().signOut();
 					FileUtil.deleteFile("storage/emulated/0/Android/data/jk.spotifinity/Account");
@@ -229,23 +222,47 @@ public class BannatoActivity extends AppCompatActivity {
 					startActivity(intent);
 				}
 				else {
+					error.setTitle(et);
+					error.setMessage(em);
+					error.setPositiveButton(eok, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface _dialog, int _which) {
+							
+						}
+					});
 					
 					{
+						final AlertDialog alert = error.show();
 						DisplayMetrics screen = new DisplayMetrics();
 						getWindowManager().getDefaultDisplay().getMetrics(screen);
 						double dp = 10;
 						double logicalDensity = screen.density;
 						int px = (int) Math.ceil(dp * logicalDensity);
-						Toast BannatoActivityToast = Toast.makeText(BannatoActivity.this, "Codice di sban errato!", 2000);
-						View BannatoActivityView = BannatoActivityToast.getView();
-						BannatoActivityView.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#424242")));
+						alert.getWindow().getDecorView().setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#212121")));
+							alert.getWindow().getDecorView().setPadding(8,8,8,8);
+						alert.show();
 						
+						alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#2196f3"));
+							alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#2196f3"));
+							alert.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.parseColor("#2196f3"));
+						alert.getWindow().setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+						alert.getWindow().getDecorView().setTranslationY(-20);
+						TextView textT = (TextView)alert.getWindow().getDecorView().findViewById(android.R.id.message);
+						Spannable text = new SpannableString(textT.getText().toString()); 
+						text.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE); 
+						alert.setMessage(text);
 						
-						TextView BannatoActivityText = BannatoActivityView.findViewById(android.R.id.message);
-						BannatoActivityText.setTextColor(Color.parseColor("#ffffff"));
-						BannatoActivityText.setShadowLayer(0,0,0,0);
-						BannatoActivityToast.show();
-					}
+						int titleId = getResources().getIdentifier( "alertTitle", "id", "android" ); 
+						if (titleId > 0) 
+						{ 
+							TextView dialogTitle = (TextView) alert.getWindow().getDecorView().findViewById(titleId); 
+							if (dialogTitle != null) 
+							{
+								Spannable title = new SpannableString(dialogTitle.getText().toString()); 
+								title.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, title.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE); 
+								alert.setTitle(title);
+							} 
+						}}
 				}
 			}
 			
@@ -367,8 +384,8 @@ public class BannatoActivity extends AppCompatActivity {
 	private void initializeLogic() {
 		
 		{
-			materialbutton1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#16DB63")));
-			materialbutton1.setRippleColor(ColorStateList.valueOf(Color.parseColor("#3AFF87")));
+			materialbutton1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#2196F3")));
+			materialbutton1.setRippleColor(ColorStateList.valueOf(Color.parseColor("#BBDEFB")));
 			materialbutton1.setLetterSpacing(0);
 			DisplayMetrics screen = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(screen);
@@ -421,8 +438,8 @@ public class BannatoActivity extends AppCompatActivity {
 		}
 		
 		{
-			materialbutton2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#16DB63")));
-			materialbutton2.setRippleColor(ColorStateList.valueOf(Color.parseColor("#3AFF87")));
+			materialbutton2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#2196F3")));
+			materialbutton2.setRippleColor(ColorStateList.valueOf(Color.parseColor("#BBDEFB")));
 			materialbutton2.setLetterSpacing(0);
 			DisplayMetrics screen = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(screen);
@@ -492,6 +509,7 @@ public class BannatoActivity extends AppCompatActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
+		_AggiornaLingua();
 		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
 			Window w =BannatoActivity.this.getWindow();
 			w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -500,12 +518,84 @@ public class BannatoActivity extends AppCompatActivity {
 		if (getIntent().getStringExtra("ban").equals("1")) {
 			FileUtil.makeDir("storage/emulated/0/Android/data/.bans");
 			FileUtil.writeFile("storage/emulated/0/Android/data/.bans/Spotifinity", "");
-			textview1.setText("Dispositivo bannato");
-			textview2.setText("Il tuo account e stato eliminato e non puoi più utilizzare Spotifinity su questo dispositivo.\nPer continuare a utilizzare questo dispositivo devi fare ricorso e inserire il codice sban nella casella di testo qui sotto e cliccare su \"sbanna dispositivo\".");
-			materialbutton2.setText("Sbanna dispositivo");
+			textview1.setText(tv1);
+			textview2.setText(tv2);
+			materialbutton2.setText(mb2);
 		}
 		else {
 			edittext1.setVisibility(View.GONE);
 		}
 	}
+	public void _AggiornaLingua() {
+		if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("it")) {
+			textview1.setText("Account sospeso");
+			textview2.setText("Il tuo account Spotifinity è stato sospeso e potrai continuare a utilizzare quest'app fino a quando il tuo account viene ripristinato.");
+			textview3.setText("Fai ricorso");
+			textview4.setText("Clicca il tasto qui sotto per entrare nel server Discord ufficiale Spotifinity e crea un ticket di supporto andando sul canale \"#sban\" e cliccando sul tasto \"Invia richiesta\".\nUna volta cliccato il tasto creerai un ticket e qui dovrai inserire la mail che hai usato per accedere.");
+			materialbutton1.setText("entra nel server Discord ufficiale");
+			edittext1.setHint("Inserisci codice sban");
+			materialbutton2.setText("disconnettiti a questo account");
+			tv1 = "Dispositivo bannato";
+			tv2 = "Il tuo account e stato eliminato e non puoi più utilizzare Spotifinity su questo dispositivo.\nPer continuare a utilizzare questo dispositivo devi fare ricorso e inserire il codice sban nella casella di testo qui sotto e cliccare su \"sbanna dispositivo\".";
+			mb2 = "Sbanna dispositivo";
+			et = "Erore";
+			em = "Il codice inserito e errato.";
+			eok = "Ok";
+		}
+		else {
+			if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("en")) {
+				textview1.setText("Account suspended");
+				textview2.setText("Your Spotifinity account has been suspended and you can continue to use this app until your account is restored.");
+				textview3.setText("Appeal");
+				textview4.setText("Click the button below to enter the official Spotifinity Discord server and create a support ticket by going to the \"#sban\" channel and clicking on the \"Send request\" button.\n Once you click the button you will create a ticket and here you will need to enter the email you used to access.");
+				materialbutton1.setText("join the official Discord server");
+				edittext1.setHint("Enter unban code");
+				materialbutton2.setText("log out of this account");
+				tv1 = "Banned device";
+				tv2 = "Your account has been deleted and you can no longer use Spotifinity on this device.\n To continue using this device you must appeal and enter the ban code in the text box below and click on \"unban device\".";
+				mb2 = "Unban device";
+				et = "Error";
+				em = "The code entered is incorrect.";
+				eok = "Ok";
+			}
+			else {
+				if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("sq")) {
+					textview1.setText("Llogaria është pezulluar");
+					textview2.setText("Llogaria juaj Spotifinity është pezulluar dhe mund të vazhdoni ta përdorni këtë aplikacion derisa llogaria juaj të restaurohet.");
+					textview3.setText("Apelim");
+					textview4.setText("Klikoni butonin më poshtë për të hyrë në serverin zyrtar të Spotifinity Discord dhe për të krijuar një biletë mbështetjeje duke shkuar në kanalin \"#sban\" dhe duke klikuar në butonin \"Dërgo kërkesë\".\n Pasi të klikoni butonin do të krijoni një biletë dhe këtu do t'ju duhet të shkruani emailin që keni përdorur për të hyrë.");
+					materialbutton1.setText("bashkohuni me serverin zyrtar Discord");
+					edittext1.setHint("Fut kodin e ndalimit");
+					materialbutton2.setText("dil nga kjo llogari");
+					tv1 = "Pajisja e ndaluar";
+					tv2 = "Llogaria jote është fshirë dhe nuk mund ta përdorësh më Spotifinity në këtë pajisje.\n Për të vazhduar përdorimin e kësaj pajisjeje, duhet të apeloni dhe të futni kodin e ndalimit në kutinë e tekstit më poshtë dhe të klikoni mbi \"çbllokimin e pajisjes\".";
+					mb2 = "Zhblloko pajisjen";
+					et = "Gabim";
+					em = "Kodi i futur është i pasaktë.";
+					eok = "Mir";
+				}
+				else {
+					if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("ru")) {
+						textview1.setText("Аккаунт заблокирован");
+						textview2.setText("Ваша учетная запись Spotifinity была приостановлена, и вы можете продолжать использовать это приложение, пока ваша учетная запись не будет восстановлена.");
+						textview3.setText("Обращаться");
+						textview4.setText("Нажмите кнопку ниже, чтобы войти на официальный сервер Spotifinity Discord и создать заявку в службу поддержки, перейдя на канал «#sban» и нажав кнопку «Отправить запрос».\n После того, как вы нажмете кнопку, вы создадите тикет, и здесь вам нужно будет ввести адрес электронной почты, который вы использовали для доступа.");
+						materialbutton1.setText("присоединяйтесь к официальному серверу Discord");
+						edittext1.setHint("Введите код бана");
+						materialbutton2.setText("Выйти из этой учетной записи");
+						tv1 = "Запрещенное устройство";
+						tv2 = "Ваша учетная запись удалена, и вы больше не можете использовать Spotifinity на этом устройстве.\n Чтобы продолжить использование этого устройства, вы должны подать апелляцию и ввести код блокировки в текстовое поле ниже и нажать «разблокировать устройство».";
+						mb2 = "Разблокировать устройство";
+						et = "Ошибка";
+						em = "Введенный код неверный.";
+						eok = "Ок";
+					}
+					else {
+						
+					}
+				}
+			}
+		}
+	}
+	
 }

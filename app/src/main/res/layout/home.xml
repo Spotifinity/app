@@ -51,7 +51,7 @@
 				android:paddingRight="8dp"
 				android:paddingBottom="8dp"
 				android:gravity="center_vertical"
-				android:text="7"
+				android:text="8"
 				android:textSize="12sp"
 				android:textStyle="bold"
 				android:textColor="#616161" />
@@ -138,6 +138,68 @@
 					style="@style/Widget.MaterialComponents.Button" />
 			</LinearLayout>
 			<LinearLayout
+				android:id="@+id/linear36"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="10dp"
+				android:padding="8dp"
+				android:background="#212121"
+				android:orientation="vertical">
+				<LinearLayout
+					android:id="@+id/linear39"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:gravity="center_vertical"
+					android:orientation="horizontal">
+					<TextView
+						android:id="@+id/textview42"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="8dp"
+						android:text="Entra nel server Discord!"
+						android:textSize="18sp"
+						android:textStyle="bold"
+						android:textColor="#FFFFFF" />
+					<LinearLayout
+						android:id="@+id/linear40"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:gravity="right|center_vertical"
+						android:orientation="horizontal">
+						<ImageView
+							android:id="@+id/imageview7"
+							android:layout_width="25dp"
+							android:layout_height="25dp"
+							android:src="@drawable/ic_cancel_white"
+							android:scaleType="centerCrop" />
+					</LinearLayout>
+				</LinearLayout>
+				<TextView
+					android:id="@+id/textview43"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:paddingLeft="8dp"
+					android:paddingRight="8dp"
+					android:paddingBottom="8dp"
+					android:text="Ottieni supporto, suggerisci qualcosa o semplicemente fai qualche chiaccherata con gli altri!"
+					android:textSize="12sp"
+					android:textColor="#FFFFFF" />
+				<com.google.android.material.button.MaterialButton
+					android:id="@+id/materialbutton6"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:padding="8dp"
+					android:gravity="center_horizontal|center_vertical"
+					android:text="entra"
+					android:textSize="12sp"
+					android:textStyle="bold"
+					android:textColor="#FFFFFF"
+					android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+					app:backgroundTint="@color/colorPrimary"
+					app:cornerRadius="8dp"
+					style="@style/Widget.MaterialComponents.Button" />
+			</LinearLayout>
+			<LinearLayout
 				android:id="@+id/linear33"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -146,7 +208,7 @@
 				android:background="#212121"
 				android:orientation="vertical">
 				<TextView
-					android:id="@+id/textview38"
+					android:id="@+id/textview428"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:padding="8dp"
@@ -171,7 +233,7 @@
 				android:layout_height="wrap_content"
 				android:layout_margin="10dp"
 				android:padding="8dp"
-				android:background="#05AF34"
+				android:background="#1BA8F0"
 				android:orientation="vertical">
 				<TextView
 					android:id="@+id/textview21"
@@ -189,7 +251,7 @@
 					android:paddingLeft="8dp"
 					android:paddingRight="8dp"
 					android:paddingBottom="8dp"
-					android:text="Tutto quello che vedi qui e in fase di sottosviluppo e potrebbero non funzionare.\nClicca il tasto qui sotto per partecipare al gruppo e dare un feedback di una determinata funzione.\nIn questo momento stai provando la beta 10 della versione 7 dell'app."
+					android:text="Tutto quello che vedi qui e in fase di sottosviluppo e potrebbero non funzionare.\nClicca il tasto qui sotto per partecipare al gruppo e dare un feedback di una determinata funzione."
 					android:textSize="12sp"
 					android:textColor="#FFFFFF" />
 				<com.google.android.material.button.MaterialButton
@@ -297,7 +359,7 @@
 					android:layout_height="wrap_content"
 					android:layout_marginTop="8dp"
 					android:padding="8dp"
-					android:background="#05AF34"
+					android:background="#1BA8F0"
 					android:gravity="center_horizontal"
 					android:orientation="horizontal"
 					android:layout_gravity="center_horizontal">

@@ -3,10 +3,12 @@ package jk.spotifinity;
 import android.Manifest;
 import android.animation.*;
 import android.app.*;
+import android.app.AlertDialog;
 import android.content.*;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.*;
@@ -63,6 +65,13 @@ public class InstallaActivity extends AppCompatActivity {
 	private String Version = "";
 	private String errorMessage = "";
 	TranslateAPI TA;
+	private String tv8 = "";
+	private String snacktext = "";
+	private String snackbutton = "";
+	private String at = "";
+	private String am = "";
+	private String aok = "";
+	private String ac = "";
 	
 	private ArrayList<HashMap<String, Object>> lista = new ArrayList<>();
 	
@@ -92,6 +101,7 @@ public class InstallaActivity extends AppCompatActivity {
 	private TimerTask wait;
 	private Intent launchIntent = new Intent();
 	private Vibrator finish;
+	private AlertDialog.Builder avviso;
 	
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
@@ -138,6 +148,7 @@ public class InstallaActivity extends AppCompatActivity {
 		textview2 = findViewById(R.id.textview2);
 		textview4 = findViewById(R.id.textview4);
 		finish = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+		avviso = new AlertDialog.Builder(this);
 		
 		imageview2.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -224,11 +235,10 @@ public class InstallaActivity extends AppCompatActivity {
 								}
 								
 								finish.vibrate((long)(100));
-								com.google.android.material.snackbar.Snackbar.make(linear1, "APK installato con successo!", com.google.android.material.snackbar.Snackbar.LENGTH_SHORT).setAction("Installa app", new View.OnClickListener(){
+								com.google.android.material.snackbar.Snackbar.make(linear1, snacktext, com.google.android.material.snackbar.Snackbar.LENGTH_SHORT).setAction(snackbutton, new View.OnClickListener(){
 									@Override
 									public void onClick(View _view) {
 										materialbutton1.setVisibility(View.GONE);
-										textview2.setText("Download completato");
 										textview10.setVisibility(View.GONE);
 										intent.putExtra("ver", Version);
 										intent.setClass(getApplicationContext(), ConfiguraActivity.class);
@@ -362,10 +372,12 @@ public class InstallaActivity extends AppCompatActivity {
 								}
 								
 								finish.vibrate((long)(100));
-								textview2.setText("Download completato");
 								textview10.setVisibility(View.GONE);
 								FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/configurazione", "");
 								FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/configurazioneVer", Version);
+								if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Verificato.txt")) {
+									FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Verificato.txt", "");
+								}
 								intent.putExtra("ver", Version);
 								intent.setClass(getApplicationContext(), ConfiguraActivity.class);
 								startActivity(intent);
@@ -436,8 +448,8 @@ public class InstallaActivity extends AppCompatActivity {
 	private void initializeLogic() {
 		
 		{
-			materialbutton1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#16DB63")));
-			materialbutton1.setRippleColor(ColorStateList.valueOf(Color.parseColor("#3AFF87")));
+			materialbutton1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#2196F3")));
+			materialbutton1.setRippleColor(ColorStateList.valueOf(Color.parseColor("#BBDEFB")));
 			materialbutton1.setLetterSpacing(0);
 			DisplayMetrics screen = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(screen);
@@ -490,8 +502,8 @@ public class InstallaActivity extends AppCompatActivity {
 		}
 		
 		{
-			materialbutton2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#16DB63")));
-			materialbutton2.setRippleColor(ColorStateList.valueOf(Color.parseColor("#3AFF87")));
+			materialbutton2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#2196F3")));
+			materialbutton2.setRippleColor(ColorStateList.valueOf(Color.parseColor("#BBDEFB")));
 			materialbutton2.setLetterSpacing(0);
 			DisplayMetrics screen = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(screen);
@@ -556,14 +568,68 @@ public class InstallaActivity extends AppCompatActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
+		_AggiornaLingua();
 		FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/skipLoad", "");
 		textview4.setText(getIntent().getStringExtra("link"));
 		textview7.setText(getIntent().getStringExtra("novità"));
-		textview8.setText("Versione: ".concat(getIntent().getStringExtra("ver")));
+		textview8.setText(tv8.concat(getIntent().getStringExtra("ver")));
 		Version = getIntent().getStringExtra("ver");
 		if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/modSviluppatore")) {
 			linear7.setVisibility(View.GONE);
 			materialbutton2.setVisibility(View.GONE);
+		}
+		if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/percorso.txt") || FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/percorso.txt").equals("")) {
+			FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/percorso.txt", "storage/emulated/0/Download");
+		}
+		if (FileUtil.isExistFile("storage/emulated/0/Android/data/com.spotify.music") && !FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Verificato.txt")) {
+			avviso.setTitle(at);
+			avviso.setMessage(am);
+			avviso.setIcon(R.drawable.ic_report_problem_white);
+			avviso.setPositiveButton(aok, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface _dialog, int _which) {
+					Uri packageURI = Uri.parse("package:".concat("com.spotify.music")); Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageURI); startActivity(uninstallIntent);
+				}
+			});
+			avviso.setNegativeButton(ac, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface _dialog, int _which) {
+					
+				}
+			});
+			
+			{
+				final AlertDialog alert = avviso.show();
+				DisplayMetrics screen = new DisplayMetrics();
+				getWindowManager().getDefaultDisplay().getMetrics(screen);
+				double dp = 10;
+				double logicalDensity = screen.density;
+				int px = (int) Math.ceil(dp * logicalDensity);
+				alert.getWindow().getDecorView().setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#212121")));
+					alert.getWindow().getDecorView().setPadding(8,8,8,8);
+				alert.show();
+				
+				alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#2196f3"));
+					alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#2196f3"));
+					alert.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.parseColor("#2196f3"));
+				alert.getWindow().setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+				alert.getWindow().getDecorView().setTranslationY(-20);
+				TextView textT = (TextView)alert.getWindow().getDecorView().findViewById(android.R.id.message);
+				Spannable text = new SpannableString(textT.getText().toString()); 
+				text.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE); 
+				alert.setMessage(text);
+				
+				int titleId = getResources().getIdentifier( "alertTitle", "id", "android" ); 
+				if (titleId > 0) 
+				{ 
+					TextView dialogTitle = (TextView) alert.getWindow().getDecorView().findViewById(titleId); 
+					if (dialogTitle != null) 
+					{
+						Spannable title = new SpannableString(dialogTitle.getText().toString()); 
+						title.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, title.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE); 
+						alert.setTitle(title);
+					} 
+				}}
 		}
 	}
 	
@@ -2330,6 +2396,83 @@ public class InstallaActivity extends AppCompatActivity {
 	
 	{
 		
+	}
+	
+	
+	public void _AggiornaLingua() {
+		if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("it")) {
+			textview1.setText("Installa");
+			textview3.setText("Pronto per l'installazione");
+			materialbutton1.setText("Inizia l'installazione");
+			materialbutton2.setText("solo apk");
+			textview10.setText("Clicca 2 volte per installare");
+			textview2.setText("Link installazione:");
+			textview6.setText("Registro cambiamenti");
+			tv8 = "Versione ";
+			snacktext = "APK installato con successo!";
+			snackbutton = "Installa app";
+			at = "Spotify già installato";
+			am = "Ho rilevato che hai già installato Spotify sul tuo dispositivo. Per garantire la qualità della mod ti consiglio di disinstallare il Spotify attualmente installato e installare questa mod.";
+			aok = "disinstalla";
+			ac = "ignora";
+		}
+		else {
+			if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("en")) {
+				textview1.setText("Install");
+				textview3.setText("Ready to install");
+				materialbutton1.setText("Start installation");
+				materialbutton2.setText("apk only");
+				textview10.setText("Click 2 times to install");
+				textview2.setText("Installation link:");
+				textview6.setText("Change log");
+				tv8 = "Version ";
+				snacktext = "APK installed successfully!";
+				snackbutton = "Install app";
+				at = "Spotify already installed";
+				am = "I have detected that you have already installed Spotify on your device. To ensure the quality of the mod I recommend you to uninstall the currently installed Spotify and install this mod.";
+				aok = "uninstall";
+				ac = "ignore";
+			}
+			else {
+				if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("sq")) {
+					textview1.setText("Instaloni");
+					textview3.setText("Gati për instalim");
+					materialbutton1.setText("Fillon instalimi");
+					materialbutton2.setText("vetëm apk");
+					textview10.setText("Klikoni 2 herë për ta instaluar");
+					textview2.setText("Lidhjet e instalimit:");
+					textview6.setText("Ndrysho regjistrin");
+					tv8 = "Version ";
+					snacktext = "APK u instalua me sukses!";
+					snackbutton = "Instaloni aplikacione";
+					at = "Spotify është instaluar tashmë";
+					am = "Kam zbuluar që ju keni instaluar tashmë Spotify në pajisjen tuaj. Për të siguruar cilësinë e mod-it, ju rekomandoj të çinstaloni Spotify-in e instaluar aktualisht dhe të instaloni këtë mod.";
+					aok = "çinstaloni";
+					ac = "injorojnë";
+				}
+				else {
+					if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("ru")) {
+						textview1.setText("Установить");
+						textview3.setText("Готов к установке");
+						materialbutton1.setText("Установка начинается");
+						materialbutton2.setText("только апк");
+						textview10.setText("Нажмите 2 раза, чтобы установить");
+						textview2.setText("Ссылки на установку:");
+						textview6.setText("Журнал изменений");
+						tv8 = "Версия ";
+						snacktext = "АПК успешно установлен!";
+						snackbutton = "Установить приложения";
+						at = "Спотифай уже установлен";
+						am = "Я обнаружил, что вы уже установили Spotify на свое устройство. Чтобы обеспечить качество мода, я рекомендую вам удалить установленный в данный момент Spotify и установить этот мод.";
+						aok = "удалить";
+						ac = "игнорировать";
+					}
+					else {
+						
+					}
+				}
+			}
+		}
 	}
 	
 }

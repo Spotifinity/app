@@ -57,6 +57,8 @@ public class BenvenutoActivity extends AppCompatActivity {
 	private LinearLayout linear2;
 	private MaterialButton materialbutton2;
 	private MaterialButton materialbutton1;
+	private LinearLayout linear3;
+	private TextView textview3;
 	
 	private Intent intent = new Intent();
 	private FirebaseAuth analytics;
@@ -89,6 +91,8 @@ public class BenvenutoActivity extends AppCompatActivity {
 		linear2 = findViewById(R.id.linear2);
 		materialbutton2 = findViewById(R.id.materialbutton2);
 		materialbutton1 = findViewById(R.id.materialbutton1);
+		linear3 = findViewById(R.id.linear3);
+		textview3 = findViewById(R.id.textview3);
 		analytics = FirebaseAuth.getInstance();
 		
 		materialbutton2.setOnClickListener(new View.OnClickListener() {
@@ -205,8 +209,8 @@ public class BenvenutoActivity extends AppCompatActivity {
 		}
 		
 		{
-			materialbutton1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#16DB63")));
-			materialbutton1.setRippleColor(ColorStateList.valueOf(Color.parseColor("#3AFF87")));
+			materialbutton1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#2196F3")));
+			materialbutton1.setRippleColor(ColorStateList.valueOf(Color.parseColor("#BBDEFB")));
 			materialbutton1.setLetterSpacing(0);
 			DisplayMetrics screen = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(screen);
@@ -259,8 +263,8 @@ public class BenvenutoActivity extends AppCompatActivity {
 		}
 		
 		{
-			materialbutton2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#16DB63")));
-			materialbutton2.setRippleColor(ColorStateList.valueOf(Color.parseColor("#3AFF87")));
+			materialbutton2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#2196F3")));
+			materialbutton2.setRippleColor(ColorStateList.valueOf(Color.parseColor("#BBDEFB")));
 			materialbutton2.setLetterSpacing(0);
 			DisplayMetrics screen = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(screen);
@@ -311,6 +315,57 @@ public class BenvenutoActivity extends AppCompatActivity {
 				}
 			});
 		}
+		
+		DisplayMetrics linear3Screen = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(linear3Screen);
+		double linear3DP = 0;
+		double linear3LogicalDensity = linear3Screen.density;
+		int linear3PX = (int) Math.ceil(linear3DP * linear3LogicalDensity);
+		linear3.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#000000")); return this; } }.getIns((int)linear3PX, (int)0));
+		linear3.setElevation(0);
+		linear3.setTranslationZ(0);
+		linear3.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				switch (event.getAction()){
+					case MotionEvent.ACTION_DOWN:{
+						ObjectAnimator scaleX = new ObjectAnimator();
+						scaleX.setTarget(linear3);
+						scaleX.setPropertyName("scaleX");
+						scaleX.setFloatValues(0.9f);
+						scaleX.setDuration(100);
+						scaleX.start();
+						
+						ObjectAnimator scaleY = new ObjectAnimator();
+						scaleY.setTarget(linear3);
+						scaleY.setPropertyName("scaleY");
+						scaleY.setFloatValues(0.9f);
+						scaleY.setDuration(100);
+						scaleY.start();
+						break;
+					}
+					case MotionEvent.ACTION_UP:{
+						
+						ObjectAnimator scaleX = new ObjectAnimator();
+						scaleX.setTarget(linear3);
+						scaleX.setPropertyName("scaleX");
+						scaleX.setFloatValues((float)1);
+						scaleX.setDuration(100);
+						scaleX.start();
+						
+						ObjectAnimator scaleY = new ObjectAnimator();
+						scaleY.setTarget(linear3);
+						scaleY.setPropertyName("scaleY");
+						scaleY.setFloatValues((float)1);
+						scaleY.setDuration(100);
+						scaleY.start();
+						
+						break;
+					}
+				}
+				return false;
+			}
+		});
 	}
 	
 }
