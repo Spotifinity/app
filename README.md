@@ -1,4 +1,4 @@
-<h1><img style="float: left;" src="https://raw.githubusercontent.com/Spotifinity/Spotifinity/main/info/Untitled129_20230424112419.png" width="45" height="45" />&nbsp;<strong style="font-size: 14px;">Spotifinity&nbsp;</strong></h1>
+<h1><img style="float: left;" src="https://raw.githubusercontent.com/Spotifinity/app/main/info/Untitled17_20230603231232.png" width="45" height="45" />&nbsp;<strong style="font-size: 14px;">Spotifinity&nbsp;</strong></h1>
 <p><strong>SENZA PUBBLICIT&Agrave; | SKIP ILLIMITATI | MOLTO ALTRO</strong></p>
 <table>
 <tbody>
