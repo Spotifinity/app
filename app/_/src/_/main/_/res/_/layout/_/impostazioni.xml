@@ -1,0 +1,530 @@
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
+	<LinearLayout
+		android:id="@+id/linear3"
+		android:layout_width="match_parent"
+		android:layout_height="50dp"
+		android:background="#424242"
+		android:gravity="center_vertical"
+		android:orientation="horizontal"
+		android:layout_gravity="center_vertical">
+		<ImageView
+			android:id="@+id/imageview2"
+			android:layout_width="25dp"
+			android:layout_height="match_parent"
+			android:layout_marginLeft="10dp"
+			android:src="@drawable/ic_arrow_back_white"
+			android:scaleType="centerInside" />
+		<TextView
+			android:id="@+id/textview1"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="5dp"
+			android:padding="8dp"
+			android:text="Impostazioni"
+			android:textSize="20sp"
+			android:textStyle="bold"
+			android:textColor="#FFFFFF"
+			android:layout_gravity="center_horizontal|center_vertical" />
+		<LinearLayout
+			android:id="@+id/linear7"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="right"
+			android:orientation="horizontal">
+			<ProgressBar
+				android:id="@+id/progressbar1"
+				android:layout_width="wrap_content"
+				android:layout_height="50dp"
+				android:padding="8dp"
+				android:indeterminate="false"
+				style="?android:progressBarStyle"
+				android:layout_gravity="center_horizontal|center_vertical" />
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/materialbutton1"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginRight="10dp"
+				android:padding="8dp"
+				android:gravity="center_horizontal|center_vertical"
+				android:text="salva"
+				android:textSize="12sp"
+				android:textStyle="bold"
+				android:textColor="#FFFFFF"
+				android:layout_gravity="center_horizontal|center_vertical"
+				android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+				app:backgroundTint="@color/colorPrimary"
+				app:cornerRadius="30px"
+				style="@style/Widget.MaterialComponents.Button" />
+		</LinearLayout>
+	</LinearLayout>
+	<ScrollView
+		android:id="@+id/vscroll2"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="#000000">
+		<LinearLayout
+			android:id="@+id/linear4"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:background="#000000"
+			android:orientation="vertical">
+			<TextView
+				android:id="@+id/textview26"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:padding="8dp"
+				android:text="Mod"
+				android:textSize="18sp"
+				android:textStyle="bold"
+				android:textColor="#FFFFFF" />
+			<LinearLayout
+				android:id="@+id/linear6"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="10dp"
+				android:padding="8dp"
+				android:background="#212121"
+				android:orientation="vertical">
+				<Switch
+					android:id="@+id/switch2"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:padding="8dp"
+					android:gravity="left|center_vertical"
+					android:text="Modalità sviluppatore"
+					android:textSize="12sp"
+					android:textStyle="bold"
+					android:textColor="#FFFFFF" />
+				<TextView
+					android:id="@+id/textview3"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:paddingLeft="8dp"
+					android:paddingRight="8dp"
+					android:paddingBottom="8dp"
+					android:text="Mostra quello che sta facendo l'app mentre stai installando la mod e mostra altre info avanzate come il link di installazione"
+					android:textSize="12sp"
+					android:textColor="#424242" />
+			</LinearLayout>
+			<LinearLayout
+				android:id="@+id/linear13"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="10dp"
+				android:padding="8dp"
+				android:background="#212121"
+				android:orientation="vertical">
+				<LinearLayout
+					android:id="@+id/linear14"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal">
+					<TextView
+						android:id="@+id/textview15"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="8dp"
+						android:text="Percorso installazione APK"
+						android:textSize="12sp"
+						android:textStyle="bold"
+						android:textColor="#FFFFFF" />
+					<LinearLayout
+						android:id="@+id/linear15"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:gravity="right"
+						android:orientation="horizontal" />
+				</LinearLayout>
+				<TextView
+					android:id="@+id/textview16"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:paddingLeft="8dp"
+					android:paddingRight="8dp"
+					android:paddingBottom="8dp"
+					android:text="Scegli dove installare il file APK. Non includere &quot;/&quot; alla fine o non funzionerà!"
+					android:textSize="12sp"
+					android:textColor="#424242" />
+				<EditText
+					android:id="@+id/edittext1"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:padding="8dp"
+					android:text="storage/emulated/0/Download"
+					android:textSize="12sp"
+					android:textColor="#FFFFFF"
+					android:hint="Percorso d'installazione"
+					android:textColorHint="#616161" />
+			</LinearLayout>
+			<TextView
+				android:id="@+id/textview27"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:padding="8dp"
+				android:text="App"
+				android:textSize="18sp"
+				android:textStyle="bold"
+				android:textColor="#FFFFFF" />
+			<LinearLayout
+				android:id="@+id/linear27"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="10dp"
+				android:padding="8dp"
+				android:background="#212121"
+				android:orientation="vertical">
+				<LinearLayout
+					android:id="@+id/linear28"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal">
+					<TextView
+						android:id="@+id/textview25"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="8dp"
+						android:text="Username"
+						android:textSize="12sp"
+						android:textStyle="bold"
+						android:textColor="#FFFFFF" />
+					<LinearLayout
+						android:id="@+id/linear29"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:gravity="right"
+						android:orientation="horizontal" />
+				</LinearLayout>
+				<TextView
+					android:id="@+id/textview24"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:paddingLeft="8dp"
+					android:paddingRight="8dp"
+					android:paddingBottom="8dp"
+					android:text="Questo username viene mostrato nella home per darti il buongiorno."
+					android:textSize="12sp"
+					android:textColor="#424242" />
+				<LinearLayout
+					android:id="@+id/linear33"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:gravity="center_vertical"
+					android:orientation="horizontal">
+					<TextView
+						android:id="@+id/textview31"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="8dp"
+						android:text="Non inserire la tua email!"
+						android:textSize="12sp"
+						android:textColor="#FFC107" />
+					<TextView
+						android:id="@+id/textview28"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:padding="8dp"
+						android:gravity="right"
+						android:text="0/16"
+						android:textSize="12sp"
+						android:textStyle="italic"
+						android:textColor="#424242" />
+				</LinearLayout>
+				<LinearLayout
+					android:id="@+id/linear36"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:gravity="center_vertical"
+					android:orientation="horizontal"
+					android:layout_gravity="center_vertical">
+					<EditText
+						android:id="@+id/edittext3"
+						android:layout_width="250dp"
+						android:layout_height="wrap_content"
+						android:padding="8dp"
+						android:gravity="center_vertical"
+						android:textSize="12sp"
+						android:textColor="#FFFFFF"
+						android:hint="Username"
+						android:textColorHint="#424242"
+						android:singleLine="true"
+						android:imeOptions="actionNext"
+						android:layout_gravity="center_horizontal" />
+					<LinearLayout
+						android:id="@+id/linear37"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:gravity="right|center_vertical"
+						android:orientation="horizontal"
+						android:layout_gravity="center_vertical">
+						<ImageView
+							android:id="@+id/imageview3"
+							android:layout_width="20dp"
+							android:layout_height="20dp"
+							android:layout_marginRight="10dp"
+							android:src="@drawable/ic_cancel_white"
+							android:scaleType="centerCrop" />
+					</LinearLayout>
+				</LinearLayout>
+			</LinearLayout>
+			<LinearLayout
+				android:id="@+id/linear23"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="10dp"
+				android:padding="8dp"
+				android:background="#212121"
+				android:orientation="vertical">
+				<LinearLayout
+					android:id="@+id/linear24"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal">
+					<TextView
+						android:id="@+id/textview22"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="8dp"
+						android:text="Cambia lingua app"
+						android:textSize="12sp"
+						android:textStyle="bold"
+						android:textColor="#FFFFFF" />
+					<LinearLayout
+						android:id="@+id/linear35"
+						android:layout_width="40dp"
+						android:layout_height="25dp"
+						android:background="#1BA8F0"
+						android:gravity="center_horizontal|center_vertical"
+						android:orientation="horizontal"
+						android:layout_gravity="center_horizontal|center_vertical">
+						<TextView
+							android:id="@+id/textview32"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="BETA"
+							android:textSize="10sp"
+							android:textStyle="bold"
+							android:textColor="#FFFFFF" />
+					</LinearLayout>
+					<LinearLayout
+						android:id="@+id/linear25"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:gravity="right"
+						android:orientation="horizontal">
+						<TextView
+							android:id="@+id/textview23"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:padding="8dp"
+							android:text="..."
+							android:textSize="12sp"
+							android:textColor="#424242" />
+					</LinearLayout>
+				</LinearLayout>
+				<TextView
+					android:id="@+id/textview21"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:paddingLeft="8dp"
+					android:paddingRight="8dp"
+					android:paddingBottom="8dp"
+					android:text="Scegli la lingua mostrata su quest'app"
+					android:textSize="12sp"
+					android:textColor="#424242" />
+				<com.google.android.material.button.MaterialButton
+					android:id="@+id/materialbutton3"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:padding="8dp"
+					android:gravity="center_horizontal|center_vertical"
+					android:text="modifica lingua"
+					android:textSize="12sp"
+					android:textStyle="bold"
+					android:textColor="#FFFFFF"
+					android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+					app:backgroundTint="@color/colorPrimary"
+					app:cornerRadius="8dp"
+					style="@style/Widget.MaterialComponents.Button" />
+			</LinearLayout>
+			<LinearLayout
+				android:id="@+id/linear16"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="10dp"
+				android:padding="8dp"
+				android:background="#212121"
+				android:orientation="vertical">
+				<LinearLayout
+					android:id="@+id/linear17"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal">
+					<TextView
+						android:id="@+id/textview18"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="8dp"
+						android:text="Social"
+						android:textSize="12sp"
+						android:textStyle="bold"
+						android:textColor="#FFFFFF" />
+					<LinearLayout
+						android:id="@+id/linear18"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:gravity="right"
+						android:orientation="horizontal" />
+				</LinearLayout>
+				<TextView
+					android:id="@+id/textview17"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:paddingLeft="8dp"
+					android:paddingRight="8dp"
+					android:paddingBottom="8dp"
+					android:text="Scopri dove trovarci e ottenere supporto!"
+					android:textSize="12sp"
+					android:textColor="#424242" />
+				<com.google.android.material.button.MaterialButton
+					android:id="@+id/materialbutton4"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:padding="8dp"
+					android:gravity="center_horizontal|center_vertical"
+					android:text="scoprici"
+					android:textSize="12sp"
+					android:textStyle="bold"
+					android:textColor="#FFFFFF"
+					android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+					app:backgroundTint="@color/colorPrimary"
+					app:cornerRadius="8dp"
+					style="@style/Widget.MaterialComponents.Button" />
+			</LinearLayout>
+			<LinearLayout
+				android:id="@+id/linear30"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="10dp"
+				android:padding="8dp"
+				android:background="#212121"
+				android:orientation="vertical">
+				<LinearLayout
+					android:id="@+id/linear31"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal">
+					<TextView
+						android:id="@+id/textview30"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="8dp"
+						android:text="Riabilita aggiornamenti"
+						android:textSize="12sp"
+						android:textStyle="bold"
+						android:textColor="#FFFFFF" />
+					<LinearLayout
+						android:id="@+id/linear32"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:gravity="right"
+						android:orientation="horizontal" />
+				</LinearLayout>
+				<TextView
+					android:id="@+id/textview29"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:paddingLeft="8dp"
+					android:paddingRight="8dp"
+					android:paddingBottom="8dp"
+					android:text="Sembra che hai scelto di disattivare gli aggiornamenti automatici.\nNessun problema, clicca qui sotto se le vuoi riattivare"
+					android:textSize="12sp"
+					android:textColor="#424242" />
+				<com.google.android.material.button.MaterialButton
+					android:id="@+id/materialbutton5"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:padding="8dp"
+					android:gravity="center_horizontal|center_vertical"
+					android:text="riabilita"
+					android:textSize="12sp"
+					android:textStyle="bold"
+					android:textColor="#FFFFFF"
+					android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+					app:backgroundTint="@color/colorPrimary"
+					app:cornerRadius="8dp"
+					style="@style/Widget.MaterialComponents.Button" />
+			</LinearLayout>
+			<TextView
+				android:id="@+id/textview33"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:padding="8dp"
+				android:text="Sviluppatore"
+				android:textSize="18sp"
+				android:textStyle="bold"
+				android:textColor="#FFFFFF" />
+			<LinearLayout
+				android:id="@+id/linear39"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="10dp"
+				android:padding="8dp"
+				android:background="#212121"
+				android:orientation="vertical">
+				<TextView
+					android:id="@+id/textview35"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:padding="8dp"
+					android:text="Suggerimenti"
+					android:textSize="12sp"
+					android:textStyle="bold"
+					android:textColor="#FFFFFF" />
+				<TextView
+					android:id="@+id/textview34"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:padding="8dp"
+					android:text="Controlla tutti i suggerimenti saltabili"
+					android:textSize="12sp"
+					android:textColor="#424242" />
+				<com.google.android.material.button.MaterialButton
+					android:id="@+id/materialbutton6"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:padding="8dp"
+					android:gravity="center_horizontal|center_vertical"
+					android:text="controlla suggerimenti"
+					android:textSize="12sp"
+					android:textStyle="bold"
+					android:textColor="#FFFFFF"
+					android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+					app:backgroundTint="@color/colorPrimary"
+					app:cornerRadius="8dp"
+					style="@style/Widget.MaterialComponents.Button" />
+			</LinearLayout>
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/materialbutton2"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="10dp"
+				android:padding="8dp"
+				android:gravity="center_horizontal|center_vertical"
+				android:text="disconnettiti"
+				android:textSize="12sp"
+				android:textStyle="bold"
+				android:textColor="#FFFFFF"
+				android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+				app:backgroundTint="@color/colorPrimary"
+				app:cornerRadius="30px"
+				style="@style/Widget.MaterialComponents.Button" />
+		</LinearLayout>
+	</ScrollView>
+</LinearLayout>
