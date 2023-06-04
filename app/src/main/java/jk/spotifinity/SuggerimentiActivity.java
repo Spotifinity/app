@@ -300,7 +300,6 @@ public class SuggerimentiActivity extends AppCompatActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		_AggiornaLingua();
 		if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Saltabili/")) {
 			FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity/Saltabili/");
 		}
@@ -311,48 +310,4 @@ public class SuggerimentiActivity extends AppCompatActivity {
 			cium.setChecked(true);
 		}
 	}
-	public void _AggiornaLingua() {
-		if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("it")) {
-			textview1.setText("Suggerimenti");
-			textview2.setText("Seleziona in questa lista tutti i suggerimenti che vuoi saltare (che non vengono più mostrati nell'app).");
-			materialbutton1.setText("nascondi tutti");
-			materialbutton2.setText("mostra tutti");
-			textview34.setText("Promozione server Discord");
-			textview43.setText("Come installare una mod");
-		}
-		else {
-			if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("en")) {
-				textview1.setText("Hints");
-				textview2.setText("Select in this list all the hints you want to skip (which are no longer shown in the app).");
-				materialbutton1.setText("hide all");
-				materialbutton2.setText("show all");
-				textview34.setText("Discord server promotion");
-				textview43.setText("How to install a mod");
-			}
-			else {
-				if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("sq")) {
-					textview1.setText("Sugjerime");
-					textview2.setText("Zgjidhni në këtë listë të gjitha këshillat që dëshironi të kapërceni (të cilat nuk shfaqen më në aplikacion).");
-					materialbutton1.setText("fsheh të gjitha");
-					materialbutton2.setText("trego të gjitha");
-					textview34.setText("Promovimi i serverit Discord");
-					textview43.setText("Si të instaloni një mod");
-				}
-				else {
-					if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("ru")) {
-						textview1.setText("Предложения");
-						textview2.setText("Выберите в этом списке все подсказки, которые вы хотите пропустить (которые больше не отображаются в приложении).");
-						materialbutton1.setText("скрыть все");
-						materialbutton2.setText("показать все");
-						textview34.setText("Продвижение дискорд сервера");
-						textview43.setText("Как установить мод");
-					}
-					else {
-						
-					}
-				}
-			}
-		}
-	}
-	
 }

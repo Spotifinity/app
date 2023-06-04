@@ -58,7 +58,6 @@ public class BenvenutoActivity extends AppCompatActivity {
 	private MaterialButton materialbutton2;
 	private MaterialButton materialbutton1;
 	private LinearLayout linear3;
-	private TextView textview3;
 	
 	private Intent intent = new Intent();
 	private FirebaseAuth analytics;
@@ -92,7 +91,6 @@ public class BenvenutoActivity extends AppCompatActivity {
 		materialbutton2 = findViewById(R.id.materialbutton2);
 		materialbutton1 = findViewById(R.id.materialbutton1);
 		linear3 = findViewById(R.id.linear3);
-		textview3 = findViewById(R.id.textview3);
 		analytics = FirebaseAuth.getInstance();
 		
 		materialbutton2.setOnClickListener(new View.OnClickListener() {

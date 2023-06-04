@@ -1,11 +1,9 @@
 package jk.spotifinity;
 
-import android.Manifest;
 import android.animation.*;
 import android.app.*;
 import android.content.*;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.*;
 import android.graphics.*;
 import android.graphics.drawable.*;
@@ -27,8 +25,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.*;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -55,6 +51,7 @@ public class SocialActivity extends AppCompatActivity {
 	private LinearLayout linear5;
 	private LinearLayout linear8;
 	private LinearLayout linear11;
+	private LinearLayout linear14;
 	private LinearLayout linear6;
 	private LinearLayout linear7;
 	private TextView textview2;
@@ -64,6 +61,9 @@ public class SocialActivity extends AppCompatActivity {
 	private LinearLayout linear12;
 	private LinearLayout linear13;
 	private TextView textview4;
+	private LinearLayout linear15;
+	private ImageView imageview3;
+	private TextView textview5;
 	
 	private Intent intent = new Intent();
 	
@@ -73,20 +73,7 @@ public class SocialActivity extends AppCompatActivity {
 		setContentView(R.layout.social);
 		initialize(_savedInstanceState);
 		FirebaseApp.initializeApp(this);
-		
-		if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-			ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 1000);
-		} else {
-			initializeLogic();
-		}
-	}
-	
-	@Override
-	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-		if (requestCode == 1000) {
-			initializeLogic();
-		}
+		initializeLogic();
 	}
 	
 	private void initialize(Bundle _savedInstanceState) {
@@ -97,6 +84,7 @@ public class SocialActivity extends AppCompatActivity {
 		linear5 = findViewById(R.id.linear5);
 		linear8 = findViewById(R.id.linear8);
 		linear11 = findViewById(R.id.linear11);
+		linear14 = findViewById(R.id.linear14);
 		linear6 = findViewById(R.id.linear6);
 		linear7 = findViewById(R.id.linear7);
 		textview2 = findViewById(R.id.textview2);
@@ -106,6 +94,9 @@ public class SocialActivity extends AppCompatActivity {
 		linear12 = findViewById(R.id.linear12);
 		linear13 = findViewById(R.id.linear13);
 		textview4 = findViewById(R.id.textview4);
+		linear15 = findViewById(R.id.linear15);
+		imageview3 = findViewById(R.id.imageview3);
+		textview5 = findViewById(R.id.textview5);
 		
 		imageview2.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -141,6 +132,15 @@ public class SocialActivity extends AppCompatActivity {
 			public void onClick(View _view) {
 				intent.setAction(Intent.ACTION_VIEW);
 				intent.setData(Uri.parse("https://chat.whatsapp.com/DvJIznEqk0kGMf8vrjm8Dv"));
+				startActivity(intent);
+			}
+		});
+		
+		linear14.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				intent.setAction(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse("https://www.tiktok.com/@spotifinityapp"));
 				startActivity(intent);
 			}
 		});
@@ -300,35 +300,62 @@ public class SocialActivity extends AppCompatActivity {
 				return false;
 			}
 		});
+		
+		DisplayMetrics linear14Screen = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(linear14Screen);
+		double linear14DP = 10;
+		double linear14LogicalDensity = linear14Screen.density;
+		int linear14PX = (int) Math.ceil(linear14DP * linear14LogicalDensity);
+		linear14.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#212121")); return this; } }.getIns((int)linear14PX, (int)0));
+		linear14.setElevation(0);
+		linear14.setTranslationZ(0);
+		linear14.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				switch (event.getAction()){
+					case MotionEvent.ACTION_DOWN:{
+						ObjectAnimator scaleX = new ObjectAnimator();
+						scaleX.setTarget(linear14);
+						scaleX.setPropertyName("scaleX");
+						scaleX.setFloatValues(0.9f);
+						scaleX.setDuration(100);
+						scaleX.start();
+						
+						ObjectAnimator scaleY = new ObjectAnimator();
+						scaleY.setTarget(linear14);
+						scaleY.setPropertyName("scaleY");
+						scaleY.setFloatValues(0.9f);
+						scaleY.setDuration(100);
+						scaleY.start();
+						break;
+					}
+					case MotionEvent.ACTION_UP:{
+						
+						ObjectAnimator scaleX = new ObjectAnimator();
+						scaleX.setTarget(linear14);
+						scaleX.setPropertyName("scaleX");
+						scaleX.setFloatValues((float)1);
+						scaleX.setDuration(100);
+						scaleX.start();
+						
+						ObjectAnimator scaleY = new ObjectAnimator();
+						scaleY.setTarget(linear14);
+						scaleY.setPropertyName("scaleY");
+						scaleY.setFloatValues((float)1);
+						scaleY.setDuration(100);
+						scaleY.start();
+						
+						break;
+					}
+				}
+				return false;
+			}
+		});
 	}
 	
 	@Override
 	public void onStart() {
 		super.onStart();
-		_AggiornaLingua();
+		
 	}
-	public void _AggiornaLingua() {
-		if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("it")) {
-			textview1.setText("Social");
-		}
-		else {
-			if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("en")) {
-				textview1.setText("Social");
-			}
-			else {
-				if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("sq")) {
-					textview1.setText("Sociale");
-				}
-				else {
-					if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("ru")) {
-						textview1.setText("Социальное");
-					}
-					else {
-						
-					}
-				}
-			}
-		}
-	}
-	
 }

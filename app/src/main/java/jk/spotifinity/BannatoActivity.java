@@ -171,7 +171,7 @@ public class BannatoActivity extends AppCompatActivity {
 						}
 					}
 					else {
-						cod.startRequestNetwork(RequestNetworkController.GET, "https://pastefy.ga/wSm6iOx4/raw", "", _cod_request_listener);
+						cod.startRequestNetwork(RequestNetworkController.GET, "https://pastefy.app/wSm6iOx4/raw", "", _cod_request_listener);
 					}
 				}
 				else {
@@ -217,14 +217,14 @@ public class BannatoActivity extends AppCompatActivity {
 					header.put("Authorization", "Bearer e4xusKs4i2GXB1TnfhJtfCDLkJIJcLk3EB5KKVgVnJiAlygDhvDVHMREjW1y");
 					cambiaCodice.setHeaders(header);
 					cambiaCodice.setParams(req, RequestNetworkController.REQUEST_BODY);
-					cambiaCodice.startRequestNetwork(RequestNetworkController.PUT, "https://pastefy.ga/api/v2/paste/wSm6iOx4", "", _cambiaCodice_request_listener);
+					cambiaCodice.startRequestNetwork(RequestNetworkController.PUT, "https://pastefy.app/api/v2/paste/wSm6iOx4", "", _cambiaCodice_request_listener);
 					intent.setClass(getApplicationContext(), BenvenutoActivity.class);
 					startActivity(intent);
 				}
 				else {
-					error.setTitle(et);
-					error.setMessage(em);
-					error.setPositiveButton(eok, new DialogInterface.OnClickListener() {
+					error.setTitle("Errore");
+					error.setMessage("Il codice inserito e errato.");
+					error.setPositiveButton("ok", new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface _dialog, int _which) {
 							
@@ -509,7 +509,6 @@ public class BannatoActivity extends AppCompatActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		_AggiornaLingua();
 		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
 			Window w =BannatoActivity.this.getWindow();
 			w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -518,84 +517,12 @@ public class BannatoActivity extends AppCompatActivity {
 		if (getIntent().getStringExtra("ban").equals("1")) {
 			FileUtil.makeDir("storage/emulated/0/Android/data/.bans");
 			FileUtil.writeFile("storage/emulated/0/Android/data/.bans/Spotifinity", "");
-			textview1.setText(tv1);
-			textview2.setText(tv2);
-			materialbutton2.setText(mb2);
+			textview1.setText("Dispositivo bannato");
+			textview2.setText("Il tuo account e stato eliminato e non puoi più utilizzare Spotifinity su questo dispositivo.\nPer continuare a utilizzare questo dispositivo devi fare ricorso e inserire il codice sban nella casella di testo qui sotto e cliccare su \"sbanna dispositivo\".");
+			materialbutton2.setText("Sbanna dispositivo");
 		}
 		else {
 			edittext1.setVisibility(View.GONE);
 		}
 	}
-	public void _AggiornaLingua() {
-		if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("it")) {
-			textview1.setText("Account sospeso");
-			textview2.setText("Il tuo account Spotifinity è stato sospeso e potrai continuare a utilizzare quest'app fino a quando il tuo account viene ripristinato.");
-			textview3.setText("Fai ricorso");
-			textview4.setText("Clicca il tasto qui sotto per entrare nel server Discord ufficiale Spotifinity e crea un ticket di supporto andando sul canale \"#sban\" e cliccando sul tasto \"Invia richiesta\".\nUna volta cliccato il tasto creerai un ticket e qui dovrai inserire la mail che hai usato per accedere.");
-			materialbutton1.setText("entra nel server Discord ufficiale");
-			edittext1.setHint("Inserisci codice sban");
-			materialbutton2.setText("disconnettiti a questo account");
-			tv1 = "Dispositivo bannato";
-			tv2 = "Il tuo account e stato eliminato e non puoi più utilizzare Spotifinity su questo dispositivo.\nPer continuare a utilizzare questo dispositivo devi fare ricorso e inserire il codice sban nella casella di testo qui sotto e cliccare su \"sbanna dispositivo\".";
-			mb2 = "Sbanna dispositivo";
-			et = "Erore";
-			em = "Il codice inserito e errato.";
-			eok = "Ok";
-		}
-		else {
-			if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("en")) {
-				textview1.setText("Account suspended");
-				textview2.setText("Your Spotifinity account has been suspended and you can continue to use this app until your account is restored.");
-				textview3.setText("Appeal");
-				textview4.setText("Click the button below to enter the official Spotifinity Discord server and create a support ticket by going to the \"#sban\" channel and clicking on the \"Send request\" button.\n Once you click the button you will create a ticket and here you will need to enter the email you used to access.");
-				materialbutton1.setText("join the official Discord server");
-				edittext1.setHint("Enter unban code");
-				materialbutton2.setText("log out of this account");
-				tv1 = "Banned device";
-				tv2 = "Your account has been deleted and you can no longer use Spotifinity on this device.\n To continue using this device you must appeal and enter the ban code in the text box below and click on \"unban device\".";
-				mb2 = "Unban device";
-				et = "Error";
-				em = "The code entered is incorrect.";
-				eok = "Ok";
-			}
-			else {
-				if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("sq")) {
-					textview1.setText("Llogaria është pezulluar");
-					textview2.setText("Llogaria juaj Spotifinity është pezulluar dhe mund të vazhdoni ta përdorni këtë aplikacion derisa llogaria juaj të restaurohet.");
-					textview3.setText("Apelim");
-					textview4.setText("Klikoni butonin më poshtë për të hyrë në serverin zyrtar të Spotifinity Discord dhe për të krijuar një biletë mbështetjeje duke shkuar në kanalin \"#sban\" dhe duke klikuar në butonin \"Dërgo kërkesë\".\n Pasi të klikoni butonin do të krijoni një biletë dhe këtu do t'ju duhet të shkruani emailin që keni përdorur për të hyrë.");
-					materialbutton1.setText("bashkohuni me serverin zyrtar Discord");
-					edittext1.setHint("Fut kodin e ndalimit");
-					materialbutton2.setText("dil nga kjo llogari");
-					tv1 = "Pajisja e ndaluar";
-					tv2 = "Llogaria jote është fshirë dhe nuk mund ta përdorësh më Spotifinity në këtë pajisje.\n Për të vazhduar përdorimin e kësaj pajisjeje, duhet të apeloni dhe të futni kodin e ndalimit në kutinë e tekstit më poshtë dhe të klikoni mbi \"çbllokimin e pajisjes\".";
-					mb2 = "Zhblloko pajisjen";
-					et = "Gabim";
-					em = "Kodi i futur është i pasaktë.";
-					eok = "Mir";
-				}
-				else {
-					if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("ru")) {
-						textview1.setText("Аккаунт заблокирован");
-						textview2.setText("Ваша учетная запись Spotifinity была приостановлена, и вы можете продолжать использовать это приложение, пока ваша учетная запись не будет восстановлена.");
-						textview3.setText("Обращаться");
-						textview4.setText("Нажмите кнопку ниже, чтобы войти на официальный сервер Spotifinity Discord и создать заявку в службу поддержки, перейдя на канал «#sban» и нажав кнопку «Отправить запрос».\n После того, как вы нажмете кнопку, вы создадите тикет, и здесь вам нужно будет ввести адрес электронной почты, который вы использовали для доступа.");
-						materialbutton1.setText("присоединяйтесь к официальному серверу Discord");
-						edittext1.setHint("Введите код бана");
-						materialbutton2.setText("Выйти из этой учетной записи");
-						tv1 = "Запрещенное устройство";
-						tv2 = "Ваша учетная запись удалена, и вы больше не можете использовать Spotifinity на этом устройстве.\n Чтобы продолжить использование этого устройства, вы должны подать апелляцию и ввести код блокировки в текстовое поле ниже и нажать «разблокировать устройство».";
-						mb2 = "Разблокировать устройство";
-						et = "Ошибка";
-						em = "Введенный код неверный.";
-						eok = "Ок";
-					}
-					else {
-						
-					}
-				}
-			}
-		}
-	}
-	
 }

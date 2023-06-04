@@ -238,16 +238,16 @@ public class SelversioneActivity extends AppCompatActivity {
 				fade_in.setDuration(300);
 				fade_in.setFillAfter(true);
 				imageview3.startAnimation(fade_in);
-				aiuto.setTitle(at);
-				aiuto.setMessage(am);
+				aiuto.setTitle("Aiuto");
+				aiuto.setMessage("Per scaricare la mod semplicemente seleziona in questa lista la versione della mod da installare (la mod più recente e indicata) e clicca sul tasto \"Inizia l'installazione\".");
 				aiuto.setIcon(R.drawable.ic_help_white);
-				aiuto.setPositiveButton(aok, new DialogInterface.OnClickListener() {
+				aiuto.setPositiveButton("ok", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface _dialog, int _which) {
 						
 					}
 				});
-				aiuto.setNegativeButton(ac, new DialogInterface.OnClickListener() {
+				aiuto.setNegativeButton("supporto", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface _dialog, int _which) {
 						intent.setClass(getApplicationContext(), SocialActivity.class);
@@ -709,7 +709,6 @@ public class SelversioneActivity extends AppCompatActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		_AggiornaLingua();
 		if (FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Saltabili/ComeInstallare.txt")) {
 			linear36.setVisibility(View.GONE);
 		}
@@ -733,67 +732,6 @@ public class SelversioneActivity extends AppCompatActivity {
 	public void _NascondiUltimaVersione() {
 		textview3.setVisibility(View.GONE);
 		linear1.setVisibility(View.GONE);
-	}
-	
-	
-	public void _AggiornaLingua() {
-		if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("it")) {
-			textview1.setText("Seleziona versione");
-			textview3.setText("Ultima versione");
-			materialbutton1.setText("esplora e/o scarica");
-			textview6.setText("Altre versioni");
-			textview42.setText("Come installare una mod");
-			textview43.setText("Nella lista qui in basso seleziona la versione della mod e installala.\nPer altre info puoi cliccare l'icona qui un'alto a destra.");
-			at = "Aiuto";
-			am = "Per scaricare la mod semplicemente seleziona in questa lista la versione della mod da installare (la mod più recente e indicata) e clicca sul tasto \"Inizia l'installazione\".";
-			aok = "Ok";
-			ac = "supporto";
-		}
-		else {
-			if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("en")) {
-				textview1.setText("Select version");
-				textview3.setText("Latest version");
-				materialbutton1.setText("explore and/or download");
-				textview6.setText("Other versions");
-				textview42.setText("How to install a mod");
-				textview43.setText("In the list below select the version of the mod and install it.\nFor more info you can click the icon here on the top right.");
-				at = "Help";
-				am = "To download the mod simply select in this list the version of the mod to install (the most recent and indicated mod) and click on the \"Start installation\" button.";
-				aok = "Ok";
-				ac = "support";
-			}
-			else {
-				if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("sq")) {
-					textview1.setText("Zgjidh versionin");
-					textview3.setText("Versioni i fundit");
-					materialbutton1.setText("eksploroni dhe/ose shkarkoni");
-					textview6.setText("Versione të tjera");
-					textview42.setText("Si të instaloni një mod");
-					textview43.setText("Në listën e mëposhtme zgjidhni versionin e mod-it dhe instaloni atë.\nPër më shumë informacion, mund të klikoni ikonën këtu lart djathtas.");
-					at = "Ndihmë";
-					am = "Për të shkarkuar mod, thjesht zgjidhni në këtë listë versionin e mod-it për të instaluar (modi më i fundit dhe i treguar) dhe klikoni në butonin \"Filloi instalimit\".";
-					aok = "Mirë";
-					ac = "mbështetje";
-				}
-				else {
-					if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("ru")) {
-						textview1.setText("Выберите версию");
-						textview3.setText("Последняя версия");
-						materialbutton1.setText("изучить и/или скачать");
-						textview6.setText("Другие версии");
-						textview42.setText("Как установить мод");
-						textview43.setText("В списке ниже выберите версию мода и установите его.\nДля получения дополнительной информации вы можете щелкнуть значок здесь в правом верхнем углу.");
-						at = "Помощь";
-						am = "Чтобы скачать мод, просто выберите в этом списке версию мода для установки (самый последний и указанный мод) и нажмите кнопку «Начать установку».";
-						aok = "Ок";
-						ac = "поддерживать";
-					}
-					else {
-						
-					}
-				}
-			}
-		}
 	}
 	
 	public class Listview1Adapter extends BaseAdapter {
@@ -915,27 +853,6 @@ public class SelversioneActivity extends AppCompatActivity {
 			}
 			if (linear2.getVisibility() == View.VISIBLE) {
 				_ImpostaUltimaVersione(lista.get((int)_position).get("Versione").toString().replace("_", "."), lista.get((int)_position).get("Novità").toString(), lista.get((int)_position).get("Link").toString());
-			}
-			if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("it")) {
-				textview2.setText("Versione più recente");
-			}
-			else {
-				if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("en")) {
-					textview2.setText("Latest version");
-				}
-				else {
-					if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("sq")) {
-						textview2.setText("Versioni i fundit");
-					}
-					else {
-						if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("ru")) {
-							textview2.setText("Последняя версия");
-						}
-						else {
-							
-						}
-					}
-				}
 			}
 			materialbutton1.setOnClickListener(new View.OnClickListener() {
 				@Override

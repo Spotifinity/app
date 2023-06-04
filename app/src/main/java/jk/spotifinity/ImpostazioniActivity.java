@@ -74,6 +74,10 @@ public class ImpostazioniActivity extends AppCompatActivity {
 	private String discm = "";
 	private String discok = "";
 	private String discc = "";
+	private String wt = "";
+	private String wm = "";
+	private String wok = "";
+	private String wc = "";
 	
 	private LinearLayout linear3;
 	private ScrollView vscroll2;
@@ -88,7 +92,6 @@ public class ImpostazioniActivity extends AppCompatActivity {
 	private LinearLayout linear13;
 	private TextView textview27;
 	private LinearLayout linear27;
-	private LinearLayout linear23;
 	private LinearLayout linear16;
 	private LinearLayout linear30;
 	private TextView textview33;
@@ -112,14 +115,6 @@ public class ImpostazioniActivity extends AppCompatActivity {
 	private EditText edittext3;
 	private LinearLayout linear37;
 	private ImageView imageview3;
-	private LinearLayout linear24;
-	private TextView textview21;
-	private MaterialButton materialbutton3;
-	private TextView textview22;
-	private LinearLayout linear35;
-	private LinearLayout linear25;
-	private TextView textview32;
-	private TextView textview23;
 	private LinearLayout linear17;
 	private TextView textview17;
 	private MaterialButton materialbutton4;
@@ -188,7 +183,6 @@ public class ImpostazioniActivity extends AppCompatActivity {
 		linear13 = findViewById(R.id.linear13);
 		textview27 = findViewById(R.id.textview27);
 		linear27 = findViewById(R.id.linear27);
-		linear23 = findViewById(R.id.linear23);
 		linear16 = findViewById(R.id.linear16);
 		linear30 = findViewById(R.id.linear30);
 		textview33 = findViewById(R.id.textview33);
@@ -212,14 +206,6 @@ public class ImpostazioniActivity extends AppCompatActivity {
 		edittext3 = findViewById(R.id.edittext3);
 		linear37 = findViewById(R.id.linear37);
 		imageview3 = findViewById(R.id.imageview3);
-		linear24 = findViewById(R.id.linear24);
-		textview21 = findViewById(R.id.textview21);
-		materialbutton3 = findViewById(R.id.materialbutton3);
-		textview22 = findViewById(R.id.textview22);
-		linear35 = findViewById(R.id.linear35);
-		linear25 = findViewById(R.id.linear25);
-		textview32 = findViewById(R.id.textview32);
-		textview23 = findViewById(R.id.textview23);
 		linear17 = findViewById(R.id.linear17);
 		textview17 = findViewById(R.id.textview17);
 		materialbutton4 = findViewById(R.id.materialbutton4);
@@ -248,7 +234,7 @@ public class ImpostazioniActivity extends AppCompatActivity {
 				if (materialbutton1.getVisibility() == View.VISIBLE) {
 					warning.setTitle("Non salvato");
 					warning.setMessage("Hai modifiche apportate ma non ancora salvate. Vuoi salvare adesso?");
-					warning.setPositiveButton("Salva", new DialogInterface.OnClickListener() {
+					warning.setPositiveButton("salva", new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface _dialog, int _which) {
 							progressbar1.setVisibility(View.VISIBLE);
@@ -260,7 +246,7 @@ public class ImpostazioniActivity extends AppCompatActivity {
 							finish();
 						}
 					});
-					warning.setNegativeButton("Ignora", new DialogInterface.OnClickListener() {
+					warning.setNegativeButton("ignora", new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface _dialog, int _which) {
 							finish();
@@ -319,13 +305,6 @@ public class ImpostazioniActivity extends AppCompatActivity {
 			}
 		});
 		
-		linear23.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View _view) {
-				
-			}
-		});
-		
 		linear16.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
@@ -336,9 +315,9 @@ public class ImpostazioniActivity extends AppCompatActivity {
 		materialbutton2.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				disconnessione.setTitle(disct);
-				disconnessione.setMessage(discm);
-				disconnessione.setPositiveButton(discok, new DialogInterface.OnClickListener() {
+				disconnessione.setTitle("Disconnettiti");
+				disconnessione.setMessage("Vuoi davvero disconnetterti al tuo account?");
+				disconnessione.setPositiveButton("si", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface _dialog, int _which) {
 						FirebaseAuth.getInstance().signOut();
@@ -347,7 +326,7 @@ public class ImpostazioniActivity extends AppCompatActivity {
 						startActivity(intent);
 					}
 				});
-				disconnessione.setNegativeButton(discc, new DialogInterface.OnClickListener() {
+				disconnessione.setNegativeButton("no", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface _dialog, int _which) {
 						
@@ -449,6 +428,9 @@ public class ImpostazioniActivity extends AppCompatActivity {
 			@Override
 			public void onTextChanged(CharSequence _param1, int _param2, int _param3, int _param4) {
 				final String _charSeq = _param1.toString();
+				if (!edittext3.getText().toString().equals(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt"))) {
+					materialbutton1.setVisibility(View.VISIBLE);
+				}
 				if (_charSeq.contains(" @".replace(" ", ""))) {
 					textview31.setVisibility(View.VISIBLE);
 				}
@@ -492,14 +474,6 @@ public class ImpostazioniActivity extends AppCompatActivity {
 				edittext3.setText("");
 				Finale = "";
 				textview28.setText("0/16");
-			}
-		});
-		
-		materialbutton3.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View _view) {
-				intent.setClass(getApplicationContext(), LinguaActivity.class);
-				startActivity(intent);
 			}
 		});
 		
@@ -745,60 +719,6 @@ public class ImpostazioniActivity extends AppCompatActivity {
 		}
 		
 		{
-			materialbutton3.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#2196F3")));
-			materialbutton3.setRippleColor(ColorStateList.valueOf(Color.parseColor("#BBDEFB")));
-			materialbutton3.setLetterSpacing(0);
-			DisplayMetrics screen = new DisplayMetrics();
-			getWindowManager().getDefaultDisplay().getMetrics(screen);
-			float logicalDensity = screen.density;
-			int px = (int) Math.ceil(10 * logicalDensity);
-			
-			materialbutton3.setCornerRadius(px);
-			materialbutton3.setOnTouchListener(new View.OnTouchListener() {
-				@Override
-				public boolean onTouch(View v, MotionEvent event) {
-					switch (event.getAction()){
-						case MotionEvent.ACTION_DOWN:{
-							ObjectAnimator scaleX = new ObjectAnimator();
-							scaleX.setTarget(materialbutton3);
-							scaleX.setPropertyName("scaleX");
-							scaleX.setFloatValues(0.9f);
-							scaleX.setDuration(100);
-							scaleX.start();
-							
-							ObjectAnimator scaleY = new ObjectAnimator();
-							scaleY.setTarget(materialbutton3);
-							scaleY.setPropertyName("scaleY");
-							scaleY.setFloatValues(0.9f);
-							scaleY.setDuration(100);
-							scaleY.start();
-							break;
-						}
-						case MotionEvent.ACTION_UP:{
-							
-							ObjectAnimator scaleX = new ObjectAnimator();
-							scaleX.setTarget(materialbutton3);
-							scaleX.setPropertyName("scaleX");
-							scaleX.setFloatValues((float)1);
-							scaleX.setDuration(100);
-							scaleX.start();
-							
-							ObjectAnimator scaleY = new ObjectAnimator();
-							scaleY.setTarget(materialbutton3);
-							scaleY.setPropertyName("scaleY");
-							scaleY.setFloatValues((float)1);
-							scaleY.setDuration(100);
-							scaleY.start();
-							
-							break;
-						}
-					}
-					return false;
-				}
-			});
-		}
-		
-		{
 			materialbutton4.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#2196F3")));
 			materialbutton4.setRippleColor(ColorStateList.valueOf(Color.parseColor("#BBDEFB")));
 			materialbutton4.setLetterSpacing(0);
@@ -987,15 +907,6 @@ public class ImpostazioniActivity extends AppCompatActivity {
 		linear16.setElevation(0);
 		linear16.setTranslationZ(0);
 		
-		DisplayMetrics linear23Screen = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(linear23Screen);
-		double linear23DP = 10;
-		double linear23LogicalDensity = linear23Screen.density;
-		int linear23PX = (int) Math.ceil(linear23DP * linear23LogicalDensity);
-		linear23.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#212121")); return this; } }.getIns((int)linear23PX, (int)0));
-		linear23.setElevation(0);
-		linear23.setTranslationZ(0);
-		
 		DisplayMetrics linear27Screen = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(linear27Screen);
 		double linear27DP = 10;
@@ -1014,15 +925,6 @@ public class ImpostazioniActivity extends AppCompatActivity {
 		linear30.setElevation(0);
 		linear30.setTranslationZ(0);
 		
-		DisplayMetrics linear35Screen = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(linear35Screen);
-		double linear35DP = 10;
-		double linear35LogicalDensity = linear35Screen.density;
-		int linear35PX = (int) Math.ceil(linear35DP * linear35LogicalDensity);
-		linear35.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#1BA8F0")); return this; } }.getIns((int)linear35PX, (int)0));
-		linear35.setElevation(0);
-		linear35.setTranslationZ(0);
-		
 		DisplayMetrics linear39Screen = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(linear39Screen);
 		double linear39DP = 10;
@@ -1034,17 +936,11 @@ public class ImpostazioniActivity extends AppCompatActivity {
 		if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni")) {
 			FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni");
 		}
-		if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua")) {
-			FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua");
-			FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt", "it");
-		}
-		textview23.setText(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt"));
 	}
 	
 	@Override
 	public void onStart() {
 		super.onStart();
-		_AggiornaLingua();
 		if (FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/modSviluppatore")) {
 			switch2.setChecked(true);
 		}
@@ -1106,7 +1002,7 @@ public class ImpostazioniActivity extends AppCompatActivity {
 		if (materialbutton1.getVisibility() == View.VISIBLE) {
 			warning.setTitle("Non salvato");
 			warning.setMessage("Hai modifiche apportate ma non ancora salvate. Vuoi salvare adesso?");
-			warning.setPositiveButton("Salva", new DialogInterface.OnClickListener() {
+			warning.setPositiveButton("salva", new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface _dialog, int _which) {
 					progressbar1.setVisibility(View.VISIBLE);
@@ -1117,7 +1013,7 @@ public class ImpostazioniActivity extends AppCompatActivity {
 					finish();
 				}
 			});
-			warning.setNegativeButton("Ignora", new DialogInterface.OnClickListener() {
+			warning.setNegativeButton("ignora", new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface _dialog, int _which) {
 					finish();
@@ -1161,150 +1057,4 @@ public class ImpostazioniActivity extends AppCompatActivity {
 			finish();
 		}
 	}
-	public void _AggiornaLingua() {
-		if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("it")) {
-			textview1.setText("Impostazioni");
-			materialbutton1.setText("salva");
-			textview26.setText("Mod");
-			switch2.setText("Modalità sviluppatore");
-			textview3.setText("Mostra quello che sta facendo l'app mentre stai installando la mod e mostra altre info avanzate come il link di installazione");
-			textview15.setText("Percorso installazione APK");
-			textview16.setText("Scegli dove installare il file APK. Non includere \"/\" alla fine o non funzionerà!");
-			edittext1.setHint("Percorso d'installazione");
-			textview27.setText("App");
-			textview25.setText("Username");
-			textview24.setText("Questo username viene mostrato nella home per darti il buongiorno.");
-			textview31.setText("Non inserire la tua email!");
-			edittext3.setHint("Username");
-			textview22.setText("Cambia lingua app");
-			textview21.setText("Scegli la lingua mostrata su quest'app");
-			materialbutton3.setText("modifica lingua");
-			textview18.setText("Social");
-			textview17.setText("Scopri dove trovarci e ottenere supporto!");
-			materialbutton4.setText("scoprici");
-			textview30.setText("Riabilita aggiornamenti");
-			textview29.setText("Sembra che hai scelto di disattivare gli aggiornamenti automatici.\nNessun problema, clicca qui sotto se le vuoi riattivare");
-			textview23.setText("Italiano");
-			materialbutton5.setText("riabilita");
-			textview33.setText("Sviluppatore");
-			textview35.setText("Suggerimenti");
-			textview34.setText("Controlla tutti i suggerimenti saltabili");
-			materialbutton6.setText("controlla suggerimenti");
-			disct = "Disconnettiti";
-			discm = "Vuoi davvero disconnetterti al tuo account?";
-			discok = "Si";
-			discc = "No";
-		}
-		else {
-			if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("en")) {
-				textview1.setText("Settings");
-				materialbutton1.setText("save");
-				textview26.setText("Mod");
-				switch2.setText("Developer Mode");
-				textview3.setText("Shows what the app is doing while you're installing the mod and shows other advanced info like the install link");
-				textview15.setText("APK installation path");
-				textview16.setText("Choose where to install the APK file. Don't include the \"/\" at the end or it won't work!");
-				edittext1.setHint("Installation path");
-				textview27.setText("App");
-				textview25.setText("Username");
-				textview24.setText("This username is shown on the home page to say good morning.");
-				textview31.setText("Do not enter your email!");
-				edittext3.setHint("Username");
-				textview22.setText("Change app language");
-				textview21.setText("Choose the language displayed on this app");
-				materialbutton3.setText("change language");
-				textview18.setText("Social");
-				textview17.setText("Find out where to find us and get support!");
-				materialbutton4.setText("discover us");
-				textview30.setText("Re-enable updates");
-				textview29.setText("It appears you have chosen to turn off automatic updates.\nNo problem, click below if you want to reactivate them");
-				materialbutton5.setText("rehabilitate");
-				textview23.setText("English");
-				textview33.setText("Developer");
-				textview35.setText("Suggestions");
-				textview34.setText("Check all the skipable hints");
-				materialbutton6.setText("check hints");
-				disct = "Log out";
-				discm = "Do you really want to log out of your account?";
-				discok = "Yes";
-				discc = "No";
-			}
-			else {
-				if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("sq")) {
-					textview1.setText("Cilësimet");
-					materialbutton1.setText("ruai");
-					textview26.setText("Mod");
-					switch2.setText("Modaliteti i Zhvilluesit");
-					textview3.setText("Tregon se çfarë po bën aplikacioni ndërsa jeni duke instaluar modalitetin dhe tregon informacione të tjera të avancuara si lidhjen e instalimit");
-					textview15.setText("Rruga e instalimit të APK-së");
-					textview16.setText("Zgjidhni ku të instaloni skedarin APK. Mos e përfshini \"/\" në fund ose nuk do të funksionojë!");
-					edittext1.setHint("Rruga e instalimit");
-					textview27.setText("Aplikacioni");
-					textview25.setText("Emri i përdoruesit");
-					textview24.setText("Ky emër përdoruesi shfaqet në faqen kryesore për të thënë mirëmëngjes.");
-					textview31.setText("Mos shkruani emailin tuaj!");
-					edittext3.setHint("emri i përdoruesit");
-					textview22.setText("Ndrysho gjuhën e aplikacionit");
-					textview21.setText("Zgjidhni gjuhën e shfaqur në këtë aplikacion");
-					materialbutton3.setText("ndryshojnë gjuhën");
-					textview18.setText("Sociale");
-					textview17.setText("Zbuloni se ku të na gjeni dhe merrni mbështetje!");
-					materialbutton4.setText("na zbuloni");
-					textview30.setText("Ri-aktivizo përditësimet");
-					textview29.setText("Duket se keni zgjedhur të çaktivizoni përditësimet automatike.\nNuk ka problem, klikoni më poshtë nëse dëshironi t'i riaktivizoni ato");
-					materialbutton5.setText("rehabilitoj");
-					materialbutton2.setText("shkyç");
-					textview23.setText("Shqip");
-					textview33.setText("Zhvilluesi");
-					textview35.setText("Sugjerime");
-					textview34.setText("Kontrolloni të gjitha sugjerimet që mund të kapërcehen");
-					materialbutton6.setText("kontrolloni këshillat");
-					disct = "Shkyç";
-					discm = "Dëshironi vërtet të dilni nga llogaria juaj?";
-					discok = "Po";
-					discc = "Jo";
-				}
-				else {
-					if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("ru")) {
-						textview1.setText("Настройки");
-						materialbutton1.setText("сохранять");
-						textview26.setText("Мод");
-						switch2.setText("Режим разработчика");
-						textview3.setText("Показывает, что делает приложение, пока вы устанавливаете мод, и показывает другую дополнительную информацию, например ссылку для установки.");
-						textview15.setText("Путь установки AПК");
-						textview16.setText("Выберите, куда установить APK-файл. Не добавляйте «/» в конце, иначе это не сработает!");
-						edittext1.setHint("Путь установки");
-						textview27.setText("Приложение");
-						textview25.setText("Имя пользователя");
-						textview24.setText("Это имя пользователя отображается на главной странице, чтобы пожелать доброго утра.");
-						textview31.setText("Не вводите свой адрес электронной почты!");
-						edittext3.setHint("имя пользователя");
-						textview22.setText("Изменить язык приложения");
-						textview21.setText("Выберите язык, отображаемый в этом приложении");
-						materialbutton3.setText("изменение языка");
-						textview18.setText("Социальное");
-						textview17.setText("Узнайте, где нас найти и получить поддержку!");
-						materialbutton4.setText("откройте для себя нас");
-						textview30.setText("Повторно включить обновления");
-						textview29.setText("Похоже, вы решили отключить автоматические обновления.\nНет проблем, нажмите ниже, если вы хотите повторно активировать их");
-						materialbutton5.setText("реабилитировать");
-						materialbutton2.setText("выйти");
-						textview23.setText("Русский");
-						textview33.setText("Разработчик");
-						textview35.setText("Предложения");
-						textview34.setText("Проверьте все пропускаемые подсказки");
-						materialbutton6.setText("проверить советы");
-						disct = "Выйти";
-						discm = "Вы действительно хотите выйти из своей учетной записи?";
-						discok = "Да";
-						discc = "Нет";
-					}
-					else {
-						
-					}
-				}
-			}
-		}
-	}
-	
 }

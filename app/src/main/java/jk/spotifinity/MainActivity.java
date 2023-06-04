@@ -19,6 +19,7 @@ import android.text.*;
 import android.text.style.*;
 import android.util.*;
 import android.view.*;
+import android.view.View;
 import android.view.View.*;
 import android.view.animation.*;
 import android.webkit.*;
@@ -47,11 +48,17 @@ import com.tonyodev.fetch2core.*;
 import java.io.*;
 import java.text.*;
 import java.util.*;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.regex.*;
 import org.jetbrains.kotlin.*;
 import org.json.*;
 
 public class MainActivity extends AppCompatActivity {
+	
+	private Timer _timer = new Timer();
+	
+	private double info = 0;
 	
 	private LinearLayout linear3;
 	private ImageView imageview1;
@@ -83,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
 	private RequestNetwork pollLink;
 	private RequestNetwork.RequestListener _pollLink_request_listener;
 	private Intent configurazione = new Intent();
+	private TimerTask starter;
 	
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
@@ -120,6 +128,21 @@ public class MainActivity extends AppCompatActivity {
 		pollNome = new RequestNetwork(this);
 		pollLink = new RequestNetwork(this);
 		
+		imageview1.setOnLongClickListener(new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View _view) {
+				
+				return true;
+			}
+		});
+		
+		imageview1.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				
+			}
+		});
+		
 		_updater_request_listener = new RequestNetwork.RequestListener() {
 			@Override
 			public void onResponse(String _param1, String _param2, HashMap<String, Object> _param3) {
@@ -127,6 +150,9 @@ public class MainActivity extends AppCompatActivity {
 				final String _response = _param2;
 				final HashMap<String, Object> _responseHeaders = _param3;
 				intent.putExtra("updater", _response);
+				info++;
+				
+				
 			}
 			
 			@Override
@@ -144,6 +170,9 @@ public class MainActivity extends AppCompatActivity {
 				final String _response = _param2;
 				final HashMap<String, Object> _responseHeaders = _param3;
 				intent.putExtra("version", _response);
+				info++;
+				
+				
 			}
 			
 			@Override
@@ -161,6 +190,9 @@ public class MainActivity extends AppCompatActivity {
 				final String _response = _param2;
 				final HashMap<String, Object> _responseHeaders = _param3;
 				intent.putExtra("poll", _response);
+				info++;
+				
+				
 			}
 			
 			@Override
@@ -178,6 +210,9 @@ public class MainActivity extends AppCompatActivity {
 				final String _response = _param2;
 				final HashMap<String, Object> _responseHeaders = _param3;
 				intent.putExtra("pollNome", _response);
+				info++;
+				
+				
 			}
 			
 			@Override
@@ -195,6 +230,9 @@ public class MainActivity extends AppCompatActivity {
 				final String _response = _param2;
 				final HashMap<String, Object> _responseHeaders = _param3;
 				intent.putExtra("pollLink", _response);
+				info++;
+				
+				
 			}
 			
 			@Override
@@ -283,14 +321,30 @@ public class MainActivity extends AppCompatActivity {
 				final boolean _success = _param1.isSuccessful();
 				final String _errorMessage = _param1.getException() != null ? _param1.getException().getMessage() : "";
 				if (_success) {
+					
 					if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity")) {
 						FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity");
 						FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni");
 					}
-					intent.setClass(getApplicationContext(), HomeActivity.class);
-					startActivity(intent);
+					starter = new TimerTask() {
+						@Override
+						public void run() {
+							runOnUiThread(new Runnable() {
+								@Override
+								public void run() {
+									if (info == 5) {
+										starter.cancel();
+										intent.setClass(getApplicationContext(), HomeActivity.class);
+										startActivity(intent);
+									}
+								}
+							});
+						}
+					};
+					_timer.scheduleAtFixedRate(starter, (int)(1), (int)(250));
 				}
 				else {
+					
 					if (_errorMessage.equals("The user account has been disabled by an administrator.")) {
 						intent.putExtra("ban", "0");
 						intent.setClass(getApplicationContext(), BannatoActivity.class);
@@ -378,17 +432,18 @@ public class MainActivity extends AppCompatActivity {
 	}
 	
 	private void initializeLogic() {
+		
 		if (FileUtil.isExistFile("storage/emulated/0/Android/data/.bans/Spotifinity")) {
 			intent.putExtra("ban", "1");
 			intent.setClass(getApplicationContext(), BannatoActivity.class);
 			startActivity(intent);
 		}
 		else {
-			updater.startRequestNetwork(RequestNetworkController.GET, "https://pastefy.ga/V64UVdii/raw", "", _updater_request_listener);
-			version.startRequestNetwork(RequestNetworkController.GET, "https://pastefy.ga/3DjQQQZG/raw", "", _version_request_listener);
-			poll.startRequestNetwork(RequestNetworkController.GET, "https://pastefy.ga/AoC5b38b/raw", "", _poll_request_listener);
-			pollNome.startRequestNetwork(RequestNetworkController.GET, "https://pastefy.ga/NaUiBndI/raw", "", _pollNome_request_listener);
-			pollLink.startRequestNetwork(RequestNetworkController.GET, "https://pastefy.ga/45ITHFZO/raw", "", _pollLink_request_listener);
+			updater.startRequestNetwork(RequestNetworkController.GET, "https://pastefy.app/V64UVdii/raw", "", _updater_request_listener);
+			version.startRequestNetwork(RequestNetworkController.GET, "https://pastefy.app/3DjQQQZG/raw", "", _version_request_listener);
+			poll.startRequestNetwork(RequestNetworkController.GET, "https://pastefy.app/AoC5b38b/raw", "", _poll_request_listener);
+			pollNome.startRequestNetwork(RequestNetworkController.GET, "https://pastefy.app/NaUiBndI/raw", "", _pollNome_request_listener);
+			pollLink.startRequestNetwork(RequestNetworkController.GET, "https://pastefy.app/45ITHFZO/raw", "", _pollLink_request_listener);
 			dialog = new AlertDialog.Builder(this,AlertDialog.THEME_DEVICE_DEFAULT_DARK);
 			dialog2 = new AlertDialog.Builder(this,AlertDialog.THEME_DEVICE_DEFAULT_DARK);
 			accedi = new AlertDialog.Builder(this,AlertDialog.THEME_DEVICE_DEFAULT_DARK);

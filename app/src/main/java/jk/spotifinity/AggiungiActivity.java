@@ -17,6 +17,7 @@ import android.view.View.*;
 import android.view.animation.*;
 import android.webkit.*;
 import android.widget.*;
+import android.widget.TextView;
 import androidx.annotation.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -38,6 +39,8 @@ import org.json.*;
 
 public class AggiungiActivity extends AppCompatActivity {
 	
+	private TextView textview1;
+	
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
 		super.onCreate(_savedInstanceState);
@@ -48,9 +51,17 @@ public class AggiungiActivity extends AppCompatActivity {
 	}
 	
 	private void initialize(Bundle _savedInstanceState) {
+		textview1 = findViewById(R.id.textview1);
 	}
 	
 	private void initializeLogic() {
+		
+		getWindow().setStatusBarColor(Color.parseColor("#1976d2"));
+		getWindow().setNavigationBarColor(Color.parseColor("#000000"));
+		getSupportActionBar().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(Color.parseColor("#2196f3")));
+		getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(Color.parseColor("#000000")));
+		setTitle("Aggiungi");
+		setTheme(android.R.style.Theme_Material);
 	}
 	
 }

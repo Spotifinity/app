@@ -721,7 +721,6 @@ public class HomeActivity extends AppCompatActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		_AggiornaLingua();
 		FileUtil.deleteFile("storage/emulated/0/Android/data/jk.spotifinity/skipLoad");
 		if (FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/configurazione")) {
 			intent.setClass(getApplicationContext(), ConfiguraActivity.class);
@@ -735,15 +734,15 @@ public class HomeActivity extends AppCompatActivity {
 		}
 		else {
 			linear8.setVisibility(View.VISIBLE);
-			textview4.setText(tv4);
+			textview4.setText("Mod ancora non installata, installala ora!");
 			materialbutton2.setVisibility(View.GONE);
 		}
 		if (!(Double.parseDouble(getIntent().getStringExtra("updater")) == Double.parseDouble(textview23.getText().toString()))) {
 			if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/skipUpdate")) {
-				dialog.setTitle(dt1.concat(getIntent().getStringExtra("updater").concat(")")));
-				dialog.setMessage(dm);
+				dialog.setTitle("Nuova versione (".concat(getIntent().getStringExtra("updater").concat(")")));
+				dialog.setMessage("E stato rilevato una versione più recente di questa applicazione.\nVuoi andare sul sito di GitHub per scaricare l'ultima versione?");
 				dialog.setIcon(R.drawable.ic_new_releases_white);
-				dialog.setPositiveButton(dok, new DialogInterface.OnClickListener() {
+				dialog.setPositiveButton("Aggiorna", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface _dialog, int _which) {
 						aggiorna.setAction(Intent.ACTION_VIEW);
@@ -751,7 +750,7 @@ public class HomeActivity extends AppCompatActivity {
 						startActivity(aggiorna);
 					}
 				});
-				dialog.setNegativeButton(dc, new DialogInterface.OnClickListener() {
+				dialog.setNegativeButton("Ignora", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface _dialog, int _which) {
 						
@@ -773,19 +772,19 @@ public class HomeActivity extends AppCompatActivity {
 						}
 					}
 				});
-				dialog.setNeutralButton(ds, new DialogInterface.OnClickListener() {
+				dialog.setNeutralButton("Salta", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface _dialog, int _which) {
-						dialog2.setTitle(d2t);
-						dialog2.setMessage(d2m);
+						dialog2.setTitle("Salta aggiornamento");
+						dialog2.setMessage("Vuoi veramente saltare questo e i futuri aggiornamenti di questa applicazione?");
 						dialog2.setIcon(R.drawable.ic_help_white);
-						dialog2.setPositiveButton(d2ok, new DialogInterface.OnClickListener() {
+						dialog2.setPositiveButton("Si", new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface _dialog, int _which) {
 								FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/skipUpdate", "");
 							}
 						});
-						dialog2.setNegativeButton(d2c, new DialogInterface.OnClickListener() {
+						dialog2.setNegativeButton("No", new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface _dialog, int _which) {
 								
@@ -826,39 +825,41 @@ public class HomeActivity extends AppCompatActivity {
 							}}
 					}
 				});
-				
-				{
-					final AlertDialog alert = dialog.show();
-					DisplayMetrics screen = new DisplayMetrics();
-					getWindowManager().getDefaultDisplay().getMetrics(screen);
-					double dp = 10;
-					double logicalDensity = screen.density;
-					int px = (int) Math.ceil(dp * logicalDensity);
-					alert.getWindow().getDecorView().setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#212121")));
-						alert.getWindow().getDecorView().setPadding(8,8,8,8);
-					alert.show();
+				if (linear20.getVisibility() == View.GONE) {
 					
-					alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#2196f3"));
-						alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#2196f3"));
-						alert.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.parseColor("#2196f3"));
-					alert.getWindow().setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
-					alert.getWindow().getDecorView().setTranslationY(-20);
-					TextView textT = (TextView)alert.getWindow().getDecorView().findViewById(android.R.id.message);
-					Spannable text = new SpannableString(textT.getText().toString()); 
-					text.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE); 
-					alert.setMessage(text);
-					
-					int titleId = getResources().getIdentifier( "alertTitle", "id", "android" ); 
-					if (titleId > 0) 
-					{ 
-						TextView dialogTitle = (TextView) alert.getWindow().getDecorView().findViewById(titleId); 
-						if (dialogTitle != null) 
-						{
-							Spannable title = new SpannableString(dialogTitle.getText().toString()); 
-							title.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, title.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE); 
-							alert.setTitle(title);
-						} 
-					}}
+					{
+						final AlertDialog alert = dialog.show();
+						DisplayMetrics screen = new DisplayMetrics();
+						getWindowManager().getDefaultDisplay().getMetrics(screen);
+						double dp = 10;
+						double logicalDensity = screen.density;
+						int px = (int) Math.ceil(dp * logicalDensity);
+						alert.getWindow().getDecorView().setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#212121")));
+							alert.getWindow().getDecorView().setPadding(8,8,8,8);
+						alert.show();
+						
+						alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#2196f3"));
+							alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#2196f3"));
+							alert.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.parseColor("#2196f3"));
+						alert.getWindow().setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+						alert.getWindow().getDecorView().setTranslationY(-20);
+						TextView textT = (TextView)alert.getWindow().getDecorView().findViewById(android.R.id.message);
+						Spannable text = new SpannableString(textT.getText().toString()); 
+						text.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE); 
+						alert.setMessage(text);
+						
+						int titleId = getResources().getIdentifier( "alertTitle", "id", "android" ); 
+						if (titleId > 0) 
+						{ 
+							TextView dialogTitle = (TextView) alert.getWindow().getDecorView().findViewById(titleId); 
+							if (dialogTitle != null) 
+							{
+								Spannable title = new SpannableString(dialogTitle.getText().toString()); 
+								title.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, title.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE); 
+								alert.setTitle(title);
+							} 
+						}}
+				}
 			}
 			else {
 				
@@ -883,10 +884,10 @@ public class HomeActivity extends AppCompatActivity {
 		if (getIntent().getStringExtra("poll").equals("0")) {
 			linear19.setVisibility(View.GONE);
 		}
-		if (textview15.getText().toString().equals(tv15)) {
-			textview4.setText(tv4);
-			FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/downloaded.txt", tv15);
-			textview15.setText(tv15);
+		if (textview15.getText().toString().equals("Nessuna")) {
+			textview4.setText("Mod ancora non installata, installala ora!");
+			FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/downloaded.txt", "Nessuna");
+			textview15.setText("Nessuna");
 		}
 		textview20.setText(getIntent().getStringExtra("pollNome"));
 		sondaggio.setAction(Intent.ACTION_VIEW);
@@ -900,6 +901,35 @@ public class HomeActivity extends AppCompatActivity {
 		}
 		if (FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Saltabili/Discord.txt")) {
 			linear36.setVisibility(View.GONE);
+		}
+		educazione = Calendar.getInstance();
+		OraNoPunti = Double.parseDouble(new SimpleDateFormat("HH").format(educazione.getTime()));
+		if (FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt")) {
+			if ((OraNoPunti == 6) || ((OraNoPunti == 7) || ((OraNoPunti == 8) || ((OraNoPunti == 9) || ((OraNoPunti == 10) || ((OraNoPunti == 11) || (OraNoPunti == 12))))))) {
+				textview428.setText("Buongiorno, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
+			}
+			else {
+				if ((OraNoPunti == 14) || ((OraNoPunti == 15) || ((OraNoPunti == 16) || (OraNoPunti == 17)))) {
+					textview428.setText("Buon pomeriggio, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
+				}
+				else {
+					if ((OraNoPunti == 18) || ((OraNoPunti == 19) || (OraNoPunti == 20))) {
+						textview428.setText("Buonasera, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
+					}
+					else {
+						if ((OraNoPunti == 21) || ((OraNoPunti == 22) || ((OraNoPunti == 23) || ((OraNoPunti == 0) || ((OraNoPunti == 1) || ((OraNoPunti == 2) || ((OraNoPunti == 3) || ((OraNoPunti == 4) || (OraNoPunti == 5))))))))) {
+							textview428.setText("Buonanotte, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
+							textview39.setText("E sogni d'oro!");
+						}
+						else {
+							textview428.setText("Benvenuto, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
+						}
+					}
+				}
+			}
+		}
+		else {
+			textview428.setText("Benvenuto, utente!");
 		}
 	}
 	
@@ -956,278 +986,6 @@ public class HomeActivity extends AppCompatActivity {
 	}
 	public void _ApriApp(final String _app) {
 		Intent launchIntent = getPackageManager().getLaunchIntentForPackage(_app);  { startActivity(launchIntent);}
-	}
-	
-	
-	public void _AggiornaLingua() {
-		if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("it")) {
-			_AggiornaLinguaBenvenuto("it");
-			textview17.setText("Spotifinity");
-			textview7.setText("Versione app:");
-			textview40.setText("Imposta un username!");
-			textview41.setText("Vai nelle impostazioni dell'app e imposta un username. Questo viene solamente visto per darti il buongiorno!");
-			materialbutton5.setText("imposta username");
-			
-			
-			
-			textview18.setText("Sondaggio aperto");
-			textview19.setText("Aiuta Spotifinity a migliorare il suo servizio rispondendo a un sondaggio cliccando il tasto qui sotto.");
-			materialbutton3.setText("partecipa");
-			textview2.setText("Ultima versione:");
-			materialbutton1.setText("esplora versioni");
-			textview16.setText("Installato");
-			textview14.setText("Versione:");
-			materialbutton2.setText("apri app");
-			textview4.setText("Nuova versione, installala ora!");
-			tv4 = "Mod ancora non installata, installala ora!";
-			dt1 = "Nuova versione (";
-			dm = "E stato rilevato una versione più recente di questa applicazione.\nVuoi andare sul sito di GitHub per scaricare l'ultima versione?";
-			dok = "Aggiorna";
-			dc = "Ignora";
-			ds = "Salta";
-			d2t = "Salta aggiornamento";
-			d2m = "Vuoi veramente saltare questo e i futuri aggiornamenti di questa applicazione?";
-			d2ok = "Si";
-			d2c = "No";
-			tv15 = "Nessuna";
-		}
-		else {
-			if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("en")) {
-				_AggiornaLinguaBenvenuto("en");
-				linear36.setVisibility(View.GONE);
-				textview17.setText("Spotifinity");
-				textview7.setText("App version:");
-				textview40.setText("Set a username!");
-				textview41.setText("Go to the app settings and set a username. This is only seen to say good morning!");
-				materialbutton5.setText("set username");
-				
-				
-				
-				textview18.setText("Survey opened");
-				textview19.setText("Help Spotifinity improve its service by taking a survey by clicking the button below.");
-				materialbutton3.setText("participate");
-				textview2.setText("Latest version:");
-				materialbutton1.setText("explore versions");
-				textview16.setText("Installed");
-				textview14.setText("Version:");
-				materialbutton2.setText("open app");
-				textview4.setText("New version, install it now!");
-				tv4 = "Mod not installed yet, install it now!";
-				dt1 = "New version (";
-				dm = "A newer version of this application has been detected.\nDo you want to go to the GitHub site to download the latest version?";
-				dok = "Update";
-				dc = "Ignore";
-				ds = "Skip";
-				d2t = "Skip update";
-				d2m = "Do you really want to skip this and future updates of this app?";
-				d2ok = "Yes";
-				d2c = "No";
-				tv15 = "None";
-			}
-			else {
-				if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("sq")) {
-					_AggiornaLinguaBenvenuto("sq");
-					linear36.setVisibility(View.GONE);
-					textview17.setText("Spotifinity");
-					textview7.setText("Versioni i aplikacionit:");
-					textview40.setText("Vendosni një emër përdoruesi!");
-					textview41.setText("Shkoni te cilësimet e aplikacionit dhe vendosni një emër përdoruesi. Kjo shihet vetëm për të thënë mirëmëngjes!");
-					materialbutton5.setText("vendos emrin e përdoruesit");
-					
-					
-					
-					textview18.setText("Sondazhin hapur");
-					textview19.setText("Ndihmoni Spotifinity të përmirësojë shërbimin e tij duke bërë një anketë duke klikuar butonin më poshtë.");
-					materialbutton3.setText("marrin pjesë");
-					textview2.setText("Versioni i fundit:");
-					materialbutton1.setText("eksploroni versionet");
-					textview16.setText("Instaluar");
-					textview14.setText("Version:");
-					materialbutton2.setText("hap aplikacionin");
-					textview4.setText("Versioni i ri, instalojeni tani!");
-					tv4 = "Mod nuk është instaluar ende, instalojeni tani!";
-					dt1 = "Versioni i ri (";
-					dm = "Është zbuluar një version më i ri i këtij aplikacioni.\nDëshironi të shkoni në faqen e GitHub për të shkarkuar versionin më të fundit?";
-					dok = "Përditëso";
-					dc = "Injoro";
-					ds = "Kapërce";
-					d2t = "Kapërce përditësimin";
-					d2m = "Dëshiron vërtet të kapërcesh këtë dhe përditësimet e ardhshme të këtij aplikacioni?";
-					d2ok = "Po";
-					d2c = "Jo";
-					tv15 = "Asnje";
-				}
-				else {
-					if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("ru")) {
-						_AggiornaLinguaBenvenuto("ru");
-						linear36.setVisibility(View.GONE);
-						textview17.setText("Спотифинити");
-						textview40.setText("Установите имя пользователя!");
-						textview41.setText("Зайдите в настройки приложения и задайте имя пользователя. Это видно только для того, чтобы пожелать доброго утра!");
-						materialbutton5.setText("установить имя пользователя");
-						
-						
-						
-						textview18.setText("Открытый опрос");
-						textview19.setText("Помогите Spotifinity улучшить свои услуги, приняв участие в опросе, нажав кнопку ниже.");
-						materialbutton3.setText("участвовать");
-						textview2.setText("Последняя версия:");
-						materialbutton1.setText("исследовать версии");
-						textview16.setText("Установлен");
-						textview14.setText("Версия:");
-						materialbutton2.setText("открыть приложение");
-						textview7.setText("Версия приложения:");
-						textview4.setText("Новая версия, установите ее прямо сейчас!");
-						tv4 = "Мод еще не установлен, установите его прямо сейчас!";
-						dt1 = "Новая версия (";
-						dm = "Обнаружена более новая версия этого приложения.\nВы хотите перейти на сайт GitHub, чтобы загрузить последнюю версию?";
-						dok = "Обновлять";
-						dc = "Игнорировать";
-						ds = "Пропускать";
-						d2t = "Пропустить обновление";
-						d2m = "Вы действительно хотите пропустить это и будущие обновления этого приложения?";
-						d2ok = "Да";
-						d2c = "Нет";
-						tv15 = "Никто";
-					}
-					else {
-						
-					}
-				}
-			}
-		}
-	}
-	
-	
-	public void _AggiornaLinguaBenvenuto(final String _lingua) {
-		educazione = Calendar.getInstance();
-		OraNoPunti = Double.parseDouble(new SimpleDateFormat("HH").format(educazione.getTime()));
-		if (_lingua.equals("it")) {
-			if (FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt")) {
-				if ((OraNoPunti == 6) || ((OraNoPunti == 7) || ((OraNoPunti == 8) || ((OraNoPunti == 9) || ((OraNoPunti == 10) || ((OraNoPunti == 11) || (OraNoPunti == 12))))))) {
-					textview428.setText("Buongiorno, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
-				}
-				else {
-					if ((OraNoPunti == 14) || ((OraNoPunti == 15) || ((OraNoPunti == 16) || (OraNoPunti == 17)))) {
-						textview428.setText("Buon pomeriggio, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
-					}
-					else {
-						if ((OraNoPunti == 18) || ((OraNoPunti == 19) || (OraNoPunti == 20))) {
-							textview428.setText("Buonasera, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
-						}
-						else {
-							if ((OraNoPunti == 21) || ((OraNoPunti == 22) || ((OraNoPunti == 23) || ((OraNoPunti == 0) || ((OraNoPunti == 1) || ((OraNoPunti == 2) || ((OraNoPunti == 3) || ((OraNoPunti == 4) || (OraNoPunti == 5))))))))) {
-								textview428.setText("Buonanotte, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
-								textview39.setText("E sogni d'oro!");
-							}
-							else {
-								textview428.setText("Benvenuto, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
-							}
-						}
-					}
-				}
-			}
-			else {
-				textview428.setText("Benvenuto, utente!");
-			}
-		}
-		else {
-			if (_lingua.equals("en")) {
-				if (FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt")) {
-					textview39.setText("Buona giornata!");
-					if ((OraNoPunti == 6) || ((OraNoPunti == 7) || ((OraNoPunti == 8) || ((OraNoPunti == 9) || ((OraNoPunti == 10) || ((OraNoPunti == 11) || (OraNoPunti == 12))))))) {
-						textview428.setText("Good morning, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
-					}
-					else {
-						if ((OraNoPunti == 14) || ((OraNoPunti == 15) || ((OraNoPunti == 16) || (OraNoPunti == 17)))) {
-							textview428.setText("Good afternoon, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
-						}
-						else {
-							if ((OraNoPunti == 18) || ((OraNoPunti == 19) || (OraNoPunti == 20))) {
-								textview428.setText("Good evening, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
-							}
-							else {
-								if ((OraNoPunti == 21) || ((OraNoPunti == 22) || ((OraNoPunti == 23) || ((OraNoPunti == 0) || ((OraNoPunti == 1) || ((OraNoPunti == 2) || ((OraNoPunti == 3) || ((OraNoPunti == 4) || (OraNoPunti == 5))))))))) {
-									textview428.setText("Good night, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
-									textview39.setText("And sweet dreams!");
-								}
-								else {
-									textview428.setText("Welcome, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
-								}
-							}
-						}
-					}
-				}
-				else {
-					textview428.setText("Welcome, user!");
-				}
-			}
-			else {
-				if (_lingua.equals("sq")) {
-					if (FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt")) {
-						if ((OraNoPunti == 6) || ((OraNoPunti == 7) || ((OraNoPunti == 8) || ((OraNoPunti == 9) || ((OraNoPunti == 10) || ((OraNoPunti == 11) || (OraNoPunti == 12))))))) {
-							textview428.setText("Miremengjes, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
-						}
-						else {
-							if ((OraNoPunti == 14) || ((OraNoPunti == 15) || ((OraNoPunti == 16) || (OraNoPunti == 17)))) {
-								textview428.setText("Mirembrema, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
-							}
-							else {
-								if ((OraNoPunti == 18) || ((OraNoPunti == 19) || (OraNoPunti == 20))) {
-									textview428.setText("Mirembrema, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
-								}
-								else {
-									if ((OraNoPunti == 21) || ((OraNoPunti == 22) || ((OraNoPunti == 23) || ((OraNoPunti == 0) || ((OraNoPunti == 1) || ((OraNoPunti == 2) || ((OraNoPunti == 3) || ((OraNoPunti == 4) || (OraNoPunti == 5))))))))) {
-										textview428.setText("Naten e mire, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
-										textview39.setText("Dhe ëndrrat e ëmbla!");
-									}
-									else {
-										textview428.setText("Mirë se vini, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
-									}
-								}
-							}
-						}
-					}
-					else {
-						textview428.setText("Mirësevini, përdorues!");
-					}
-				}
-				else {
-					if (_lingua.equals("ru")) {
-						if (FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt")) {
-							if ((OraNoPunti == 6) || ((OraNoPunti == 7) || ((OraNoPunti == 8) || ((OraNoPunti == 9) || ((OraNoPunti == 10) || ((OraNoPunti == 11) || (OraNoPunti == 12))))))) {
-								textview428.setText("Доброе утро, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
-							}
-							else {
-								if ((OraNoPunti == 14) || ((OraNoPunti == 15) || ((OraNoPunti == 16) || (OraNoPunti == 17)))) {
-									textview428.setText("Добрый день, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
-								}
-								else {
-									if ((OraNoPunti == 18) || ((OraNoPunti == 19) || (OraNoPunti == 20))) {
-										textview428.setText("Добрый вечер, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
-									}
-									else {
-										if ((OraNoPunti == 21) || ((OraNoPunti == 22) || ((OraNoPunti == 23) || ((OraNoPunti == 0) || ((OraNoPunti == 1) || ((OraNoPunti == 2) || ((OraNoPunti == 3) || ((OraNoPunti == 4) || (OraNoPunti == 5))))))))) {
-											textview428.setText("Спокойной ночи, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
-											textview39.setText("И сладких снов!");
-										}
-										else {
-											textview428.setText("Добро пожаловать, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
-										}
-									}
-								}
-							}
-						}
-						else {
-							textview428.setText("Добро пожаловать, пользователь!");
-						}
-					}
-					else {
-						
-					}
-				}
-			}
-		}
 	}
 	
 }

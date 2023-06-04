@@ -207,55 +207,14 @@ public class ConfiguraActivity extends AppCompatActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		_AggiornaLingua();
 		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
 			Window w =ConfiguraActivity.this.getWindow();
 			w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 			w.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); w.setStatusBarColor(0xFF000000);
 		}
-		if (FileUtil.isExistFile("storage/emulated/0/Android/data/com.spotify.music") && FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/downloaded.txt").equals("")) {
-			SketchwareUtil.showMessage(getApplicationContext(), "Ciao");
-		}
 	}
 	public void _ApriApp(final String _app) {
 		Intent launchIntent = getPackageManager().getLaunchIntentForPackage(_app);  { startActivity(launchIntent);}
-	}
-	
-	
-	public void _AggiornaLingua() {
-		if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("it")) {
-			textview10.setText("Configura l'app prima di continuare");
-			textview11.setText("Sulla schermata che ti e apparso che ti chiede di installare Spotify clicca il tasto INSTALLA e poi, una volta finito, il tasto FINE non apri!\nPoi clicca il tasto qui sotto \"Completa congratulazione\".");
-			materialbutton1.setText("completa configurazione");
-			lang = "Nessuna";
-		}
-		else {
-			if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("en")) {
-				textview10.setText("Configure the app before continuing");
-				textview11.setText("On the screen that appears asking you to install Spotify, click the INSTALL button and then, once finished, the END button does not open!\nThen click the button below \"Complete configuration\".");
-				materialbutton1.setText("complete configuration");
-				lang = "None";
-			}
-			else {
-				if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("sq")) {
-					textview10.setText("Konfiguro aplikacionin përpara se të vazhdosh");
-					textview11.setText("Në ekranin që shfaqet duke ju kërkuar të instaloni Spotify, klikoni butonin INSTALL dhe më pas, pasi të keni mbaruar,kliko butoni FUND, jo HAPE!\nPastaj klikoni butonin më poshtë \"Mbaroi configurimi\".");
-					materialbutton1.setText("Mbaroi configurimi");
-					lang = "Asnje";
-				}
-				else {
-					if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("ru")) {
-						textview10.setText("Настройте приложение, прежде чем продолжить");
-						textview11.setText("На появившемся экране с предложением установить Spotify нажмите кнопку «УСТАНОВИТЬ», а затем, после завершения, кнопка «КОНЕЦ» не открывается!\nЗатем нажмите кнопку ниже «полная конфигурация».");
-						materialbutton1.setText("полная конфигурация");
-						lang = "Никто";
-					}
-					else {
-						
-					}
-				}
-			}
-		}
 	}
 	
 }

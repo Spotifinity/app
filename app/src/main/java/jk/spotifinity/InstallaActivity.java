@@ -568,11 +568,10 @@ public class InstallaActivity extends AppCompatActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		_AggiornaLingua();
 		FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/skipLoad", "");
 		textview4.setText(getIntent().getStringExtra("link"));
 		textview7.setText(getIntent().getStringExtra("novità"));
-		textview8.setText(tv8.concat(getIntent().getStringExtra("ver")));
+		textview8.setText("Versione ".concat(getIntent().getStringExtra("ver")));
 		Version = getIntent().getStringExtra("ver");
 		if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/modSviluppatore")) {
 			linear7.setVisibility(View.GONE);
@@ -582,16 +581,16 @@ public class InstallaActivity extends AppCompatActivity {
 			FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/percorso.txt", "storage/emulated/0/Download");
 		}
 		if (FileUtil.isExistFile("storage/emulated/0/Android/data/com.spotify.music") && !FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Verificato.txt")) {
-			avviso.setTitle(at);
-			avviso.setMessage(am);
+			avviso.setTitle("Spotify già installato");
+			avviso.setMessage("Ho rilevato che hai già installato Spotify sul tuo dispositivo. Per garantire la qualità della mod ti consiglio di disinstallare il Spotify attualmente installato e installare questa mod.");
 			avviso.setIcon(R.drawable.ic_report_problem_white);
-			avviso.setPositiveButton(aok, new DialogInterface.OnClickListener() {
+			avviso.setPositiveButton("disinstalla", new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface _dialog, int _which) {
 					Uri packageURI = Uri.parse("package:".concat("com.spotify.music")); Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageURI); startActivity(uninstallIntent);
 				}
 			});
-			avviso.setNegativeButton(ac, new DialogInterface.OnClickListener() {
+			avviso.setNegativeButton("ignora", new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface _dialog, int _which) {
 					
@@ -2396,83 +2395,6 @@ public class InstallaActivity extends AppCompatActivity {
 	
 	{
 		
-	}
-	
-	
-	public void _AggiornaLingua() {
-		if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("it")) {
-			textview1.setText("Installa");
-			textview3.setText("Pronto per l'installazione");
-			materialbutton1.setText("Inizia l'installazione");
-			materialbutton2.setText("solo apk");
-			textview10.setText("Clicca 2 volte per installare");
-			textview2.setText("Link installazione:");
-			textview6.setText("Registro cambiamenti");
-			tv8 = "Versione ";
-			snacktext = "APK installato con successo!";
-			snackbutton = "Installa app";
-			at = "Spotify già installato";
-			am = "Ho rilevato che hai già installato Spotify sul tuo dispositivo. Per garantire la qualità della mod ti consiglio di disinstallare il Spotify attualmente installato e installare questa mod.";
-			aok = "disinstalla";
-			ac = "ignora";
-		}
-		else {
-			if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("en")) {
-				textview1.setText("Install");
-				textview3.setText("Ready to install");
-				materialbutton1.setText("Start installation");
-				materialbutton2.setText("apk only");
-				textview10.setText("Click 2 times to install");
-				textview2.setText("Installation link:");
-				textview6.setText("Change log");
-				tv8 = "Version ";
-				snacktext = "APK installed successfully!";
-				snackbutton = "Install app";
-				at = "Spotify already installed";
-				am = "I have detected that you have already installed Spotify on your device. To ensure the quality of the mod I recommend you to uninstall the currently installed Spotify and install this mod.";
-				aok = "uninstall";
-				ac = "ignore";
-			}
-			else {
-				if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("sq")) {
-					textview1.setText("Instaloni");
-					textview3.setText("Gati për instalim");
-					materialbutton1.setText("Fillon instalimi");
-					materialbutton2.setText("vetëm apk");
-					textview10.setText("Klikoni 2 herë për ta instaluar");
-					textview2.setText("Lidhjet e instalimit:");
-					textview6.setText("Ndrysho regjistrin");
-					tv8 = "Version ";
-					snacktext = "APK u instalua me sukses!";
-					snackbutton = "Instaloni aplikacione";
-					at = "Spotify është instaluar tashmë";
-					am = "Kam zbuluar që ju keni instaluar tashmë Spotify në pajisjen tuaj. Për të siguruar cilësinë e mod-it, ju rekomandoj të çinstaloni Spotify-in e instaluar aktualisht dhe të instaloni këtë mod.";
-					aok = "çinstaloni";
-					ac = "injorojnë";
-				}
-				else {
-					if (FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt").equals("ru")) {
-						textview1.setText("Установить");
-						textview3.setText("Готов к установке");
-						materialbutton1.setText("Установка начинается");
-						materialbutton2.setText("только апк");
-						textview10.setText("Нажмите 2 раза, чтобы установить");
-						textview2.setText("Ссылки на установку:");
-						textview6.setText("Журнал изменений");
-						tv8 = "Версия ";
-						snacktext = "АПК успешно установлен!";
-						snackbutton = "Установить приложения";
-						at = "Спотифай уже установлен";
-						am = "Я обнаружил, что вы уже установили Spotify на свое устройство. Чтобы обеспечить качество мода, я рекомендую вам удалить установленный в данный момент Spotify и установить этот мод.";
-						aok = "удалить";
-						ac = "игнорировать";
-					}
-					else {
-						
-					}
-				}
-			}
-		}
 	}
 	
 }
