@@ -344,7 +344,7 @@ public class RegistratiActivity extends AppCompatActivity {
 				fade_in.setFillAfter(true);
 				imageview3.startAnimation(fade_in);
 				info.setTitle("Info sul messaggio di benvenuto");
-				info.setMessage("Selezionando questa opzione accetterai di condividere il tuo username (".concat("".concat(") e di inviarlo come messaggio di benvenuto nel server Discord ufficiale Spotifinity.\nSe non accetterai questo questo username viene usato per darti il benvenuto sull'app.\nQuesto username può essere modificato nelle impostazioni.")));
+				info.setMessage("Selezionando questa opzione accetterai di condividere il tuo username (".concat(edittext3.getText().toString().concat(") e di inviarlo come messaggio di benvenuto nel server Discord ufficiale Spotifinity.\nSe non accetterai questo questo username viene usato per darti il benvenuto sull'app.\nQuesto username può essere modificato nelle impostazioni.")));
 				info.setIcon(R.drawable.ic_help_white);
 				info.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 					@Override
@@ -510,7 +510,7 @@ public class RegistratiActivity extends AppCompatActivity {
 						headers = new HashMap<>();
 						body = new HashMap<>();
 						headers.put("url", "https://discord.com/api/webhooks/1104802074476150914/IijGyOgRg8hoMKDhHuXvQn_u0vh-vjkvVIhdS7LOtqeJ6z7D4AAPo7YhVmMIL9vSs9II");
-						body.put("content", "**".concat("").concat("** si e registrato su Spotifinity!"));
+						body.put("content", "**".concat(edittext3.getText().toString()).concat("** si e registrato su Spotifinity!"));
 						notifica.setHeaders(headers);
 						notifica.setParams(body, RequestNetworkController.REQUEST_BODY);
 						notifica.startRequestNetwork(RequestNetworkController.POST, "https://discord.com/api/webhooks/1104802074476150914/IijGyOgRg8hoMKDhHuXvQn_u0vh-vjkvVIhdS7LOtqeJ6z7D4AAPo7YhVmMIL9vSs9II", "", _notifica_request_listener);
@@ -518,7 +518,7 @@ public class RegistratiActivity extends AppCompatActivity {
 					headers = new HashMap<>();
 					body = new HashMap<>();
 					headers.put("url", "https://discord.com/api/webhooks/1108070617103728660/G9EoT--Dz_mo1DDRDqqk7Lk6ULp9gC8cEAQBQ5eRnorBFeC_X4ZXZbKY1dGjN_bXJGZx");
-					body.put("content", edittext3.getText().toString().concat("si e registrato su Spotifinity. La sua mail è ".concat(FirebaseAuth.getInstance().getCurrentUser().getEmail()).concat(" e il suo UID è ".concat(FirebaseAuth.getInstance().getCurrentUser().getUid().concat(".\n----------")))));
+					body.put("content", edittext3.getText().toString().concat(" si e registrato su Spotifinity. La sua mail è ".concat(FirebaseAuth.getInstance().getCurrentUser().getEmail()).concat(" e il suo UID è ".concat(FirebaseAuth.getInstance().getCurrentUser().getUid().concat(".\n----------")))));
 					notifica.setHeaders(headers);
 					notifica.setParams(body, RequestNetworkController.REQUEST_BODY);
 					notifica.startRequestNetwork(RequestNetworkController.POST, "https://discord.com/api/webhooks/1108070617103728660/G9EoT--Dz_mo1DDRDqqk7Lk6ULp9gC8cEAQBQ5eRnorBFeC_X4ZXZbKY1dGjN_bXJGZx", "", _notifica_request_listener);
