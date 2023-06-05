@@ -192,6 +192,24 @@ public class RegistratiActivity extends AppCompatActivity {
 			}
 		});
 		
+		edittext1.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence _param1, int _param2, int _param3, int _param4) {
+				final String _charSeq = _param1.toString();
+				edittext1.setHintTextColor(0xFFF44336);
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence _param1, int _param2, int _param3, int _param4) {
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable _param1) {
+				
+			}
+		});
+		
 		edittext2.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
@@ -207,6 +225,7 @@ public class RegistratiActivity extends AppCompatActivity {
 			public void onTextChanged(CharSequence _param1, int _param2, int _param3, int _param4) {
 				final String _charSeq = _param1.toString();
 				textview6.setText(_charSeq);
+				edittext2.setHintTextColor(0xFFF44336);
 			}
 			
 			@Override
@@ -223,89 +242,20 @@ public class RegistratiActivity extends AppCompatActivity {
 		materialbutton1.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				if (edittext1.getText().toString().equals("") && edittext2.getText().toString().equals("")) {
-					
-					{
-						DisplayMetrics screen = new DisplayMetrics();
-						getWindowManager().getDefaultDisplay().getMetrics(screen);
-						double dp = 10;
-						double logicalDensity = screen.density;
-						int px = (int) Math.ceil(dp * logicalDensity);
-						Toast RegistratiActivityToast = Toast.makeText(RegistratiActivity.this, "Inserisci una email e password!", 2000);
-						View RegistratiActivityView = RegistratiActivityToast.getView();
-						RegistratiActivityView.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#424242")));
-						
-						
-						TextView RegistratiActivityText = RegistratiActivityView.findViewById(android.R.id.message);
-						RegistratiActivityText.setTextColor(Color.parseColor("#ffffff"));
-						RegistratiActivityText.setShadowLayer(0,0,0,0);
-						RegistratiActivityToast.show();
-					}
+				if (edittext1.getText().toString().equals("")) {
+					edittext1.setHintTextColor(0xFFF44336);
 				}
 				else {
-					if (edittext1.getText().toString().equals("")) {
-						
-						{
-							DisplayMetrics screen = new DisplayMetrics();
-							getWindowManager().getDefaultDisplay().getMetrics(screen);
-							double dp = 10;
-							double logicalDensity = screen.density;
-							int px = (int) Math.ceil(dp * logicalDensity);
-							Toast RegistratiActivityToast = Toast.makeText(RegistratiActivity.this, "Inserisci una email!", 2000);
-							View RegistratiActivityView = RegistratiActivityToast.getView();
-							RegistratiActivityView.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#424242")));
-							
-							
-							TextView RegistratiActivityText = RegistratiActivityView.findViewById(android.R.id.message);
-							RegistratiActivityText.setTextColor(Color.parseColor("#ffffff"));
-							RegistratiActivityText.setShadowLayer(0,0,0,0);
-							RegistratiActivityToast.show();
-						}
+					if (edittext2.getText().toString().equals("")) {
+						edittext2.setHintTextColor(0xFFF44336);
 					}
 					else {
-						if (edittext2.getText().toString().equals("")) {
-							
-							{
-								DisplayMetrics screen = new DisplayMetrics();
-								getWindowManager().getDefaultDisplay().getMetrics(screen);
-								double dp = 10;
-								double logicalDensity = screen.density;
-								int px = (int) Math.ceil(dp * logicalDensity);
-								Toast RegistratiActivityToast = Toast.makeText(RegistratiActivity.this, "Inserisci una password!", 2000);
-								View RegistratiActivityView = RegistratiActivityToast.getView();
-								RegistratiActivityView.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#424242")));
-								
-								
-								TextView RegistratiActivityText = RegistratiActivityView.findViewById(android.R.id.message);
-								RegistratiActivityText.setTextColor(Color.parseColor("#ffffff"));
-								RegistratiActivityText.setShadowLayer(0,0,0,0);
-								RegistratiActivityToast.show();
-							}
+						if (edittext3.getText().toString().equals("")) {
+							edittext3.setHintTextColor(0xFFF44336);
 						}
 						else {
-							if ("".equals("")) {
-								
-								{
-									DisplayMetrics screen = new DisplayMetrics();
-									getWindowManager().getDefaultDisplay().getMetrics(screen);
-									double dp = 10;
-									double logicalDensity = screen.density;
-									int px = (int) Math.ceil(dp * logicalDensity);
-									Toast RegistratiActivityToast = Toast.makeText(RegistratiActivity.this, "Inserisci un username!", 2000);
-									View RegistratiActivityView = RegistratiActivityToast.getView();
-									RegistratiActivityView.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#424242")));
-									
-									
-									TextView RegistratiActivityText = RegistratiActivityView.findViewById(android.R.id.message);
-									RegistratiActivityText.setTextColor(Color.parseColor("#ffffff"));
-									RegistratiActivityText.setShadowLayer(0,0,0,0);
-									RegistratiActivityToast.show();
-								}
-							}
-							else {
-								progressbar1.setVisibility(View.VISIBLE);
-								auth.createUserWithEmailAndPassword(edittext1.getText().toString(), edittext2.getText().toString()).addOnCompleteListener(RegistratiActivity.this, _auth_create_user_listener);
-							}
+							progressbar1.setVisibility(View.VISIBLE);
+							auth.createUserWithEmailAndPassword(edittext1.getText().toString(), edittext2.getText().toString()).addOnCompleteListener(RegistratiActivity.this, _auth_create_user_listener);
 						}
 					}
 				}
@@ -316,6 +266,7 @@ public class RegistratiActivity extends AppCompatActivity {
 			@Override
 			public void onTextChanged(CharSequence _param1, int _param2, int _param3, int _param4) {
 				final String _charSeq = _param1.toString();
+				edittext3.setHintTextColor(0xFFF44336);
 				if (_charSeq.contains(" @".replace(" ", ""))) {
 					textview8.setVisibility(View.VISIBLE);
 				}
@@ -554,7 +505,7 @@ public class RegistratiActivity extends AppCompatActivity {
 					FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity/Account");
 					FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Account/email", edittext1.getText().toString());
 					FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Account/password", edittext2.getText().toString());
-					FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt", "");
+					FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt", edittext3.getText().toString());
 					if (checkbox2.isChecked()) {
 						headers = new HashMap<>();
 						body = new HashMap<>();

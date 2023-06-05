@@ -46,7 +46,7 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:padding="8dp"
-					android:text="Sulla schermata che ti e apparso che ti chiede di installare Spotify clicca il tasto INSTALLA e poi, una volta finito, il tasto FINE non apri!\nPoi clicca il tasto qui sotto &quot;Completa congratulazione&quot;."
+					android:text="Sulla schermata che ti e apparso che ti chiede di installare Spotify clicca il tasto INSTALLA e poi, una volta finito apri Spotify e accedi.\nUna volta completato l'operazione clicca su questo tasto."
 					android:textSize="12sp"
 					android:textColor="#FFFFFF" />
 			</LinearLayout>
