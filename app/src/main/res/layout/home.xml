@@ -16,7 +16,7 @@
 			android:id="@+id/imageview1"
 			android:layout_width="40dp"
 			android:layout_height="wrap_content"
-			android:src="@drawable/logonobg"
+			android:src="@drawable/ualogonobg"
 			android:scaleType="centerCrop" />
 		<TextView
 			android:id="@+id/textview17"
@@ -51,7 +51,7 @@
 				android:paddingRight="8dp"
 				android:paddingBottom="8dp"
 				android:gravity="center_vertical"
-				android:text="8.2"
+				android:text="9"
 				android:textSize="12sp"
 				android:textStyle="bold"
 				android:textColor="#616161" />

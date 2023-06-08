@@ -37,6 +37,7 @@ import com.google.firebase.FirebaseApp;
 import com.mannan.translateapi.*;
 import com.tonyodev.fetch2.*;
 import com.tonyodev.fetch2core.*;
+import eightbitlab.com.blurview.*;
 import java.io.*;
 import java.text.*;
 import java.util.*;
@@ -97,26 +98,38 @@ public class ConfiguraActivity extends AppCompatActivity {
 		materialbutton1.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				FileUtil.deleteFile("storage/emulated/0/Android/data/jk.spotifinity/configurazione");
-				FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/downloaded.txt", FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/configurazioneVer"));
-				
-				{
-					DisplayMetrics screen = new DisplayMetrics();
-					getWindowManager().getDefaultDisplay().getMetrics(screen);
-					double dp = 10;
-					double logicalDensity = screen.density;
-					int px = (int) Math.ceil(dp * logicalDensity);
-					Toast ConfiguraActivityToast = Toast.makeText(ConfiguraActivity.this, "App configurata!", 2000);
-					View ConfiguraActivityView = ConfiguraActivityToast.getView();
-					ConfiguraActivityView.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#424242")));
-					
-					
-					TextView ConfiguraActivityText = ConfiguraActivityView.findViewById(android.R.id.message);
-					ConfiguraActivityText.setTextColor(Color.parseColor("#ffffff"));
-					ConfiguraActivityText.setShadowLayer(0,0,0,0);
-					ConfiguraActivityToast.show();
-				}
-				finish();
+				_ApriApp("com.spotify.music");
+				wait = new TimerTask() {
+					@Override
+					public void run() {
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								FileUtil.deleteFile("storage/emulated/0/Android/data/jk.spotifinity/configurazione");
+								FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/downloaded.txt", FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/configurazioneVer"));
+								
+								{
+									DisplayMetrics screen = new DisplayMetrics();
+									getWindowManager().getDefaultDisplay().getMetrics(screen);
+									double dp = 10;
+									double logicalDensity = screen.density;
+									int px = (int) Math.ceil(dp * logicalDensity);
+									Toast ConfiguraActivityToast = Toast.makeText(ConfiguraActivity.this, "App configurata!", 2000);
+									View ConfiguraActivityView = ConfiguraActivityToast.getView();
+									ConfiguraActivityView.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#424242")));
+									
+									
+									TextView ConfiguraActivityText = ConfiguraActivityView.findViewById(android.R.id.message);
+									ConfiguraActivityText.setTextColor(Color.parseColor("#ffffff"));
+									ConfiguraActivityText.setShadowLayer(0,0,0,0);
+									ConfiguraActivityToast.show();
+								}
+								finish();
+							}
+						});
+					}
+				};
+				_timer.schedule(wait, (int)(3000));
 			}
 		});
 	}

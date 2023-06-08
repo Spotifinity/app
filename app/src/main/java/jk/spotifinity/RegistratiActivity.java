@@ -53,6 +53,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.mannan.translateapi.*;
 import com.tonyodev.fetch2.*;
 import com.tonyodev.fetch2core.*;
+import eightbitlab.com.blurview.*;
 import java.io.*;
 import java.text.*;
 import java.util.*;
@@ -316,10 +317,7 @@ public class RegistratiActivity extends AppCompatActivity {
 		checkbox3.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
-				fade_in.setDuration(300);
-				fade_in.setFillAfter(true);
-				linear9.startAnimation(fade_in);
+				
 			}
 		});
 		
@@ -344,7 +342,7 @@ public class RegistratiActivity extends AppCompatActivity {
 				fade_in.setFillAfter(true);
 				imageview3.startAnimation(fade_in);
 				info.setTitle("Info sul messaggio di benvenuto");
-				info.setMessage("Selezionando questa opzione accetterai di condividere il tuo username (".concat(edittext3.getText().toString().concat(") e di inviarlo come messaggio di benvenuto nel server Discord ufficiale Spotifinity.\nSe non accetterai questo questo username viene usato per darti il benvenuto sull'app.\nQuesto username può essere modificato nelle impostazioni.")));
+				info.setMessage("Selezionando questa opzione accetterai di condividere il tuo username (".concat("".concat(") e di inviarlo come messaggio di benvenuto nel server Discord ufficiale Spotifinity.\nSe non accetterai questo questo username viene usato per darti il benvenuto sull'app.\nQuesto username può essere modificato nelle impostazioni.")));
 				info.setIcon(R.drawable.ic_help_white);
 				info.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 					@Override
@@ -400,10 +398,7 @@ public class RegistratiActivity extends AppCompatActivity {
 		checkbox2.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
-				fade_in.setDuration(300);
-				fade_in.setFillAfter(true);
-				linear7.startAnimation(fade_in);
+				
 			}
 		});
 		

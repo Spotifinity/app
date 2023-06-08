@@ -43,6 +43,7 @@ import com.google.firebase.FirebaseApp;
 import com.mannan.translateapi.*;
 import com.tonyodev.fetch2.*;
 import com.tonyodev.fetch2core.*;
+import eightbitlab.com.blurview.*;
 import java.io.*;
 import java.text.*;
 import java.text.SimpleDateFormat;
@@ -318,7 +319,6 @@ public class HomeActivity extends AppCompatActivity {
 	}
 	
 	private void initializeLogic() {
-		dialog = new AlertDialog.Builder(this,AlertDialog.THEME_DEVICE_DEFAULT_DARK);
 		
 		{
 			materialbutton1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#1BA8F0")));

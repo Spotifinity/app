@@ -53,6 +53,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.mannan.translateapi.*;
 import com.tonyodev.fetch2.*;
 import com.tonyodev.fetch2core.*;
+import eightbitlab.com.blurview.*;
 import java.io.*;
 import java.text.*;
 import java.util.*;
@@ -309,10 +310,7 @@ public class AccediActivity extends AppCompatActivity {
 		checkbox3.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
-				fade_in.setDuration(300);
-				fade_in.setFillAfter(true);
-				linear9.startAnimation(fade_in);
+				
 			}
 		});
 		
