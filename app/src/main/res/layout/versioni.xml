@@ -59,19 +59,5 @@
 				android:textSize="12sp"
 				android:textColor="#FFFFFF" />
 		</LinearLayout>
-		<com.google.android.material.button.MaterialButton
-			android:id="@+id/materialbutton1"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="5dp"
-			android:padding="8dp"
-			android:gravity="center_horizontal|center_vertical"
-			android:text="seleziona versione"
-			android:textSize="12sp"
-			android:textColor="#FFFFFF"
-			android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-			app:backgroundTint="@color/colorPrimary"
-			app:cornerRadius="8dp"
-			style="@style/Widget.MaterialComponents.Button" />
 	</LinearLayout>
 </LinearLayout>

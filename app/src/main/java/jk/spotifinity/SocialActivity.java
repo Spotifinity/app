@@ -154,204 +154,60 @@ public class SocialActivity extends AppCompatActivity {
 		double linear5DP = 10;
 		double linear5LogicalDensity = linear5Screen.density;
 		int linear5PX = (int) Math.ceil(linear5DP * linear5LogicalDensity);
-		linear5.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#212121")); return this; } }.getIns((int)linear5PX, (int)0));
+		android.graphics.drawable.GradientDrawable linear5GG = new android.graphics.drawable.GradientDrawable();
+		linear5GG.setColor(Color.parseColor("#212121"));
+		linear5GG.setCornerRadius((float)linear5PX);
+		linear5GG.setStroke((int) 0,
+		Color.parseColor("#000000"));
+		android.graphics.drawable.RippleDrawable linear5RE = new android.graphics.drawable.RippleDrawable(new android.content.res.ColorStateList(new int[][]{new int[]{}}, new int[]{ Color.parseColor("#2196F3")}), linear5GG, null);
+		linear5.setBackground(linear5RE);
 		linear5.setElevation(0);
 		linear5.setTranslationZ(0);
-		linear5.setOnTouchListener(new View.OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				switch (event.getAction()){
-					case MotionEvent.ACTION_DOWN:{
-						ObjectAnimator scaleX = new ObjectAnimator();
-						scaleX.setTarget(linear5);
-						scaleX.setPropertyName("scaleX");
-						scaleX.setFloatValues(0.9f);
-						scaleX.setDuration(100);
-						scaleX.start();
-						
-						ObjectAnimator scaleY = new ObjectAnimator();
-						scaleY.setTarget(linear5);
-						scaleY.setPropertyName("scaleY");
-						scaleY.setFloatValues(0.9f);
-						scaleY.setDuration(100);
-						scaleY.start();
-						break;
-					}
-					case MotionEvent.ACTION_UP:{
-						
-						ObjectAnimator scaleX = new ObjectAnimator();
-						scaleX.setTarget(linear5);
-						scaleX.setPropertyName("scaleX");
-						scaleX.setFloatValues((float)1);
-						scaleX.setDuration(100);
-						scaleX.start();
-						
-						ObjectAnimator scaleY = new ObjectAnimator();
-						scaleY.setTarget(linear5);
-						scaleY.setPropertyName("scaleY");
-						scaleY.setFloatValues((float)1);
-						scaleY.setDuration(100);
-						scaleY.start();
-						
-						break;
-					}
-				}
-				return false;
-			}
-		});
 		
 		DisplayMetrics linear8Screen = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(linear8Screen);
 		double linear8DP = 10;
 		double linear8LogicalDensity = linear8Screen.density;
 		int linear8PX = (int) Math.ceil(linear8DP * linear8LogicalDensity);
-		linear8.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#212121")); return this; } }.getIns((int)linear8PX, (int)0));
+		android.graphics.drawable.GradientDrawable linear8GG = new android.graphics.drawable.GradientDrawable();
+		linear8GG.setColor(Color.parseColor("#212121"));
+		linear8GG.setCornerRadius((float)linear8PX);
+		linear8GG.setStroke((int) 0,
+		Color.parseColor("#000000"));
+		android.graphics.drawable.RippleDrawable linear8RE = new android.graphics.drawable.RippleDrawable(new android.content.res.ColorStateList(new int[][]{new int[]{}}, new int[]{ Color.parseColor("#2196F3")}), linear8GG, null);
+		linear8.setBackground(linear8RE);
 		linear8.setElevation(0);
 		linear8.setTranslationZ(0);
-		linear8.setOnTouchListener(new View.OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				switch (event.getAction()){
-					case MotionEvent.ACTION_DOWN:{
-						ObjectAnimator scaleX = new ObjectAnimator();
-						scaleX.setTarget(linear8);
-						scaleX.setPropertyName("scaleX");
-						scaleX.setFloatValues(0.9f);
-						scaleX.setDuration(100);
-						scaleX.start();
-						
-						ObjectAnimator scaleY = new ObjectAnimator();
-						scaleY.setTarget(linear8);
-						scaleY.setPropertyName("scaleY");
-						scaleY.setFloatValues(0.9f);
-						scaleY.setDuration(100);
-						scaleY.start();
-						break;
-					}
-					case MotionEvent.ACTION_UP:{
-						
-						ObjectAnimator scaleX = new ObjectAnimator();
-						scaleX.setTarget(linear8);
-						scaleX.setPropertyName("scaleX");
-						scaleX.setFloatValues((float)1);
-						scaleX.setDuration(100);
-						scaleX.start();
-						
-						ObjectAnimator scaleY = new ObjectAnimator();
-						scaleY.setTarget(linear8);
-						scaleY.setPropertyName("scaleY");
-						scaleY.setFloatValues((float)1);
-						scaleY.setDuration(100);
-						scaleY.start();
-						
-						break;
-					}
-				}
-				return false;
-			}
-		});
 		
 		DisplayMetrics linear11Screen = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(linear11Screen);
 		double linear11DP = 10;
 		double linear11LogicalDensity = linear11Screen.density;
 		int linear11PX = (int) Math.ceil(linear11DP * linear11LogicalDensity);
-		linear11.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#212121")); return this; } }.getIns((int)linear11PX, (int)0));
+		android.graphics.drawable.GradientDrawable linear11GG = new android.graphics.drawable.GradientDrawable();
+		linear11GG.setColor(Color.parseColor("#212121"));
+		linear11GG.setCornerRadius((float)linear11PX);
+		linear11GG.setStroke((int) 0,
+		Color.parseColor("#000000"));
+		android.graphics.drawable.RippleDrawable linear11RE = new android.graphics.drawable.RippleDrawable(new android.content.res.ColorStateList(new int[][]{new int[]{}}, new int[]{ Color.parseColor("#2196F3")}), linear11GG, null);
+		linear11.setBackground(linear11RE);
 		linear11.setElevation(0);
 		linear11.setTranslationZ(0);
-		linear11.setOnTouchListener(new View.OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				switch (event.getAction()){
-					case MotionEvent.ACTION_DOWN:{
-						ObjectAnimator scaleX = new ObjectAnimator();
-						scaleX.setTarget(linear11);
-						scaleX.setPropertyName("scaleX");
-						scaleX.setFloatValues(0.9f);
-						scaleX.setDuration(100);
-						scaleX.start();
-						
-						ObjectAnimator scaleY = new ObjectAnimator();
-						scaleY.setTarget(linear11);
-						scaleY.setPropertyName("scaleY");
-						scaleY.setFloatValues(0.9f);
-						scaleY.setDuration(100);
-						scaleY.start();
-						break;
-					}
-					case MotionEvent.ACTION_UP:{
-						
-						ObjectAnimator scaleX = new ObjectAnimator();
-						scaleX.setTarget(linear11);
-						scaleX.setPropertyName("scaleX");
-						scaleX.setFloatValues((float)1);
-						scaleX.setDuration(100);
-						scaleX.start();
-						
-						ObjectAnimator scaleY = new ObjectAnimator();
-						scaleY.setTarget(linear11);
-						scaleY.setPropertyName("scaleY");
-						scaleY.setFloatValues((float)1);
-						scaleY.setDuration(100);
-						scaleY.start();
-						
-						break;
-					}
-				}
-				return false;
-			}
-		});
 		
 		DisplayMetrics linear14Screen = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(linear14Screen);
 		double linear14DP = 10;
 		double linear14LogicalDensity = linear14Screen.density;
 		int linear14PX = (int) Math.ceil(linear14DP * linear14LogicalDensity);
-		linear14.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#212121")); return this; } }.getIns((int)linear14PX, (int)0));
+		android.graphics.drawable.GradientDrawable linear14GG = new android.graphics.drawable.GradientDrawable();
+		linear14GG.setColor(Color.parseColor("#212121"));
+		linear14GG.setCornerRadius((float)linear14PX);
+		linear14GG.setStroke((int) 0,
+		Color.parseColor("#000000"));
+		android.graphics.drawable.RippleDrawable linear14RE = new android.graphics.drawable.RippleDrawable(new android.content.res.ColorStateList(new int[][]{new int[]{}}, new int[]{ Color.parseColor("#2196F3")}), linear14GG, null);
+		linear14.setBackground(linear14RE);
 		linear14.setElevation(0);
 		linear14.setTranslationZ(0);
-		linear14.setOnTouchListener(new View.OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				switch (event.getAction()){
-					case MotionEvent.ACTION_DOWN:{
-						ObjectAnimator scaleX = new ObjectAnimator();
-						scaleX.setTarget(linear14);
-						scaleX.setPropertyName("scaleX");
-						scaleX.setFloatValues(0.9f);
-						scaleX.setDuration(100);
-						scaleX.start();
-						
-						ObjectAnimator scaleY = new ObjectAnimator();
-						scaleY.setTarget(linear14);
-						scaleY.setPropertyName("scaleY");
-						scaleY.setFloatValues(0.9f);
-						scaleY.setDuration(100);
-						scaleY.start();
-						break;
-					}
-					case MotionEvent.ACTION_UP:{
-						
-						ObjectAnimator scaleX = new ObjectAnimator();
-						scaleX.setTarget(linear14);
-						scaleX.setPropertyName("scaleX");
-						scaleX.setFloatValues((float)1);
-						scaleX.setDuration(100);
-						scaleX.start();
-						
-						ObjectAnimator scaleY = new ObjectAnimator();
-						scaleY.setTarget(linear14);
-						scaleY.setPropertyName("scaleY");
-						scaleY.setFloatValues((float)1);
-						scaleY.setDuration(100);
-						scaleY.start();
-						
-						break;
-					}
-				}
-				return false;
-			}
-		});
 	}
 	
 	@Override

@@ -6,16 +6,17 @@
 	android:layout_height="match_parent"
 	android:orientation="vertical">
 	<LinearLayout
-		android:id="@+id/linear1"
+		android:id="@+id/linear3"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:background="#000000"
-		android:orientation="vertical">
+		android:layout_height="wrap_content"
+		android:background="#424242"
+		android:gravity="center_vertical"
+		android:orientation="vertical"
+		android:layout_gravity="center_vertical">
 		<LinearLayout
-			android:id="@+id/linear3"
+			android:id="@+id/linear59"
 			android:layout_width="match_parent"
-			android:layout_height="50dp"
-			android:background="#424242"
+			android:layout_height="45dp"
 			android:gravity="center_vertical"
 			android:orientation="horizontal"
 			android:layout_gravity="center_vertical">
@@ -37,13 +38,33 @@
 				android:textStyle="bold"
 				android:textColor="#FFFFFF" />
 		</LinearLayout>
+	</LinearLayout>
+	<LinearLayout
+		android:id="@+id/linear60"
+		android:layout_width="match_parent"
+		android:layout_height="4dp"
+		android:background="#424242"
+		android:orientation="vertical">
+		<ProgressBar
+			android:id="@+id/progressbar1"
+			android:layout_width="match_parent"
+			android:layout_height="5dp"
+			android:background="#424242"
+			android:indeterminate="false"
+			style="?android:progressBarStyleHorizontal" />
+	</LinearLayout>
+	<LinearLayout
+		android:id="@+id/linear1"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="20dp"
+		android:background="#000000"
+		android:orientation="vertical"
+		android:layout_weight="1">
 		<LinearLayout
 			android:id="@+id/linear5"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_marginLeft="10dp"
-			android:layout_marginTop="10dp"
-			android:layout_marginRight="10dp"
 			android:padding="8dp"
 			android:background="#212121"
 			android:orientation="vertical">
@@ -100,7 +121,7 @@
 					android:layout_height="wrap_content"
 					android:padding="8dp"
 					android:gravity="center_horizontal|center_vertical"
-					android:text="Inizia l'installazione"
+					android:text="Inizia l'installazione (2×)"
 					android:textSize="12sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF"
@@ -125,18 +146,14 @@
 					android:textStyle="italic"
 					android:textColor="#424242" />
 			</LinearLayout>
-			<ProgressBar
-				android:id="@+id/progressbar2"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:indeterminate="false"
-				style="?android:progressBarStyleHorizontal" />
 		</LinearLayout>
 		<LinearLayout
 			android:id="@+id/linear8"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:layout_margin="10dp"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="10dp"
+			android:layout_marginTop="10dp"
+			android:layout_marginRight="10dp"
 			android:orientation="vertical">
 			<LinearLayout
 				android:id="@+id/linear7"
@@ -170,11 +187,65 @@
 			<TextView
 				android:id="@+id/textview7"
 				android:layout_width="match_parent"
-				android:layout_height="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="10dp"
 				android:paddingLeft="8dp"
 				android:text="Ottenimento informazioni..."
 				android:textSize="12sp"
 				android:textColor="#FFFFFF" />
 		</LinearLayout>
+		<LinearLayout
+			android:id="@+id/linear13"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center_vertical"
+			android:orientation="horizontal">
+			<TextView
+				android:id="@+id/textview11"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="10dp"
+				android:layout_marginTop="10dp"
+				android:layout_marginRight="10dp"
+				android:padding="8dp"
+				android:text="Commenti"
+				android:textSize="18sp"
+				android:textStyle="bold"
+				android:textColor="#FFFFFF" />
+			<LinearLayout
+				android:id="@+id/linear35"
+				android:layout_width="40dp"
+				android:layout_height="25dp"
+				android:layout_marginTop="10dp"
+				android:background="#1BA8F0"
+				android:gravity="center_horizontal|center_vertical"
+				android:orientation="horizontal"
+				android:layout_gravity="center_horizontal|center_vertical">
+				<TextView
+					android:id="@+id/textview32"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="BETA"
+					android:textSize="10sp"
+					android:textStyle="bold"
+					android:textColor="#FFFFFF" />
+			</LinearLayout>
+		</LinearLayout>
+		<TextView
+			android:id="@+id/textview12"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="10dp"
+			android:padding="8dp"
+			android:text="0 persone hanno commentato"
+			android:textSize="12sp"
+			android:textStyle="italic"
+			android:textColor="#FFFFFF" />
 	</LinearLayout>
+	<com.google.android.material.bottomnavigation.BottomNavigationView
+		android:id="@+id/bottomnavigation2"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="#424242" />
 </LinearLayout>

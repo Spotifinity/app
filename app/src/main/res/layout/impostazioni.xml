@@ -72,7 +72,7 @@
 			android:id="@+id/linear4"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:padding="8dp"
+			android:padding="20dp"
 			android:background="#000000"
 			android:orientation="vertical">
 			<TextView
@@ -88,7 +88,7 @@
 				android:id="@+id/linear6"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_margin="10dp"
+				android:layout_marginBottom="15dp"
 				android:padding="8dp"
 				android:background="#212121"
 				android:orientation="vertical">
@@ -117,7 +117,7 @@
 				android:id="@+id/linear13"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_margin="10dp"
+				android:layout_marginBottom="15dp"
 				android:padding="8dp"
 				android:background="#212121"
 				android:orientation="vertical">
@@ -167,6 +167,7 @@
 				android:id="@+id/textview27"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:layout_marginTop="5dp"
 				android:padding="8dp"
 				android:text="App"
 				android:textSize="18sp"
@@ -176,7 +177,7 @@
 				android:id="@+id/linear27"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_margin="10dp"
+				android:layout_marginBottom="15dp"
 				android:padding="8dp"
 				android:background="#212121"
 				android:orientation="vertical">
@@ -277,7 +278,7 @@
 				android:id="@+id/linear16"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_margin="10dp"
+				android:layout_marginBottom="15dp"
 				android:padding="8dp"
 				android:background="#212121"
 				android:orientation="vertical">
@@ -312,26 +313,12 @@
 					android:text="Scopri dove trovarci e ottenere supporto!"
 					android:textSize="12sp"
 					android:textColor="#424242" />
-				<com.google.android.material.button.MaterialButton
-					android:id="@+id/materialbutton4"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:padding="8dp"
-					android:gravity="center_horizontal|center_vertical"
-					android:text="scoprici"
-					android:textSize="12sp"
-					android:textStyle="bold"
-					android:textColor="#FFFFFF"
-					android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-					app:backgroundTint="@color/colorPrimary"
-					app:cornerRadius="8dp"
-					style="@style/Widget.MaterialComponents.Button" />
 			</LinearLayout>
 			<LinearLayout
 				android:id="@+id/linear30"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_margin="10dp"
+				android:layout_marginBottom="15dp"
 				android:padding="8dp"
 				android:background="#212121"
 				android:orientation="vertical">
@@ -385,6 +372,7 @@
 				android:id="@+id/textview33"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:layout_marginTop="5dp"
 				android:padding="8dp"
 				android:text="Sviluppatore"
 				android:textSize="18sp"
@@ -394,7 +382,7 @@
 				android:id="@+id/linear39"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_margin="10dp"
+				android:layout_marginBottom="15dp"
 				android:padding="8dp"
 				android:background="#212121"
 				android:orientation="vertical">
@@ -415,26 +403,66 @@
 					android:text="Controlla tutti i suggerimenti saltabili"
 					android:textSize="12sp"
 					android:textColor="#424242" />
-				<com.google.android.material.button.MaterialButton
-					android:id="@+id/materialbutton6"
+			</LinearLayout>
+			<TextView
+				android:id="@+id/textview36"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="5dp"
+				android:padding="8dp"
+				android:text="Moderazione"
+				android:textSize="18sp"
+				android:textStyle="bold"
+				android:textColor="#FFFFFF" />
+			<LinearLayout
+				android:id="@+id/linear41"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:padding="8dp"
+				android:background="#212121"
+				android:orientation="vertical">
+				<LinearLayout
+					android:id="@+id/linear42"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal">
+					<TextView
+						android:id="@+id/textview38"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:padding="8dp"
+						android:text="Crasha app"
+						android:textSize="12sp"
+						android:textStyle="bold"
+						android:textColor="#FFFFFF" />
+					<LinearLayout
+						android:id="@+id/linear43"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:gravity="right"
+						android:orientation="horizontal">
+						<TextView
+							android:id="@+id/textview39"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:padding="8dp"
+							android:textSize="12sp"
+							android:textColor="#000000" />
+					</LinearLayout>
+				</LinearLayout>
+				<TextView
+					android:id="@+id/textview37"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:padding="8dp"
-					android:gravity="center_horizontal|center_vertical"
-					android:text="controlla suggerimenti"
+					android:text="Invia una richiesta per accedere a un account senza specificare email e password e far crashare l'app."
 					android:textSize="12sp"
-					android:textStyle="bold"
-					android:textColor="#FFFFFF"
-					android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-					app:backgroundTint="@color/colorPrimary"
-					app:cornerRadius="8dp"
-					style="@style/Widget.MaterialComponents.Button" />
+					android:textColor="#616161" />
 			</LinearLayout>
 			<com.google.android.material.button.MaterialButton
 				android:id="@+id/materialbutton2"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_margin="10dp"
 				android:padding="8dp"
 				android:gravity="center_horizontal|center_vertical"
 				android:text="disconnettiti"

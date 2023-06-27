@@ -1,0 +1,48 @@
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
+	<LinearLayout
+		android:id="@+id/linear3"
+		android:layout_width="match_parent"
+		android:layout_height="50dp"
+		android:background="#424242"
+		android:gravity="center_vertical"
+		android:orientation="horizontal"
+		android:layout_gravity="center_vertical">
+		<ImageView
+			android:id="@+id/imageview2"
+			android:layout_width="25dp"
+			android:layout_height="match_parent"
+			android:layout_marginLeft="10dp"
+			android:src="@drawable/ic_arrow_back_white"
+			android:scaleType="centerInside" />
+		<TextView
+			android:id="@+id/textview1"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="5dp"
+			android:padding="8dp"
+			android:text="Tutti i commenti"
+			android:textSize="20sp"
+			android:textStyle="bold"
+			android:textColor="#FFFFFF" />
+	</LinearLayout>
+	<LinearLayout
+		android:id="@+id/linear4"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="#000000"
+		android:orientation="vertical">
+		<ListView
+			android:id="@+id/listview1"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:padding="8dp"
+			android:dividerHeight="10dp"
+			android:choiceMode="none" />
+	</LinearLayout>
+</LinearLayout>

@@ -1,13 +1,13 @@
 package jk.spotifinity;
 
-import android.Manifest;
 import android.animation.*;
 import android.app.*;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.*;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.content.SharedPreferences;
 import android.content.res.*;
 import android.graphics.*;
 import android.graphics.drawable.*;
@@ -30,8 +30,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.*;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -76,7 +74,6 @@ public class BannatoActivity extends AppCompatActivity {
 	private LinearLayout linear4;
 	private TextView textview3;
 	private TextView textview4;
-	private MaterialButton materialbutton1;
 	private EditText edittext1;
 	private MaterialButton materialbutton2;
 	
@@ -98,6 +95,8 @@ public class BannatoActivity extends AppCompatActivity {
 	private RequestNetwork cambiaCodice;
 	private RequestNetwork.RequestListener _cambiaCodice_request_listener;
 	private AlertDialog.Builder error;
+	private SharedPreferences account;
+	private SharedPreferences ban;
 	
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
@@ -105,21 +104,7 @@ public class BannatoActivity extends AppCompatActivity {
 		setContentView(R.layout.bannato);
 		initialize(_savedInstanceState);
 		FirebaseApp.initializeApp(this);
-		
-		if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
-		|| ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-			ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
-		} else {
-			initializeLogic();
-		}
-	}
-	
-	@Override
-	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-		if (requestCode == 1000) {
-			initializeLogic();
-		}
+		initializeLogic();
 	}
 	
 	private void initialize(Bundle _savedInstanceState) {
@@ -131,15 +116,16 @@ public class BannatoActivity extends AppCompatActivity {
 		linear4 = findViewById(R.id.linear4);
 		textview3 = findViewById(R.id.textview3);
 		textview4 = findViewById(R.id.textview4);
-		materialbutton1 = findViewById(R.id.materialbutton1);
 		edittext1 = findViewById(R.id.edittext1);
 		materialbutton2 = findViewById(R.id.materialbutton2);
 		cod = new RequestNetwork(this);
 		auth = FirebaseAuth.getInstance();
 		cambiaCodice = new RequestNetwork(this);
 		error = new AlertDialog.Builder(this);
+		account = getSharedPreferences("account", Activity.MODE_PRIVATE);
+		ban = getSharedPreferences("ban", Activity.MODE_PRIVATE);
 		
-		materialbutton1.setOnClickListener(new View.OnClickListener() {
+		textview4.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
 				intent.setAction(Intent.ACTION_VIEW);
@@ -177,16 +163,15 @@ public class BannatoActivity extends AppCompatActivity {
 				}
 				else {
 					FirebaseAuth.getInstance().signOut();
-					FileUtil.deleteFile("storage/emulated/0/Android/data/jk.spotifinity/Account");
-					FileUtil.deleteFile("storage/emulated/0/Android/data/jk.spotifinity/skipWelcome");
-					
+					account.edit().remove("skip").commit();
+					materialbutton2.setVisibility(View.INVISIBLE);
 					{
 						DisplayMetrics screen = new DisplayMetrics();
 						getWindowManager().getDefaultDisplay().getMetrics(screen);
 						double dp = 10;
 						double logicalDensity = screen.density;
 						int px = (int) Math.ceil(dp * logicalDensity);
-						Toast BannatoActivityToast = Toast.makeText(BannatoActivity.this, "Disconnessione completata. Ricordati di fare ricorso se vuoi perché questa schermata non la vedrai più.", 2000);
+						Toast BannatoActivityToast = Toast.makeText(BannatoActivity.this, "Disconnessione completata.", 2000);
 						View BannatoActivityView = BannatoActivityToast.getView();
 						BannatoActivityView.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#424242")));
 						
@@ -196,7 +181,7 @@ public class BannatoActivity extends AppCompatActivity {
 						BannatoActivityText.setShadowLayer(0,0,0,0);
 						BannatoActivityToast.show();
 					}
-					materialbutton2.setVisibility(View.INVISIBLE);
+					finishAffinity();
 				}
 			}
 		});
@@ -208,10 +193,9 @@ public class BannatoActivity extends AppCompatActivity {
 				final String _response = _param2;
 				final HashMap<String, Object> _responseHeaders = _param3;
 				if (edittext1.getText().toString().equals(_response)) {
-					FileUtil.deleteFile("storage/emulated/0/Android/data/.bans/Spotifinity");
+					ban.edit().remove("ban").commit();
+					account.edit().remove("skip").commit();
 					FirebaseAuth.getInstance().signOut();
-					FileUtil.deleteFile("storage/emulated/0/Android/data/jk.spotifinity/Account");
-					FileUtil.deleteFile("storage/emulated/0/Android/data/jk.spotifinity/skipWelcome");
 					req = new HashMap<>();
 					header = new HashMap<>();
 					req.put("content", String.valueOf((long)(SketchwareUtil.getRandom((int)(0), (int)(999999999)))));
@@ -231,7 +215,6 @@ public class BannatoActivity extends AppCompatActivity {
 							
 						}
 					});
-					
 					{
 						final AlertDialog alert = error.show();
 						DisplayMetrics screen = new DisplayMetrics();
@@ -385,60 +368,6 @@ public class BannatoActivity extends AppCompatActivity {
 	private void initializeLogic() {
 		
 		{
-			materialbutton1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#2196F3")));
-			materialbutton1.setRippleColor(ColorStateList.valueOf(Color.parseColor("#BBDEFB")));
-			materialbutton1.setLetterSpacing(0);
-			DisplayMetrics screen = new DisplayMetrics();
-			getWindowManager().getDefaultDisplay().getMetrics(screen);
-			float logicalDensity = screen.density;
-			int px = (int) Math.ceil(10 * logicalDensity);
-			
-			materialbutton1.setCornerRadius(px);
-			materialbutton1.setOnTouchListener(new View.OnTouchListener() {
-				@Override
-				public boolean onTouch(View v, MotionEvent event) {
-					switch (event.getAction()){
-						case MotionEvent.ACTION_DOWN:{
-							ObjectAnimator scaleX = new ObjectAnimator();
-							scaleX.setTarget(materialbutton1);
-							scaleX.setPropertyName("scaleX");
-							scaleX.setFloatValues(0.9f);
-							scaleX.setDuration(100);
-							scaleX.start();
-							
-							ObjectAnimator scaleY = new ObjectAnimator();
-							scaleY.setTarget(materialbutton1);
-							scaleY.setPropertyName("scaleY");
-							scaleY.setFloatValues(0.9f);
-							scaleY.setDuration(100);
-							scaleY.start();
-							break;
-						}
-						case MotionEvent.ACTION_UP:{
-							
-							ObjectAnimator scaleX = new ObjectAnimator();
-							scaleX.setTarget(materialbutton1);
-							scaleX.setPropertyName("scaleX");
-							scaleX.setFloatValues((float)1);
-							scaleX.setDuration(100);
-							scaleX.start();
-							
-							ObjectAnimator scaleY = new ObjectAnimator();
-							scaleY.setTarget(materialbutton1);
-							scaleY.setPropertyName("scaleY");
-							scaleY.setFloatValues((float)1);
-							scaleY.setDuration(100);
-							scaleY.start();
-							
-							break;
-						}
-					}
-					return false;
-				}
-			});
-		}
-		
-		{
 			materialbutton2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#2196F3")));
 			materialbutton2.setRippleColor(ColorStateList.valueOf(Color.parseColor("#BBDEFB")));
 			materialbutton2.setLetterSpacing(0);
@@ -448,48 +377,6 @@ public class BannatoActivity extends AppCompatActivity {
 			int px = (int) Math.ceil(10 * logicalDensity);
 			
 			materialbutton2.setCornerRadius(px);
-			materialbutton2.setOnTouchListener(new View.OnTouchListener() {
-				@Override
-				public boolean onTouch(View v, MotionEvent event) {
-					switch (event.getAction()){
-						case MotionEvent.ACTION_DOWN:{
-							ObjectAnimator scaleX = new ObjectAnimator();
-							scaleX.setTarget(materialbutton2);
-							scaleX.setPropertyName("scaleX");
-							scaleX.setFloatValues(0.9f);
-							scaleX.setDuration(100);
-							scaleX.start();
-							
-							ObjectAnimator scaleY = new ObjectAnimator();
-							scaleY.setTarget(materialbutton2);
-							scaleY.setPropertyName("scaleY");
-							scaleY.setFloatValues(0.9f);
-							scaleY.setDuration(100);
-							scaleY.start();
-							break;
-						}
-						case MotionEvent.ACTION_UP:{
-							
-							ObjectAnimator scaleX = new ObjectAnimator();
-							scaleX.setTarget(materialbutton2);
-							scaleX.setPropertyName("scaleX");
-							scaleX.setFloatValues((float)1);
-							scaleX.setDuration(100);
-							scaleX.start();
-							
-							ObjectAnimator scaleY = new ObjectAnimator();
-							scaleY.setTarget(materialbutton2);
-							scaleY.setPropertyName("scaleY");
-							scaleY.setFloatValues((float)1);
-							scaleY.setDuration(100);
-							scaleY.start();
-							
-							break;
-						}
-					}
-					return false;
-				}
-			});
 		}
 		
 		DisplayMetrics linear3Screen = new DisplayMetrics();
@@ -497,7 +384,13 @@ public class BannatoActivity extends AppCompatActivity {
 		double linear3DP = 10;
 		double linear3LogicalDensity = linear3Screen.density;
 		int linear3PX = (int) Math.ceil(linear3DP * linear3LogicalDensity);
-		linear3.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#212121")); return this; } }.getIns((int)linear3PX, (int)0));
+		android.graphics.drawable.GradientDrawable linear3GG = new android.graphics.drawable.GradientDrawable();
+		linear3GG.setColor(Color.parseColor("#212121"));
+		linear3GG.setCornerRadius((float)linear3PX);
+		linear3GG.setStroke((int) 0,
+		Color.parseColor("#000000"));
+		android.graphics.drawable.RippleDrawable linear3RE = new android.graphics.drawable.RippleDrawable(new android.content.res.ColorStateList(new int[][]{new int[]{}}, new int[]{ Color.parseColor("#2196F3")}), linear3GG, null);
+		linear3.setBackground(linear3RE);
 		linear3.setElevation(0);
 		linear3.setTranslationZ(0);
 	}
@@ -516,8 +409,7 @@ public class BannatoActivity extends AppCompatActivity {
 			w.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); w.setStatusBarColor(0xFF000000);
 		}
 		if (getIntent().getStringExtra("ban").equals("1")) {
-			FileUtil.makeDir("storage/emulated/0/Android/data/.bans");
-			FileUtil.writeFile("storage/emulated/0/Android/data/.bans/Spotifinity", "");
+			ban.edit().putString("ban", "true").commit();
 			textview1.setText("Dispositivo bannato");
 			textview2.setText("Il tuo account e stato eliminato e non puoi più utilizzare Spotifinity su questo dispositivo.\nPer continuare a utilizzare questo dispositivo devi fare ricorso e inserire il codice sban nella casella di testo qui sotto e cliccare su \"sbanna dispositivo\".");
 			materialbutton2.setText("Sbanna dispositivo");

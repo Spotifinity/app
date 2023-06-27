@@ -1,13 +1,13 @@
 package jk.spotifinity;
 
-import android.Manifest;
 import android.animation.*;
 import android.app.*;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.*;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.content.SharedPreferences;
 import android.content.res.*;
 import android.graphics.*;
 import android.graphics.drawable.*;
@@ -30,14 +30,14 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.annotation.*;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.room.*;
 import androidx.sqlite.db.*;
 import androidx.sqlite.db.framework.*;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener;
 import com.google.android.material.button.*;
 import com.google.firebase.FirebaseApp;
 import com.mannan.translateapi.*;
@@ -61,34 +61,13 @@ public class HomeActivity extends AppCompatActivity {
 	private Timer _timer = new Timer();
 	
 	private String ciao = "";
-	TranslateAPI IT1;
-	TranslateAPI IT2;
-	TranslateAPI IT3;
-	TranslateAPI IT4;
-	TranslateAPI IT5;
-	TranslateAPI IT6;
-	TranslateAPI IT7;
-	TranslateAPI IT8;
-	TranslateAPI IT9;
-	TranslateAPI IT10;
-	TranslateAPI IT11;
 	private HashMap<String, Object> req = new HashMap<>();
 	private double OraNoPunti = 0;
-	private String tv4 = "";
-	private String dt1 = "";
-	private String dm = "";
-	private String dok = "";
-	private String dc = "";
-	private String ds = "";
 	private String azione = "";
-	private String d2t = "";
-	private String d2m = "";
-	private String d2ok = "";
-	private String d2c = "";
-	private String tv15 = "";
 	
 	private LinearLayout linear3;
 	private ScrollView vscroll1;
+	private BottomNavigationView bottomnavigation2;
 	private ImageView imageview1;
 	private TextView textview17;
 	private LinearLayout linear21;
@@ -99,6 +78,7 @@ public class HomeActivity extends AppCompatActivity {
 	private LinearLayout linear4;
 	private LinearLayout linear34;
 	private LinearLayout linear36;
+	private LinearLayout linear41;
 	private LinearLayout linear33;
 	private LinearLayout linear20;
 	private LinearLayout linear19;
@@ -116,6 +96,10 @@ public class HomeActivity extends AppCompatActivity {
 	private TextView textview42;
 	private LinearLayout linear40;
 	private ImageView imageview7;
+	private LinearLayout linear42;
+	private TextView textview431;
+	private ImageView imageview8;
+	private TextView textview430;
 	private TextView textview428;
 	private TextView textview39;
 	private TextView textview21;
@@ -128,7 +112,6 @@ public class HomeActivity extends AppCompatActivity {
 	private LinearLayout linear11;
 	private LinearLayout linear8;
 	private LinearLayout linear9;
-	private MaterialButton materialbutton1;
 	private ImageView imageview2;
 	private TextView textview10;
 	private TextView textview4;
@@ -136,9 +119,9 @@ public class HomeActivity extends AppCompatActivity {
 	private TextView textview5;
 	private LinearLayout linear13;
 	private LinearLayout linear16;
-	private MaterialButton materialbutton2;
 	private ImageView imageview3;
 	private TextView textview16;
+	private TextView textview429;
 	private TextView textview14;
 	private TextView textview15;
 	
@@ -153,6 +136,13 @@ public class HomeActivity extends AppCompatActivity {
 	private Intent easteregg = new Intent();
 	private Calendar educazione = Calendar.getInstance();
 	private AlertDialog.Builder chiudi;
+	private SharedPreferences account;
+	private SharedPreferences impostazioni;
+	private SharedPreferences mod;
+	private SharedPreferences updater;
+	private SharedPreferences saltabili;
+	private Calendar ora = Calendar.getInstance();
+	private TimerTask permesso;
 	
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
@@ -160,26 +150,13 @@ public class HomeActivity extends AppCompatActivity {
 		setContentView(R.layout.home);
 		initialize(_savedInstanceState);
 		FirebaseApp.initializeApp(this);
-		
-		if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
-		|| ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-			ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
-		} else {
-			initializeLogic();
-		}
-	}
-	
-	@Override
-	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-		if (requestCode == 1000) {
-			initializeLogic();
-		}
+		initializeLogic();
 	}
 	
 	private void initialize(Bundle _savedInstanceState) {
 		linear3 = findViewById(R.id.linear3);
 		vscroll1 = findViewById(R.id.vscroll1);
+		bottomnavigation2 = findViewById(R.id.bottomnavigation2);
 		imageview1 = findViewById(R.id.imageview1);
 		textview17 = findViewById(R.id.textview17);
 		linear21 = findViewById(R.id.linear21);
@@ -190,6 +167,7 @@ public class HomeActivity extends AppCompatActivity {
 		linear4 = findViewById(R.id.linear4);
 		linear34 = findViewById(R.id.linear34);
 		linear36 = findViewById(R.id.linear36);
+		linear41 = findViewById(R.id.linear41);
 		linear33 = findViewById(R.id.linear33);
 		linear20 = findViewById(R.id.linear20);
 		linear19 = findViewById(R.id.linear19);
@@ -207,6 +185,10 @@ public class HomeActivity extends AppCompatActivity {
 		textview42 = findViewById(R.id.textview42);
 		linear40 = findViewById(R.id.linear40);
 		imageview7 = findViewById(R.id.imageview7);
+		linear42 = findViewById(R.id.linear42);
+		textview431 = findViewById(R.id.textview431);
+		imageview8 = findViewById(R.id.imageview8);
+		textview430 = findViewById(R.id.textview430);
 		textview428 = findViewById(R.id.textview428);
 		textview39 = findViewById(R.id.textview39);
 		textview21 = findViewById(R.id.textview21);
@@ -219,7 +201,6 @@ public class HomeActivity extends AppCompatActivity {
 		linear11 = findViewById(R.id.linear11);
 		linear8 = findViewById(R.id.linear8);
 		linear9 = findViewById(R.id.linear9);
-		materialbutton1 = findViewById(R.id.materialbutton1);
 		imageview2 = findViewById(R.id.imageview2);
 		textview10 = findViewById(R.id.textview10);
 		textview4 = findViewById(R.id.textview4);
@@ -227,14 +208,47 @@ public class HomeActivity extends AppCompatActivity {
 		textview5 = findViewById(R.id.textview5);
 		linear13 = findViewById(R.id.linear13);
 		linear16 = findViewById(R.id.linear16);
-		materialbutton2 = findViewById(R.id.materialbutton2);
 		imageview3 = findViewById(R.id.imageview3);
 		textview16 = findViewById(R.id.textview16);
+		textview429 = findViewById(R.id.textview429);
 		textview14 = findViewById(R.id.textview14);
 		textview15 = findViewById(R.id.textview15);
 		dialog = new AlertDialog.Builder(this);
 		dialog2 = new AlertDialog.Builder(this);
 		chiudi = new AlertDialog.Builder(this);
+		account = getSharedPreferences("account", Activity.MODE_PRIVATE);
+		impostazioni = getSharedPreferences("impostazioni", Activity.MODE_PRIVATE);
+		mod = getSharedPreferences("mod", Activity.MODE_PRIVATE);
+		updater = getSharedPreferences("updater", Activity.MODE_PRIVATE);
+		saltabili = getSharedPreferences("saltabili", Activity.MODE_PRIVATE);
+		
+		bottomnavigation2.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+			@Override
+			public boolean onNavigationItemSelected(MenuItem item) {
+				final int _itemId = item.getItemId();
+				if (_itemId == 1) {
+					intent.setClass(getApplicationContext(), SelversioneActivity.class);
+					intent.putExtra("ultima", textview5.getText().toString());
+					startActivity(intent);
+				}
+				else {
+					if (_itemId == 2) {
+						intent.setClass(getApplicationContext(), TotcommentiActivity.class);
+						startActivity(intent);
+					}
+					else {
+						if (_itemId == 3) {
+							intent.setClass(getApplicationContext(), ImpostazioniActivity.class);
+							startActivity(intent);
+						}
+						else {
+							
+						}
+					}
+				}
+				return true;
+			}
+		});
 		
 		imageview4.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -248,11 +262,54 @@ public class HomeActivity extends AppCompatActivity {
 			}
 		});
 		
-		linear36.setOnLongClickListener(new View.OnLongClickListener() {
+		linear41.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public boolean onLongClick(View _view) {
-				
-				return true;
+			public void onClick(View _view) {
+				requestPermissions(new String[] {android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
+				wait = new TimerTask() {
+					@Override
+					public void run() {
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								if (Build.VERSION.SDK_INT >= 23) {
+												if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == android.content.pm.PackageManager.PERMISSION_DENIED) {
+														linear7.setEnabled(false);
+												}
+												else {
+										bottomnavigation2.getMenu().add(0, 1, 0, "Versioni").setIcon(R.drawable.ic_description_white);
+										linear41.setVisibility(View.GONE);
+										linear7.setEnabled(true);
+										wait.cancel();
+												}
+										}
+										else {
+									bottomnavigation2.getMenu().add(0, 1, 0, "Versioni").setIcon(R.drawable.ic_description_white);
+									linear41.setVisibility(View.GONE);
+									linear7.setEnabled(true);
+									wait.cancel();
+										}
+							}
+						});
+					}
+				};
+				_timer.scheduleAtFixedRate(wait, (int)(500), (int)(250));
+			}
+		});
+		
+		linear7.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				intent.setClass(getApplicationContext(), SelversioneActivity.class);
+				intent.putExtra("ultima", textview5.getText().toString());
+				startActivity(intent);
+			}
+		});
+		
+		linear12.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				_ApriApp("com.spotify.music");
 			}
 		});
 		
@@ -276,10 +333,7 @@ public class HomeActivity extends AppCompatActivity {
 		imageview7.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Saltabili/")) {
-					FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity/Saltabili/");
-				}
-				FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Saltabili/Discord.txt", "");
+				saltabili.edit().putString("Discord", "0").commit();
 				linear36.setVisibility(View.GONE);
 			}
 		});
@@ -288,22 +342,6 @@ public class HomeActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View _view) {
 				startActivity(sondaggio);
-			}
-		});
-		
-		materialbutton1.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View _view) {
-				intent.setClass(getApplicationContext(), SelversioneActivity.class);
-				intent.putExtra("ultima", textview5.getText().toString());
-				startActivity(intent);
-			}
-		});
-		
-		materialbutton2.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View _view) {
-				_ApriApp("com.spotify.music");
 			}
 		});
 		
@@ -320,116 +358,19 @@ public class HomeActivity extends AppCompatActivity {
 	
 	private void initializeLogic() {
 		
-		{
-			materialbutton1.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#1BA8F0")));
-			materialbutton1.setRippleColor(ColorStateList.valueOf(Color.parseColor("#BBDEFB")));
-			materialbutton1.setLetterSpacing(0);
-			DisplayMetrics screen = new DisplayMetrics();
-			getWindowManager().getDefaultDisplay().getMetrics(screen);
-			float logicalDensity = screen.density;
-			int px = (int) Math.ceil(10 * logicalDensity);
-			
-			materialbutton1.setCornerRadius(px);
-			materialbutton1.setOnTouchListener(new View.OnTouchListener() {
-				@Override
-				public boolean onTouch(View v, MotionEvent event) {
-					switch (event.getAction()){
-						case MotionEvent.ACTION_DOWN:{
-							ObjectAnimator scaleX = new ObjectAnimator();
-							scaleX.setTarget(materialbutton1);
-							scaleX.setPropertyName("scaleX");
-							scaleX.setFloatValues(0.9f);
-							scaleX.setDuration(100);
-							scaleX.start();
-							
-							ObjectAnimator scaleY = new ObjectAnimator();
-							scaleY.setTarget(materialbutton1);
-							scaleY.setPropertyName("scaleY");
-							scaleY.setFloatValues(0.9f);
-							scaleY.setDuration(100);
-							scaleY.start();
-							break;
-						}
-						case MotionEvent.ACTION_UP:{
-							
-							ObjectAnimator scaleX = new ObjectAnimator();
-							scaleX.setTarget(materialbutton1);
-							scaleX.setPropertyName("scaleX");
-							scaleX.setFloatValues((float)1);
-							scaleX.setDuration(100);
-							scaleX.start();
-							
-							ObjectAnimator scaleY = new ObjectAnimator();
-							scaleY.setTarget(materialbutton1);
-							scaleY.setPropertyName("scaleY");
-							scaleY.setFloatValues((float)1);
-							scaleY.setDuration(100);
-							scaleY.start();
-							
-							break;
-						}
-					}
-					return false;
-				}
-			});
-		}
+		int[][] states = new int[][] { 
+			    new int[] { android.R.attr.state_checked }, 
+			            new int[] {} }; 
+		 int[] colors = new int[] { Color.parseColor("#FFFFFF"), Color.parseColor("#FFFFFF") };
+		ColorStateList iconColors = new ColorStateList(states, colors);
+		bottomnavigation2.setItemTextColor(iconColors);
+		bottomnavigation2.setItemIconTintList(iconColors);
+		bottomnavigation2.setItemRippleColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
+		bottomnavigation2.setBackgroundColor(Color.parseColor("#424242"));
+		bottomnavigation2.setLabelVisibilityMode(BottomNavigationView.LABEL_VISIBILITY_LABELED);
 		
 		{
-			materialbutton2.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#1BA8F0")));
-			materialbutton2.setRippleColor(ColorStateList.valueOf(Color.parseColor("#BBDEFB")));
-			materialbutton2.setLetterSpacing(0);
-			DisplayMetrics screen = new DisplayMetrics();
-			getWindowManager().getDefaultDisplay().getMetrics(screen);
-			float logicalDensity = screen.density;
-			int px = (int) Math.ceil(10 * logicalDensity);
-			
-			materialbutton2.setCornerRadius(px);
-			materialbutton2.setOnTouchListener(new View.OnTouchListener() {
-				@Override
-				public boolean onTouch(View v, MotionEvent event) {
-					switch (event.getAction()){
-						case MotionEvent.ACTION_DOWN:{
-							ObjectAnimator scaleX = new ObjectAnimator();
-							scaleX.setTarget(materialbutton2);
-							scaleX.setPropertyName("scaleX");
-							scaleX.setFloatValues(0.9f);
-							scaleX.setDuration(100);
-							scaleX.start();
-							
-							ObjectAnimator scaleY = new ObjectAnimator();
-							scaleY.setTarget(materialbutton2);
-							scaleY.setPropertyName("scaleY");
-							scaleY.setFloatValues(0.9f);
-							scaleY.setDuration(100);
-							scaleY.start();
-							break;
-						}
-						case MotionEvent.ACTION_UP:{
-							
-							ObjectAnimator scaleX = new ObjectAnimator();
-							scaleX.setTarget(materialbutton2);
-							scaleX.setPropertyName("scaleX");
-							scaleX.setFloatValues((float)1);
-							scaleX.setDuration(100);
-							scaleX.start();
-							
-							ObjectAnimator scaleY = new ObjectAnimator();
-							scaleY.setTarget(materialbutton2);
-							scaleY.setPropertyName("scaleY");
-							scaleY.setFloatValues((float)1);
-							scaleY.setDuration(100);
-							scaleY.start();
-							
-							break;
-						}
-					}
-					return false;
-				}
-			});
-		}
-		
-		{
-			materialbutton3.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#1BA8F0")));
+			materialbutton3.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#2196F3")));
 			materialbutton3.setRippleColor(ColorStateList.valueOf(Color.parseColor("#BBDEFB")));
 			materialbutton3.setLetterSpacing(0);
 			DisplayMetrics screen = new DisplayMetrics();
@@ -438,52 +379,10 @@ public class HomeActivity extends AppCompatActivity {
 			int px = (int) Math.ceil(10 * logicalDensity);
 			
 			materialbutton3.setCornerRadius(px);
-			materialbutton3.setOnTouchListener(new View.OnTouchListener() {
-				@Override
-				public boolean onTouch(View v, MotionEvent event) {
-					switch (event.getAction()){
-						case MotionEvent.ACTION_DOWN:{
-							ObjectAnimator scaleX = new ObjectAnimator();
-							scaleX.setTarget(materialbutton3);
-							scaleX.setPropertyName("scaleX");
-							scaleX.setFloatValues(0.9f);
-							scaleX.setDuration(100);
-							scaleX.start();
-							
-							ObjectAnimator scaleY = new ObjectAnimator();
-							scaleY.setTarget(materialbutton3);
-							scaleY.setPropertyName("scaleY");
-							scaleY.setFloatValues(0.9f);
-							scaleY.setDuration(100);
-							scaleY.start();
-							break;
-						}
-						case MotionEvent.ACTION_UP:{
-							
-							ObjectAnimator scaleX = new ObjectAnimator();
-							scaleX.setTarget(materialbutton3);
-							scaleX.setPropertyName("scaleX");
-							scaleX.setFloatValues((float)1);
-							scaleX.setDuration(100);
-							scaleX.start();
-							
-							ObjectAnimator scaleY = new ObjectAnimator();
-							scaleY.setTarget(materialbutton3);
-							scaleY.setPropertyName("scaleY");
-							scaleY.setFloatValues((float)1);
-							scaleY.setDuration(100);
-							scaleY.start();
-							
-							break;
-						}
-					}
-					return false;
-				}
-			});
 		}
 		
 		{
-			materialbutton4.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#1BA8F0")));
+			materialbutton4.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#2196F3")));
 			materialbutton4.setRippleColor(ColorStateList.valueOf(Color.parseColor("#BBDEFB")));
 			materialbutton4.setLetterSpacing(0);
 			DisplayMetrics screen = new DisplayMetrics();
@@ -492,52 +391,10 @@ public class HomeActivity extends AppCompatActivity {
 			int px = (int) Math.ceil(10 * logicalDensity);
 			
 			materialbutton4.setCornerRadius(px);
-			materialbutton4.setOnTouchListener(new View.OnTouchListener() {
-				@Override
-				public boolean onTouch(View v, MotionEvent event) {
-					switch (event.getAction()){
-						case MotionEvent.ACTION_DOWN:{
-							ObjectAnimator scaleX = new ObjectAnimator();
-							scaleX.setTarget(materialbutton4);
-							scaleX.setPropertyName("scaleX");
-							scaleX.setFloatValues(0.9f);
-							scaleX.setDuration(100);
-							scaleX.start();
-							
-							ObjectAnimator scaleY = new ObjectAnimator();
-							scaleY.setTarget(materialbutton4);
-							scaleY.setPropertyName("scaleY");
-							scaleY.setFloatValues(0.9f);
-							scaleY.setDuration(100);
-							scaleY.start();
-							break;
-						}
-						case MotionEvent.ACTION_UP:{
-							
-							ObjectAnimator scaleX = new ObjectAnimator();
-							scaleX.setTarget(materialbutton4);
-							scaleX.setPropertyName("scaleX");
-							scaleX.setFloatValues((float)1);
-							scaleX.setDuration(100);
-							scaleX.start();
-							
-							ObjectAnimator scaleY = new ObjectAnimator();
-							scaleY.setTarget(materialbutton4);
-							scaleY.setPropertyName("scaleY");
-							scaleY.setFloatValues((float)1);
-							scaleY.setDuration(100);
-							scaleY.start();
-							
-							break;
-						}
-					}
-					return false;
-				}
-			});
 		}
 		
 		{
-			materialbutton5.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#1BA8F0")));
+			materialbutton5.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#2196F3")));
 			materialbutton5.setRippleColor(ColorStateList.valueOf(Color.parseColor("#BBDEFB")));
 			materialbutton5.setLetterSpacing(0);
 			DisplayMetrics screen = new DisplayMetrics();
@@ -546,48 +403,6 @@ public class HomeActivity extends AppCompatActivity {
 			int px = (int) Math.ceil(10 * logicalDensity);
 			
 			materialbutton5.setCornerRadius(px);
-			materialbutton5.setOnTouchListener(new View.OnTouchListener() {
-				@Override
-				public boolean onTouch(View v, MotionEvent event) {
-					switch (event.getAction()){
-						case MotionEvent.ACTION_DOWN:{
-							ObjectAnimator scaleX = new ObjectAnimator();
-							scaleX.setTarget(materialbutton5);
-							scaleX.setPropertyName("scaleX");
-							scaleX.setFloatValues(0.9f);
-							scaleX.setDuration(100);
-							scaleX.start();
-							
-							ObjectAnimator scaleY = new ObjectAnimator();
-							scaleY.setTarget(materialbutton5);
-							scaleY.setPropertyName("scaleY");
-							scaleY.setFloatValues(0.9f);
-							scaleY.setDuration(100);
-							scaleY.start();
-							break;
-						}
-						case MotionEvent.ACTION_UP:{
-							
-							ObjectAnimator scaleX = new ObjectAnimator();
-							scaleX.setTarget(materialbutton5);
-							scaleX.setPropertyName("scaleX");
-							scaleX.setFloatValues((float)1);
-							scaleX.setDuration(100);
-							scaleX.start();
-							
-							ObjectAnimator scaleY = new ObjectAnimator();
-							scaleY.setTarget(materialbutton5);
-							scaleY.setPropertyName("scaleY");
-							scaleY.setFloatValues((float)1);
-							scaleY.setDuration(100);
-							scaleY.start();
-							
-							break;
-						}
-					}
-					return false;
-				}
-			});
 		}
 		
 		{
@@ -600,56 +415,13 @@ public class HomeActivity extends AppCompatActivity {
 			int px = (int) Math.ceil(10 * logicalDensity);
 			
 			materialbutton6.setCornerRadius(px);
-			materialbutton6.setOnTouchListener(new View.OnTouchListener() {
-				@Override
-				public boolean onTouch(View v, MotionEvent event) {
-					switch (event.getAction()){
-						case MotionEvent.ACTION_DOWN:{
-							ObjectAnimator scaleX = new ObjectAnimator();
-							scaleX.setTarget(materialbutton6);
-							scaleX.setPropertyName("scaleX");
-							scaleX.setFloatValues(0.9f);
-							scaleX.setDuration(100);
-							scaleX.start();
-							
-							ObjectAnimator scaleY = new ObjectAnimator();
-							scaleY.setTarget(materialbutton6);
-							scaleY.setPropertyName("scaleY");
-							scaleY.setFloatValues(0.9f);
-							scaleY.setDuration(100);
-							scaleY.start();
-							break;
-						}
-						case MotionEvent.ACTION_UP:{
-							
-							ObjectAnimator scaleX = new ObjectAnimator();
-							scaleX.setTarget(materialbutton6);
-							scaleX.setPropertyName("scaleX");
-							scaleX.setFloatValues((float)1);
-							scaleX.setDuration(100);
-							scaleX.start();
-							
-							ObjectAnimator scaleY = new ObjectAnimator();
-							scaleY.setTarget(materialbutton6);
-							scaleY.setPropertyName("scaleY");
-							scaleY.setFloatValues((float)1);
-							scaleY.setDuration(100);
-							scaleY.start();
-							
-							break;
-						}
-					}
-					return false;
-				}
-			});
 		}
-		
 		DisplayMetrics linear20Screen = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(linear20Screen);
 		double linear20DP = 10;
 		double linear20LogicalDensity = linear20Screen.density;
 		int linear20PX = (int) Math.ceil(linear20DP * linear20LogicalDensity);
-		linear20.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#1BA8F0")); return this; } }.getIns((int)linear20PX, (int)0));
+		linear20.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#2196F3")); return this; } }.getIns((int)linear20PX, (int)0));
 		linear20.setElevation(0);
 		linear20.setTranslationZ(0);
 		
@@ -667,7 +439,13 @@ public class HomeActivity extends AppCompatActivity {
 		double linear7DP = 10;
 		double linear7LogicalDensity = linear7Screen.density;
 		int linear7PX = (int) Math.ceil(linear7DP * linear7LogicalDensity);
-		linear7.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#212121")); return this; } }.getIns((int)linear7PX, (int)0));
+		android.graphics.drawable.GradientDrawable linear7GG = new android.graphics.drawable.GradientDrawable();
+		linear7GG.setColor(Color.parseColor("#212121"));
+		linear7GG.setCornerRadius((float)linear7PX);
+		linear7GG.setStroke((int) 0,
+		Color.parseColor("#000000"));
+		android.graphics.drawable.RippleDrawable linear7RE = new android.graphics.drawable.RippleDrawable(new android.content.res.ColorStateList(new int[][]{new int[]{}}, new int[]{ Color.parseColor("#2196F3")}), linear7GG, null);
+		linear7.setBackground(linear7RE);
 		linear7.setElevation(0);
 		linear7.setTranslationZ(0);
 		
@@ -676,16 +454,21 @@ public class HomeActivity extends AppCompatActivity {
 		double linear12DP = 10;
 		double linear12LogicalDensity = linear12Screen.density;
 		int linear12PX = (int) Math.ceil(linear12DP * linear12LogicalDensity);
-		linear12.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#212121")); return this; } }.getIns((int)linear12PX, (int)0));
+		android.graphics.drawable.GradientDrawable linear12GG = new android.graphics.drawable.GradientDrawable();
+		linear12GG.setColor(Color.parseColor("#212121"));
+		linear12GG.setCornerRadius((float)linear12PX);
+		linear12GG.setStroke((int) 0,
+		Color.parseColor("#000000"));
+		android.graphics.drawable.RippleDrawable linear12RE = new android.graphics.drawable.RippleDrawable(new android.content.res.ColorStateList(new int[][]{new int[]{}}, new int[]{ Color.parseColor("#2196F3")}), linear12GG, null);
+		linear12.setBackground(linear12RE);
 		linear12.setElevation(0);
 		linear12.setTranslationZ(0);
-		
 		DisplayMetrics linear8Screen = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(linear8Screen);
 		double linear8DP = 10;
 		double linear8LogicalDensity = linear8Screen.density;
 		int linear8PX = (int) Math.ceil(linear8DP * linear8LogicalDensity);
-		linear8.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#1BA8F0")); return this; } }.getIns((int)linear8PX, (int)0));
+		linear8.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#2196F3")); return this; } }.getIns((int)linear8PX, (int)0));
 		linear8.setElevation(0);
 		linear8.setTranslationZ(0);
 		
@@ -697,13 +480,12 @@ public class HomeActivity extends AppCompatActivity {
 		linear33.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#212121")); return this; } }.getIns((int)linear33PX, (int)0));
 		linear33.setElevation(0);
 		linear33.setTranslationZ(0);
-		
 		DisplayMetrics linear34Screen = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(linear34Screen);
 		double linear34DP = 10;
 		double linear34LogicalDensity = linear34Screen.density;
 		int linear34PX = (int) Math.ceil(linear34DP * linear34LogicalDensity);
-		linear34.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#F57F17")); return this; } }.getIns((int)linear34PX, (int)0));
+		linear34.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#FF9800")); return this; } }.getIns((int)linear34PX, (int)0));
 		linear34.setElevation(0);
 		linear34.setTranslationZ(0);
 		
@@ -712,33 +494,60 @@ public class HomeActivity extends AppCompatActivity {
 		double linear36DP = 10;
 		double linear36LogicalDensity = linear36Screen.density;
 		int linear36PX = (int) Math.ceil(linear36DP * linear36LogicalDensity);
-		linear36.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#212121")); this.setColor(Color.parseColor("#212121")); return this; } }.getIns((int)linear36PX, (int)0));
+		linear36.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setStroke(b, Color.parseColor("#000000")); this.setColor(Color.parseColor("#212121")); return this; } }.getIns((int)linear36PX, (int)0));
 		linear36.setElevation(0);
 		linear36.setTranslationZ(0);
+		
+		DisplayMetrics linear41Screen = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(linear41Screen);
+		double linear41DP = 10;
+		double linear41LogicalDensity = linear41Screen.density;
+		int linear41PX = (int) Math.ceil(linear41DP * linear41LogicalDensity);
+		android.graphics.drawable.GradientDrawable linear41GG = new android.graphics.drawable.GradientDrawable();
+		linear41GG.setColor(Color.parseColor("#212121"));
+		linear41GG.setCornerRadius((float)linear41PX);
+		linear41GG.setStroke((int) 0,
+		Color.parseColor("#000000"));
+		android.graphics.drawable.RippleDrawable linear41RE = new android.graphics.drawable.RippleDrawable(new android.content.res.ColorStateList(new int[][]{new int[]{}}, new int[]{ Color.parseColor("#2196F3")}), linear41GG, null);
+		linear41.setBackground(linear41RE);
+		linear41.setElevation(0);
+		linear41.setTranslationZ(0);
+		bottomnavigation2.getMenu().add(0, 2, 0, "Commenti").setIcon(R.drawable.ic_comment_white);
+		bottomnavigation2.getMenu().add(0, 3, 0, "Impostazioni").setIcon(R.drawable.ic_settings_white);
 		linear20.setVisibility(View.GONE);
+		if (Build.VERSION.SDK_INT >= 23) {
+						if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == android.content.pm.PackageManager.PERMISSION_DENIED) {
+								 
+						}
+						else {
+				bottomnavigation2.getMenu().add(0, 1, 0, "Versioni").setIcon(R.drawable.ic_description_white);
+						}
+				}
+				else {
+			bottomnavigation2.getMenu().add(0, 1, 0, "Versioni").setIcon(R.drawable.ic_description_white);
+				}
 	}
 	
 	@Override
 	public void onStart() {
 		super.onStart();
-		FileUtil.deleteFile("storage/emulated/0/Android/data/jk.spotifinity/skipLoad");
-		if (FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/configurazione")) {
+		account.edit().remove("skip").commit();
+		if (account.contains("configura")) {
 			intent.setClass(getApplicationContext(), ConfiguraActivity.class);
 			startActivity(intent);
 		}
-		if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/modSviluppatore")) {
+		if (!impostazioni.contains("modSviluppatore")) {
 			linear21.setVisibility(View.INVISIBLE);
 		}
-		if (!FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/downloaded.txt").equals("Nessuna")) {
-			textview15.setText(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/downloaded.txt"));
+		if (!mod.getString("downloaded", "").equals("Nessuna")) {
+			textview15.setText(mod.getString("downloaded", ""));
 		}
 		else {
 			linear8.setVisibility(View.VISIBLE);
 			textview4.setText("Mod ancora non installata, installala ora!");
-			materialbutton2.setVisibility(View.GONE);
 		}
 		if (!(Double.parseDouble(getIntent().getStringExtra("updater")) == Double.parseDouble(textview23.getText().toString()))) {
-			if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/skipUpdate")) {
+			if (!updater.contains("skip")) {
 				dialog.setTitle("Nuova versione (".concat(getIntent().getStringExtra("updater").concat(")")));
 				dialog.setMessage("E stato rilevato una versione più recente di questa applicazione.\nVuoi andare sul sito di GitHub per scaricare l'ultima versione?");
 				dialog.setIcon(R.drawable.ic_new_releases_white);
@@ -753,7 +562,6 @@ public class HomeActivity extends AppCompatActivity {
 				dialog.setNegativeButton("Ignora", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface _dialog, int _which) {
-						
 						{
 							DisplayMetrics screen = new DisplayMetrics();
 							getWindowManager().getDefaultDisplay().getMetrics(screen);
@@ -781,7 +589,7 @@ public class HomeActivity extends AppCompatActivity {
 						dialog2.setPositiveButton("Si", new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface _dialog, int _which) {
-								FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/skipUpdate", "");
+								updater.edit().putString("skip", "true").commit();
 							}
 						});
 						dialog2.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -790,43 +598,25 @@ public class HomeActivity extends AppCompatActivity {
 								
 							}
 						});
-						
 						{
-							final AlertDialog alert = dialog2.show();
 							DisplayMetrics screen = new DisplayMetrics();
 							getWindowManager().getDefaultDisplay().getMetrics(screen);
 							double dp = 10;
 							double logicalDensity = screen.density;
 							int px = (int) Math.ceil(dp * logicalDensity);
-							alert.getWindow().getDecorView().setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#212121")));
-								alert.getWindow().getDecorView().setPadding(8,8,8,8);
-							alert.show();
+							Toast HomeActivityToast = Toast.makeText(HomeActivity.this, "dialog2", 2000);
+							View HomeActivityView = HomeActivityToast.getView();
+							HomeActivityView.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#424242")));
 							
-							alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#2196f3"));
-								alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#2196f3"));
-								alert.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.parseColor("#2196f3"));
-							alert.getWindow().setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
-							alert.getWindow().getDecorView().setTranslationY(-20);
-							TextView textT = (TextView)alert.getWindow().getDecorView().findViewById(android.R.id.message);
-							Spannable text = new SpannableString(textT.getText().toString()); 
-							text.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE); 
-							alert.setMessage(text);
 							
-							int titleId = getResources().getIdentifier( "alertTitle", "id", "android" ); 
-							if (titleId > 0) 
-							{ 
-								TextView dialogTitle = (TextView) alert.getWindow().getDecorView().findViewById(titleId); 
-								if (dialogTitle != null) 
-								{
-									Spannable title = new SpannableString(dialogTitle.getText().toString()); 
-									title.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, title.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE); 
-									alert.setTitle(title);
-								} 
-							}}
+							TextView HomeActivityText = HomeActivityView.findViewById(android.R.id.message);
+							HomeActivityText.setTextColor(Color.parseColor("#ffffff"));
+							HomeActivityText.setShadowLayer(0,0,0,0);
+							HomeActivityToast.show();
+						}
 					}
 				});
 				if (linear20.getVisibility() == View.GONE) {
-					
 					{
 						final AlertDialog alert = dialog.show();
 						DisplayMetrics screen = new DisplayMetrics();
@@ -862,7 +652,6 @@ public class HomeActivity extends AppCompatActivity {
 				}
 			}
 			else {
-				
 				{
 					DisplayMetrics screen = new DisplayMetrics();
 					getWindowManager().getDefaultDisplay().getMetrics(screen);
@@ -886,8 +675,10 @@ public class HomeActivity extends AppCompatActivity {
 		}
 		if (textview15.getText().toString().equals("Nessuna")) {
 			textview4.setText("Mod ancora non installata, installala ora!");
-			FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/downloaded.txt", "Nessuna");
+			mod.edit().putString("downloaded", "Nessuna").commit();
 			textview15.setText("Nessuna");
+			textview429.setVisibility(View.INVISIBLE);
+			linear12.setEnabled(false);
 		}
 		textview20.setText(getIntent().getStringExtra("pollNome"));
 		sondaggio.setAction(Intent.ACTION_VIEW);
@@ -896,41 +687,66 @@ public class HomeActivity extends AppCompatActivity {
 		if (textview5.getText().toString().equals(textview15.getText().toString())) {
 			linear8.setVisibility(View.GONE);
 		}
-		if (!(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").equals("") || !FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt"))) {
+		if (!(account.getString("username", "").equals("") || !account.contains("username"))) {
 			linear34.setVisibility(View.GONE);
 		}
-		if (FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Saltabili/Discord.txt")) {
+		if (saltabili.contains("discord")) {
 			linear36.setVisibility(View.GONE);
 		}
-		educazione = Calendar.getInstance();
-		OraNoPunti = Double.parseDouble(new SimpleDateFormat("HH").format(educazione.getTime()));
-		if (FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt")) {
-			if ((OraNoPunti == 6) || ((OraNoPunti == 7) || ((OraNoPunti == 8) || ((OraNoPunti == 9) || ((OraNoPunti == 10) || ((OraNoPunti == 11) || (OraNoPunti == 12))))))) {
-				textview428.setText("Buongiorno, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
+		if (account.contains("username")) {
+			Calendar c = Calendar.getInstance();
+			int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
+			if(timeOfDay >= 6 && timeOfDay < 12){
+				textview428.setText("Buongiorno, ".concat(account.getString("username", "").concat("!")));
 			}
-			else {
-				if ((OraNoPunti == 14) || ((OraNoPunti == 15) || ((OraNoPunti == 16) || (OraNoPunti == 17)))) {
-					textview428.setText("Buon pomeriggio, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
-				}
-				else {
-					if ((OraNoPunti == 18) || ((OraNoPunti == 19) || (OraNoPunti == 20))) {
-						textview428.setText("Buonasera, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
-					}
-					else {
-						if ((OraNoPunti == 21) || ((OraNoPunti == 22) || ((OraNoPunti == 23) || ((OraNoPunti == 0) || ((OraNoPunti == 1) || ((OraNoPunti == 2) || ((OraNoPunti == 3) || ((OraNoPunti == 4) || (OraNoPunti == 5))))))))) {
-							textview428.setText("Buonanotte, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
-							textview39.setText("E sogni d'oro!");
-						}
-						else {
-							textview428.setText("Benvenuto, ".concat(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt").concat("!")));
-						}
-					}
-				}
+			if(timeOfDay >= 13 && timeOfDay < 17){
+				textview428.setText("Buon pomeriggio, ".concat(account.getString("username", "").concat("!")));
+			}
+			if(timeOfDay >= 18 && timeOfDay < 20){
+				textview428.setText("Buonasera, ".concat(account.getString("username", "").concat("!")));
+			}
+			if(timeOfDay >= 21 && timeOfDay < 5){
+				textview428.setText("Buonanotte, ".concat(account.getString("username", "").concat("!")));
+				textview39.setText("E sogni d'oro!");
 			}
 		}
 		else {
 			textview428.setText("Benvenuto, utente!");
 		}
+		if ((OraNoPunti == 6) || ((OraNoPunti == 7) || ((OraNoPunti == 8) || ((OraNoPunti == 9) || ((OraNoPunti == 10) || ((OraNoPunti == 11) || (OraNoPunti == 12))))))) {
+			
+		}
+		else {
+			if ((OraNoPunti == 14) || ((OraNoPunti == 15) || ((OraNoPunti == 16) || (OraNoPunti == 17)))) {
+				
+			}
+			else {
+				if ((OraNoPunti == 18) || ((OraNoPunti == 19) || (OraNoPunti == 20))) {
+					
+				}
+				else {
+					if ((OraNoPunti == 21) || ((OraNoPunti == 22) || ((OraNoPunti == 23) || ((OraNoPunti == 0) || ((OraNoPunti == 1) || ((OraNoPunti == 2) || ((OraNoPunti == 3) || ((OraNoPunti == 4) || (OraNoPunti == 5))))))))) {
+						
+					}
+					else {
+						
+					}
+				}
+			}
+		}
+		if (Build.VERSION.SDK_INT >= 23) {
+						if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == android.content.pm.PackageManager.PERMISSION_DENIED) {
+								linear7.setEnabled(false);
+						}
+						else {
+				linear7.setEnabled(true);
+				linear41.setVisibility(View.GONE);
+						}
+				}
+				else {
+			linear7.setEnabled(true);
+			linear41.setVisibility(View.GONE);
+				}
 	}
 	
 	@Override
@@ -950,7 +766,6 @@ public class HomeActivity extends AppCompatActivity {
 				
 			}
 		});
-		
 		{
 			final AlertDialog alert = chiudi.show();
 			DisplayMetrics screen = new DisplayMetrics();
@@ -958,13 +773,13 @@ public class HomeActivity extends AppCompatActivity {
 			double dp = 10;
 			double logicalDensity = screen.density;
 			int px = (int) Math.ceil(dp * logicalDensity);
-			alert.getWindow().getDecorView().setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#424242")));
+			alert.getWindow().getDecorView().setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#212121")));
 				alert.getWindow().getDecorView().setPadding(8,8,8,8);
 			alert.show();
 			
-			alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#16DB63"));
-				alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#16DB63"));
-				alert.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.parseColor("#16DB63"));
+			alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#2196f3"));
+				alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#2196f3"));
+				alert.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.parseColor("#2196f3"));
 			alert.getWindow().setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
 			alert.getWindow().getDecorView().setTranslationY(-20);
 			TextView textT = (TextView)alert.getWindow().getDecorView().findViewById(android.R.id.message);

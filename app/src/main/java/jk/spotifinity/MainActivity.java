@@ -1,13 +1,13 @@
 package jk.spotifinity;
 
-import android.Manifest;
 import android.animation.*;
 import android.app.*;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.*;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.content.SharedPreferences;
 import android.content.res.*;
 import android.graphics.*;
 import android.graphics.drawable.*;
@@ -28,8 +28,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import androidx.annotation.*;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -92,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
 	private RequestNetwork.RequestListener _pollLink_request_listener;
 	private Intent configurazione = new Intent();
 	private TimerTask starter;
+	private SharedPreferences Bannato;
+	private SharedPreferences account;
 	
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
@@ -99,21 +99,7 @@ public class MainActivity extends AppCompatActivity {
 		setContentView(R.layout.main);
 		initialize(_savedInstanceState);
 		FirebaseApp.initializeApp(this);
-		
-		if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
-		|| ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-			ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
-		} else {
-			initializeLogic();
-		}
-	}
-	
-	@Override
-	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-		if (requestCode == 1000) {
-			initializeLogic();
-		}
+		initializeLogic();
 	}
 	
 	private void initialize(Bundle _savedInstanceState) {
@@ -128,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
 		poll = new RequestNetwork(this);
 		pollNome = new RequestNetwork(this);
 		pollLink = new RequestNetwork(this);
+		Bannato = getSharedPreferences("ban", Activity.MODE_PRIVATE);
+		account = getSharedPreferences("account", Activity.MODE_PRIVATE);
 		
 		imageview1.setOnLongClickListener(new View.OnLongClickListener() {
 			@Override
@@ -140,7 +128,13 @@ public class MainActivity extends AppCompatActivity {
 		imageview1.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				
+				intent.setClass(getApplicationContext(), HomeActivity.class);
+				intent.putExtra("updater", "0");
+				intent.putExtra("version", "0");
+				intent.putExtra("poll", "0");
+				intent.putExtra("pollNome", "0");
+				intent.putExtra("pollLink", "0");
+				startActivity(intent);
 			}
 		});
 		
@@ -152,8 +146,6 @@ public class MainActivity extends AppCompatActivity {
 				final HashMap<String, Object> _responseHeaders = _param3;
 				intent.putExtra("updater", _response);
 				info++;
-				
-				
 			}
 			
 			@Override
@@ -172,8 +164,6 @@ public class MainActivity extends AppCompatActivity {
 				final HashMap<String, Object> _responseHeaders = _param3;
 				intent.putExtra("version", _response);
 				info++;
-				
-				
 			}
 			
 			@Override
@@ -192,8 +182,6 @@ public class MainActivity extends AppCompatActivity {
 				final HashMap<String, Object> _responseHeaders = _param3;
 				intent.putExtra("poll", _response);
 				info++;
-				
-				
 			}
 			
 			@Override
@@ -212,8 +200,6 @@ public class MainActivity extends AppCompatActivity {
 				final HashMap<String, Object> _responseHeaders = _param3;
 				intent.putExtra("pollNome", _response);
 				info++;
-				
-				
 			}
 			
 			@Override
@@ -232,8 +218,6 @@ public class MainActivity extends AppCompatActivity {
 				final HashMap<String, Object> _responseHeaders = _param3;
 				intent.putExtra("pollLink", _response);
 				info++;
-				
-				
 			}
 			
 			@Override
@@ -322,11 +306,6 @@ public class MainActivity extends AppCompatActivity {
 				final boolean _success = _param1.isSuccessful();
 				final String _errorMessage = _param1.getException() != null ? _param1.getException().getMessage() : "";
 				if (_success) {
-					
-					if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity")) {
-						FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity");
-						FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni");
-					}
 					starter = new TimerTask() {
 						@Override
 						public void run() {
@@ -345,7 +324,6 @@ public class MainActivity extends AppCompatActivity {
 					_timer.scheduleAtFixedRate(starter, (int)(1), (int)(250));
 				}
 				else {
-					
 					if (_errorMessage.equals("The user account has been disabled by an administrator.")) {
 						intent.putExtra("ban", "0");
 						intent.setClass(getApplicationContext(), BannatoActivity.class);
@@ -363,18 +341,30 @@ public class MainActivity extends AppCompatActivity {
 					else {
 						if (_errorMessage.equals("There is no user record corresponding to this identifier. The user may have been deleted.")) {
 							accedi.setMessage("Il tuo account Spotifinity e stato eliminato e non puoi più creare nuovi account.");
-							FileUtil.writeFile("storage/emulated/0/Android/data/.bans/Spotifinity", "");
+							Bannato.edit().putString("ban", "true").commit();
 						}
 						else {
-							accedi.setMessage(_errorMessage);
+							if (_errorMessage.equals("A network error (such as timeout, interrupted connection or unreachable host) has occurred.")) {
+								accedi.setMessage("Controlla la tua connessione a internet e riprova.");
+							}
+							else {
+								accedi.setMessage(_errorMessage);
+							}
 						}
 					}
 					accedi.setPositiveButton("esci", new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface _dialog, int _which) {
+							finishAffinity();
+						}
+					});
+					accedi.setNeutralButton("disconnettiti", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface _dialog, int _which) {
 							FirebaseAuth.getInstance().signOut();
-							FileUtil.deleteFile("storage/emulated/0/Android/data/jk.spotifinity/Account");
-							FileUtil.deleteFile("storage/emulated/0/Android/data/jk.spotifinity/skipWelcome");
+							account.edit().remove("email").commit();
+							account.edit().remove("password").commit();
+							account.edit().remove("skip").commit();
 							intent.setClass(getApplicationContext(), BenvenutoActivity.class);
 							startActivity(intent);
 						}
@@ -394,13 +384,13 @@ public class MainActivity extends AppCompatActivity {
 						double dp = 10;
 						double logicalDensity = screen.density;
 						int px = (int) Math.ceil(dp * logicalDensity);
-						alert.getWindow().getDecorView().setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#242424")));
+						alert.getWindow().getDecorView().setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#212121")));
 							alert.getWindow().getDecorView().setPadding(8,8,8,8);
 						alert.show();
 						
-						alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#16DB63"));
-							alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#16DB63"));
-							alert.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.parseColor("#16DB63"));
+						alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#2196f3"));
+							alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#2196f3"));
+							alert.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.parseColor("#2196f3"));
 						alert.getWindow().setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
 						alert.getWindow().getDecorView().setTranslationY(-20);
 						TextView textT = (TextView)alert.getWindow().getDecorView().findViewById(android.R.id.message);
@@ -434,7 +424,7 @@ public class MainActivity extends AppCompatActivity {
 	
 	private void initializeLogic() {
 		
-		if (FileUtil.isExistFile("storage/emulated/0/Android/data/.bans/Spotifinity")) {
+		if (Bannato.contains("ban")) {
 			intent.putExtra("ban", "1");
 			intent.setClass(getApplicationContext(), BannatoActivity.class);
 			startActivity(intent);
@@ -448,24 +438,21 @@ public class MainActivity extends AppCompatActivity {
 			dialog = new AlertDialog.Builder(this,AlertDialog.THEME_DEVICE_DEFAULT_DARK);
 			dialog2 = new AlertDialog.Builder(this,AlertDialog.THEME_DEVICE_DEFAULT_DARK);
 			accedi = new AlertDialog.Builder(this,AlertDialog.THEME_DEVICE_DEFAULT_DARK);
-			if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity")) {
-				FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity");
-			}
 		}
 	}
 	
 	@Override
 	public void onStart() {
 		super.onStart();
-		if (FileUtil.isExistFile("storage/emulated/0/Android/data/.bans/Spotifinity")) {
+		if (Bannato.contains("ban")) {
 			intent.putExtra("ban", "1");
 			intent.setClass(getApplicationContext(), BannatoActivity.class);
 			startActivity(intent);
 		}
 		else {
-			if (FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Account")) {
+			if (account.contains("email") && account.contains("password")) {
 				FirebaseAuth.getInstance().signOut();
-				auth.signInWithEmailAndPassword(FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Account/email"), FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/Account/password")).addOnCompleteListener(MainActivity.this, _auth_sign_in_listener);
+				auth.signInWithEmailAndPassword(account.getString("email", ""), account.getString("password", "")).addOnCompleteListener(MainActivity.this, _auth_sign_in_listener);
 			}
 			else {
 				intent.setClass(getApplicationContext(), BenvenutoActivity.class);

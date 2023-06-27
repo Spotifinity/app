@@ -1,13 +1,13 @@
 package jk.spotifinity;
 
-import android.Manifest;
 import android.animation.*;
 import android.app.*;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.*;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.content.SharedPreferences;
 import android.content.res.*;
 import android.graphics.*;
 import android.graphics.drawable.*;
@@ -35,8 +35,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.*;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -79,6 +77,7 @@ public class AccediActivity extends AppCompatActivity {
 	private EditText edittext2;
 	private LinearLayout linear9;
 	private MaterialButton materialbutton1;
+	private TextView textview9;
 	private TextView textview8;
 	private TextView textview7;
 	private EditText edittext3;
@@ -104,6 +103,10 @@ public class AccediActivity extends AppCompatActivity {
 	private AlertDialog.Builder accedi;
 	private Intent intent = new Intent();
 	private Intent reset = new Intent();
+	private AlertDialog.Builder problema;
+	private SharedPreferences impostazioni;
+	private SharedPreferences mod;
+	private SharedPreferences account;
 	
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
@@ -111,21 +114,7 @@ public class AccediActivity extends AppCompatActivity {
 		setContentView(R.layout.accedi);
 		initialize(_savedInstanceState);
 		FirebaseApp.initializeApp(this);
-		
-		if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
-		|| ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-			ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
-		} else {
-			initializeLogic();
-		}
-	}
-	
-	@Override
-	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-		if (requestCode == 1000) {
-			initializeLogic();
-		}
+		initializeLogic();
 	}
 	
 	private void initialize(Bundle _savedInstanceState) {
@@ -142,6 +131,7 @@ public class AccediActivity extends AppCompatActivity {
 		edittext2 = findViewById(R.id.edittext2);
 		linear9 = findViewById(R.id.linear9);
 		materialbutton1 = findViewById(R.id.materialbutton1);
+		textview9 = findViewById(R.id.textview9);
 		textview8 = findViewById(R.id.textview8);
 		textview7 = findViewById(R.id.textview7);
 		edittext3 = findViewById(R.id.edittext3);
@@ -153,14 +143,14 @@ public class AccediActivity extends AppCompatActivity {
 		checkbox3 = findViewById(R.id.checkbox3);
 		auth = FirebaseAuth.getInstance();
 		accedi = new AlertDialog.Builder(this);
+		problema = new AlertDialog.Builder(this);
+		impostazioni = getSharedPreferences("impostazioni", Activity.MODE_PRIVATE);
+		mod = getSharedPreferences("mod", Activity.MODE_PRIVATE);
+		account = getSharedPreferences("account", Activity.MODE_PRIVATE);
 		
 		imageview2.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
-				fade_in.setDuration(300);
-				fade_in.setFillAfter(true);
-				imageview2.startAnimation(fade_in);
 				finish();
 			}
 		});
@@ -168,10 +158,7 @@ public class AccediActivity extends AppCompatActivity {
 		edittext1.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
-				fade_in.setDuration(300);
-				fade_in.setFillAfter(true);
-				edittext1.startAnimation(fade_in);
+				
 			}
 		});
 		
@@ -196,10 +183,7 @@ public class AccediActivity extends AppCompatActivity {
 		edittext2.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
-				fade_in.setDuration(300);
-				fade_in.setFillAfter(true);
-				edittext2.startAnimation(fade_in);
+				
 			}
 		});
 		
@@ -225,7 +209,7 @@ public class AccediActivity extends AppCompatActivity {
 		materialbutton1.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				try {
+				try{
 					if (edittext1.getText().toString().equals("")) {
 						edittext1.setHintTextColor(0xFFF44336);
 					}
@@ -243,9 +227,62 @@ public class AccediActivity extends AppCompatActivity {
 							}
 						}
 					}
-				} catch (Exception e) {
+				}catch(Exception e){
 					SketchwareUtil.showMessage(getApplicationContext(), "Errore");
 				}
+			}
+		});
+		
+		textview9.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				problema.setTitle("Problemi con l'accesso?");
+				problema.setMessage("L'app può automaticamente capire che problema ha che ti impedisce di accedere. Se continui a riscontrare un problema contatta il supporto su Discord.");
+				problema.setPositiveButton("inizia", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface _dialog, int _which) {
+						intent.setClass(getApplicationContext(), TestaccessoActivity.class);
+						startActivity(intent);
+					}
+				});
+				problema.setNegativeButton("annulla", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface _dialog, int _which) {
+						
+					}
+				});
+				{
+					final AlertDialog alert = problema.show();
+					DisplayMetrics screen = new DisplayMetrics();
+					getWindowManager().getDefaultDisplay().getMetrics(screen);
+					double dp = 10;
+					double logicalDensity = screen.density;
+					int px = (int) Math.ceil(dp * logicalDensity);
+					alert.getWindow().getDecorView().setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#212121")));
+						alert.getWindow().getDecorView().setPadding(8,8,8,8);
+					alert.show();
+					
+					alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#2196f3"));
+						alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#2196f3"));
+						alert.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.parseColor("#2196f3"));
+					alert.getWindow().setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+					alert.getWindow().getDecorView().setTranslationY(-20);
+					TextView textT = (TextView)alert.getWindow().getDecorView().findViewById(android.R.id.message);
+					Spannable text = new SpannableString(textT.getText().toString()); 
+					text.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE); 
+					alert.setMessage(text);
+					
+					int titleId = getResources().getIdentifier( "alertTitle", "id", "android" ); 
+					if (titleId > 0) 
+					{ 
+						TextView dialogTitle = (TextView) alert.getWindow().getDecorView().findViewById(titleId); 
+						if (dialogTitle != null) 
+						{
+							Spannable title = new SpannableString(dialogTitle.getText().toString()); 
+							title.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, title.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE); 
+							alert.setTitle(title);
+						} 
+					}}
 			}
 		});
 		
@@ -405,24 +442,13 @@ public class AccediActivity extends AppCompatActivity {
 				final boolean _success = _param1.isSuccessful();
 				final String _errorMessage = _param1.getException() != null ? _param1.getException().getMessage() : "";
 				if (_success) {
-					if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni")) {
-						FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni");
-						FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua");
-						FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/downloaded.txt", "Nessuna");
-						FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/percorso.txt", "storage/emulated/0/Download");
-						FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt", "it");
-					}
-					FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity/Account");
-					FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Account/email", edittext1.getText().toString());
-					FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Account/password", edittext2.getText().toString());
-					FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt", edittext3.getText().toString());
+					mod.edit().putString("downloaded", "Nessuna").commit();
+					impostazioni.edit().putString("percorso", "storage/emulated/0/Download").commit();
+					account.edit().putString("email", edittext1.getText().toString()).commit();
+					account.edit().putString("password", edittext2.getText().toString()).commit();
+					account.edit().putString("username", edittext3.getText().toString()).commit();
 					intent.setClass(getApplicationContext(), MainActivity.class);
 					startActivity(intent);
-					if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni")) {
-						FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni");
-						FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/downloaded.txt", "Nessuna");
-						FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/percorso.txt", "storage/emulated/0/Download");
-					}
 				}
 				else {
 					progressbar1.setVisibility(View.INVISIBLE);
@@ -457,7 +483,6 @@ public class AccediActivity extends AppCompatActivity {
 							auth.sendPasswordResetEmail(edittext1.getText().toString()).addOnCompleteListener(_auth_reset_password_listener);
 						}
 					});
-					
 					{
 						final AlertDialog alert = accedi.show();
 						DisplayMetrics screen = new DisplayMetrics();
@@ -552,48 +577,6 @@ public class AccediActivity extends AppCompatActivity {
 			int px = (int) Math.ceil(10 * logicalDensity);
 			
 			materialbutton1.setCornerRadius(px);
-			materialbutton1.setOnTouchListener(new View.OnTouchListener() {
-				@Override
-				public boolean onTouch(View v, MotionEvent event) {
-					switch (event.getAction()){
-						case MotionEvent.ACTION_DOWN:{
-							ObjectAnimator scaleX = new ObjectAnimator();
-							scaleX.setTarget(materialbutton1);
-							scaleX.setPropertyName("scaleX");
-							scaleX.setFloatValues(0.9f);
-							scaleX.setDuration(100);
-							scaleX.start();
-							
-							ObjectAnimator scaleY = new ObjectAnimator();
-							scaleY.setTarget(materialbutton1);
-							scaleY.setPropertyName("scaleY");
-							scaleY.setFloatValues(0.9f);
-							scaleY.setDuration(100);
-							scaleY.start();
-							break;
-						}
-						case MotionEvent.ACTION_UP:{
-							
-							ObjectAnimator scaleX = new ObjectAnimator();
-							scaleX.setTarget(materialbutton1);
-							scaleX.setPropertyName("scaleX");
-							scaleX.setFloatValues((float)1);
-							scaleX.setDuration(100);
-							scaleX.start();
-							
-							ObjectAnimator scaleY = new ObjectAnimator();
-							scaleY.setTarget(materialbutton1);
-							scaleY.setPropertyName("scaleY");
-							scaleY.setFloatValues((float)1);
-							scaleY.setDuration(100);
-							scaleY.start();
-							
-							break;
-						}
-					}
-					return false;
-				}
-			});
 		}
 		
 		DisplayMetrics linear9Screen = new DisplayMetrics();

@@ -1,0 +1,126 @@
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
+	<LinearLayout
+		android:id="@+id/linear3"
+		android:layout_width="match_parent"
+		android:layout_height="50dp"
+		android:background="#424242"
+		android:gravity="center_vertical"
+		android:orientation="horizontal"
+		android:layout_gravity="center_vertical">
+		<TextView
+			android:id="@+id/textview1"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="5dp"
+			android:padding="8dp"
+			android:text="Errore"
+			android:textSize="20sp"
+			android:textStyle="bold"
+			android:textColor="#FFFFFF" />
+	</LinearLayout>
+	<LinearLayout
+		android:id="@+id/linear4"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:padding="20dp"
+		android:background="#000000"
+		android:orientation="vertical">
+		<LinearLayout
+			android:id="@+id/linear7"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+			<TextView
+				android:id="@+id/textview2"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="8dp"
+				android:text="Uh oh"
+				android:textSize="30sp"
+				android:textStyle="bold"
+				android:textColor="#FFFFFF" />
+			<ImageView
+				android:id="@+id/imageview1"
+				android:layout_width="50dp"
+				android:layout_height="50dp"
+				android:layout_marginLeft="10dp"
+				android:src="@drawable/thonking"
+				android:scaleType="centerInside"
+				android:layout_gravity="left" />
+		</LinearLayout>
+		<TextView
+			android:id="@+id/textview3"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="Qualcosa è andato storto e l'app deve essere chiusa."
+			android:textSize="12sp"
+			android:textColor="#FFFFFF" />
+		<TextView
+			android:id="@+id/textview5"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="10dp"
+			android:padding="8dp"
+			android:text="Info errore"
+			android:textSize="18sp"
+			android:textStyle="bold"
+			android:textColor="#FFFFFF" />
+		<LinearLayout
+			android:id="@+id/linear9"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="#212121"
+			android:orientation="vertical"
+			android:layout_weight="1">
+			<ScrollView
+				android:id="@+id/vscroll1"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
+				<TextView
+					android:id="@+id/textview6"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:padding="8dp"
+					android:text="TextView"
+					android:textSize="12sp"
+					android:textColor="#FFFFFF" />
+			</ScrollView>
+		</LinearLayout>
+		<com.google.android.material.button.MaterialButton
+			android:id="@+id/materialbutton1"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="10dp"
+			android:padding="8dp"
+			android:gravity="center_horizontal|center_vertical"
+			android:text="riavvia app"
+			android:textSize="12sp"
+			android:textStyle="bold"
+			android:textColor="#FFFFFF"
+			android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+			app:backgroundTint="@color/colorPrimary"
+			app:cornerRadius="8dp"
+			style="@style/Widget.MaterialComponents.Button" />
+		<com.google.android.material.button.MaterialButton
+			android:id="@+id/materialbutton2"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:gravity="center_horizontal|center_vertical"
+			android:text="invia segnalazione"
+			android:textSize="12sp"
+			android:textStyle="bold"
+			android:textColor="#FFFFFF"
+			android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+			app:backgroundTint="@color/colorPrimary"
+			app:cornerRadius="8dp"
+			style="@style/Widget.MaterialComponents.Button" />
+	</LinearLayout>
+</LinearLayout>

@@ -46,31 +46,27 @@
 					android:id="@+id/progressbar1"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_marginRight="8dp"
+					android:layout_marginRight="10dp"
 					android:indeterminate="false"
 					style="?android:progressBarStyle" />
 			</LinearLayout>
-			<ImageView
-				android:id="@+id/imageview3"
-				android:layout_width="25dp"
-				android:layout_height="25dp"
-				android:layout_marginRight="10dp"
-				android:src="@drawable/ic_help_white"
-				android:scaleType="centerCrop" />
 		</LinearLayout>
 	</LinearLayout>
 	<LinearLayout
 		android:id="@+id/linear6"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:padding="8dp"
+		android:layout_height="wrap_content"
+		android:paddingLeft="20dp"
+		android:paddingTop="20dp"
+		android:paddingRight="20dp"
 		android:background="#000000"
-		android:orientation="vertical">
+		android:orientation="vertical"
+		android:layout_weight="1">
 		<LinearLayout
 			android:id="@+id/linear36"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_margin="10dp"
+			android:layout_marginBottom="15dp"
 			android:padding="8dp"
 			android:background="#212121"
 			android:orientation="vertical">
@@ -118,6 +114,7 @@
 			android:id="@+id/textview3"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:layout_marginTop="5dp"
 			android:padding="8dp"
 			android:text="Ultima versione"
 			android:textSize="18sp"
@@ -127,7 +124,7 @@
 			android:id="@+id/linear1"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_margin="10dp"
+			android:layout_marginBottom="15dp"
 			android:padding="8dp"
 			android:background="#212121"
 			android:orientation="vertical">
@@ -151,25 +148,12 @@
 				android:text="..."
 				android:textSize="12sp"
 				android:textColor="#616161" />
-			<com.google.android.material.button.MaterialButton
-				android:id="@+id/materialbutton1"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:padding="8dp"
-				android:gravity="center_horizontal|center_vertical"
-				android:text="esplora e/o scarica"
-				android:textSize="12sp"
-				android:textStyle="bold"
-				android:textColor="#FFFFFF"
-				android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-				app:backgroundTint="@color/colorPrimary"
-				app:cornerRadius="8dp"
-				style="@style/Widget.MaterialComponents.Button" />
 		</LinearLayout>
 		<TextView
 			android:id="@+id/textview6"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:layout_marginTop="5dp"
 			android:padding="8dp"
 			android:text="Altre versioni"
 			android:textSize="18sp"
@@ -179,9 +163,13 @@
 			android:id="@+id/listview1"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:padding="8dp"
 			android:background="#000000"
 			android:dividerHeight="10dp"
 			android:choiceMode="none" />
 	</LinearLayout>
+	<com.google.android.material.bottomnavigation.BottomNavigationView
+		android:id="@+id/bottomnavigation2"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="#424242" />
 </LinearLayout>

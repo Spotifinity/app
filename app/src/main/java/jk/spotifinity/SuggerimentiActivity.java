@@ -1,10 +1,10 @@
 package jk.spotifinity;
 
-import android.Manifest;
 import android.animation.*;
 import android.app.*;
+import android.app.Activity;
 import android.content.*;
-import android.content.pm.PackageManager;
+import android.content.SharedPreferences;
 import android.content.res.*;
 import android.graphics.*;
 import android.graphics.drawable.*;
@@ -28,8 +28,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.annotation.*;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -71,27 +69,15 @@ public class SuggerimentiActivity extends AppCompatActivity {
 	private LinearLayout linear55;
 	private CheckBox cium;
 	
+	private SharedPreferences saltabili;
+	
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
 		super.onCreate(_savedInstanceState);
 		setContentView(R.layout.suggerimenti);
 		initialize(_savedInstanceState);
 		FirebaseApp.initializeApp(this);
-		
-		if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
-		|| ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-			ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
-		} else {
-			initializeLogic();
-		}
-	}
-	
-	@Override
-	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-		if (requestCode == 1000) {
-			initializeLogic();
-		}
+		initializeLogic();
 	}
 	
 	private void initialize(Bundle _savedInstanceState) {
@@ -114,6 +100,7 @@ public class SuggerimentiActivity extends AppCompatActivity {
 		textview43 = findViewById(R.id.textview43);
 		linear55 = findViewById(R.id.linear55);
 		cium = findViewById(R.id.cium);
+		saltabili = getSharedPreferences("saltabili", Activity.MODE_PRIVATE);
 		
 		imageview2.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -127,18 +114,18 @@ public class SuggerimentiActivity extends AppCompatActivity {
 			public void onClick(View _view) {
 				psd.setChecked(true);
 				cium.setChecked(true);
-				FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Saltabili/Discord.txt", "");
-				FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Saltabili/ComeInstallare.txt", "");
+				saltabili.edit().putString("Discord", "0").commit();
+				saltabili.edit().putString("ComeInstallare", "0").commit();
 			}
 		});
 		
 		materialbutton2.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				FileUtil.deleteFile("storage/emulated/0/Android/data/jk.spotifinity/Saltabili/Discord.txt");
-				FileUtil.deleteFile("storage/emulated/0/Android/data/jk.spotifinity/Saltabili/ComeInstallare.txt");
 				psd.setChecked(false);
 				cium.setChecked(false);
+				saltabili.edit().remove("Discord").commit();
+				saltabili.edit().remove("ComeInstallare").commit();
 			}
 		});
 		
@@ -147,10 +134,10 @@ public class SuggerimentiActivity extends AppCompatActivity {
 			public void onCheckedChanged(CompoundButton _param1, boolean _param2) {
 				final boolean _isChecked = _param2;
 				if (_isChecked) {
-					FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Saltabili/Discord.txt", "");
+					saltabili.edit().putString("Discord", "0").commit();
 				}
 				else {
-					FileUtil.deleteFile("storage/emulated/0/Android/data/jk.spotifinity/Saltabili/Discord.txt");
+					saltabili.edit().remove("Discord").commit();
 				}
 			}
 		});
@@ -160,10 +147,10 @@ public class SuggerimentiActivity extends AppCompatActivity {
 			public void onCheckedChanged(CompoundButton _param1, boolean _param2) {
 				final boolean _isChecked = _param2;
 				if (_isChecked) {
-					FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Saltabili/ComeInstallare.txt", "");
+					saltabili.edit().putString("ComeInstallare", "0").commit();
 				}
 				else {
-					FileUtil.deleteFile("storage/emulated/0/Android/data/jk.spotifinity/Saltabili/ComeInstallare.txt");
+					saltabili.edit().remove("ComeInstallare").commit();
 				}
 			}
 		});
@@ -181,48 +168,6 @@ public class SuggerimentiActivity extends AppCompatActivity {
 			int px = (int) Math.ceil(10 * logicalDensity);
 			
 			materialbutton1.setCornerRadius(px);
-			materialbutton1.setOnTouchListener(new View.OnTouchListener() {
-				@Override
-				public boolean onTouch(View v, MotionEvent event) {
-					switch (event.getAction()){
-						case MotionEvent.ACTION_DOWN:{
-							ObjectAnimator scaleX = new ObjectAnimator();
-							scaleX.setTarget(materialbutton1);
-							scaleX.setPropertyName("scaleX");
-							scaleX.setFloatValues(0.9f);
-							scaleX.setDuration(100);
-							scaleX.start();
-							
-							ObjectAnimator scaleY = new ObjectAnimator();
-							scaleY.setTarget(materialbutton1);
-							scaleY.setPropertyName("scaleY");
-							scaleY.setFloatValues(0.9f);
-							scaleY.setDuration(100);
-							scaleY.start();
-							break;
-						}
-						case MotionEvent.ACTION_UP:{
-							
-							ObjectAnimator scaleX = new ObjectAnimator();
-							scaleX.setTarget(materialbutton1);
-							scaleX.setPropertyName("scaleX");
-							scaleX.setFloatValues((float)1);
-							scaleX.setDuration(100);
-							scaleX.start();
-							
-							ObjectAnimator scaleY = new ObjectAnimator();
-							scaleY.setTarget(materialbutton1);
-							scaleY.setPropertyName("scaleY");
-							scaleY.setFloatValues((float)1);
-							scaleY.setDuration(100);
-							scaleY.start();
-							
-							break;
-						}
-					}
-					return false;
-				}
-			});
 		}
 		
 		{
@@ -235,48 +180,6 @@ public class SuggerimentiActivity extends AppCompatActivity {
 			int px = (int) Math.ceil(10 * logicalDensity);
 			
 			materialbutton2.setCornerRadius(px);
-			materialbutton2.setOnTouchListener(new View.OnTouchListener() {
-				@Override
-				public boolean onTouch(View v, MotionEvent event) {
-					switch (event.getAction()){
-						case MotionEvent.ACTION_DOWN:{
-							ObjectAnimator scaleX = new ObjectAnimator();
-							scaleX.setTarget(materialbutton2);
-							scaleX.setPropertyName("scaleX");
-							scaleX.setFloatValues(0.9f);
-							scaleX.setDuration(100);
-							scaleX.start();
-							
-							ObjectAnimator scaleY = new ObjectAnimator();
-							scaleY.setTarget(materialbutton2);
-							scaleY.setPropertyName("scaleY");
-							scaleY.setFloatValues(0.9f);
-							scaleY.setDuration(100);
-							scaleY.start();
-							break;
-						}
-						case MotionEvent.ACTION_UP:{
-							
-							ObjectAnimator scaleX = new ObjectAnimator();
-							scaleX.setTarget(materialbutton2);
-							scaleX.setPropertyName("scaleX");
-							scaleX.setFloatValues((float)1);
-							scaleX.setDuration(100);
-							scaleX.start();
-							
-							ObjectAnimator scaleY = new ObjectAnimator();
-							scaleY.setTarget(materialbutton2);
-							scaleY.setPropertyName("scaleY");
-							scaleY.setFloatValues((float)1);
-							scaleY.setDuration(100);
-							scaleY.start();
-							
-							break;
-						}
-					}
-					return false;
-				}
-			});
 		}
 		
 		DisplayMetrics linear37Screen = new DisplayMetrics();
@@ -301,13 +204,10 @@ public class SuggerimentiActivity extends AppCompatActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Saltabili/")) {
-			FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity/Saltabili/");
-		}
-		if (FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Saltabili/Discord.txt")) {
+		if (saltabili.contains("Discord")) {
 			psd.setChecked(true);
 		}
-		if (FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Saltabili/ComeInstallare.txt")) {
+		if (saltabili.contains("ComeInstallare")) {
 			cium.setChecked(true);
 		}
 	}

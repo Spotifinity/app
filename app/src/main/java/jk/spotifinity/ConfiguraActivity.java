@@ -1,10 +1,10 @@
 package jk.spotifinity;
 
-import android.Manifest;
 import android.animation.*;
 import android.app.*;
+import android.app.Activity;
 import android.content.*;
-import android.content.pm.PackageManager;
+import android.content.SharedPreferences;
 import android.content.res.*;
 import android.graphics.*;
 import android.graphics.drawable.*;
@@ -24,8 +24,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.*;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -62,6 +60,8 @@ public class ConfiguraActivity extends AppCompatActivity {
 	private TextView textview11;
 	
 	private TimerTask wait;
+	private SharedPreferences account;
+	private SharedPreferences mod;
 	
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
@@ -69,21 +69,7 @@ public class ConfiguraActivity extends AppCompatActivity {
 		setContentView(R.layout.configura);
 		initialize(_savedInstanceState);
 		FirebaseApp.initializeApp(this);
-		
-		if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
-		|| ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-			ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
-		} else {
-			initializeLogic();
-		}
-	}
-	
-	@Override
-	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-		if (requestCode == 1000) {
-			initializeLogic();
-		}
+		initializeLogic();
 	}
 	
 	private void initialize(Bundle _savedInstanceState) {
@@ -94,42 +80,15 @@ public class ConfiguraActivity extends AppCompatActivity {
 		materialbutton1 = findViewById(R.id.materialbutton1);
 		textview10 = findViewById(R.id.textview10);
 		textview11 = findViewById(R.id.textview11);
+		account = getSharedPreferences("account", Activity.MODE_PRIVATE);
+		mod = getSharedPreferences("mod", Activity.MODE_PRIVATE);
 		
 		materialbutton1.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				_ApriApp("com.spotify.music");
-				wait = new TimerTask() {
-					@Override
-					public void run() {
-						runOnUiThread(new Runnable() {
-							@Override
-							public void run() {
-								FileUtil.deleteFile("storage/emulated/0/Android/data/jk.spotifinity/configurazione");
-								FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/downloaded.txt", FileUtil.readFile("storage/emulated/0/Android/data/jk.spotifinity/configurazioneVer"));
-								
-								{
-									DisplayMetrics screen = new DisplayMetrics();
-									getWindowManager().getDefaultDisplay().getMetrics(screen);
-									double dp = 10;
-									double logicalDensity = screen.density;
-									int px = (int) Math.ceil(dp * logicalDensity);
-									Toast ConfiguraActivityToast = Toast.makeText(ConfiguraActivity.this, "App configurata!", 2000);
-									View ConfiguraActivityView = ConfiguraActivityToast.getView();
-									ConfiguraActivityView.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)px, Color.parseColor("#424242")));
-									
-									
-									TextView ConfiguraActivityText = ConfiguraActivityView.findViewById(android.R.id.message);
-									ConfiguraActivityText.setTextColor(Color.parseColor("#ffffff"));
-									ConfiguraActivityText.setShadowLayer(0,0,0,0);
-									ConfiguraActivityToast.show();
-								}
-								finish();
-							}
-						});
-					}
-				};
-				_timer.schedule(wait, (int)(3000));
+				account.edit().remove("configura").commit();
+				mod.edit().putString("downloaded", account.getString("configuraVer", "")).commit();
+				finish();
 			}
 		});
 	}
@@ -146,48 +105,6 @@ public class ConfiguraActivity extends AppCompatActivity {
 			int px = (int) Math.ceil(10 * logicalDensity);
 			
 			materialbutton1.setCornerRadius(px);
-			materialbutton1.setOnTouchListener(new View.OnTouchListener() {
-				@Override
-				public boolean onTouch(View v, MotionEvent event) {
-					switch (event.getAction()){
-						case MotionEvent.ACTION_DOWN:{
-							ObjectAnimator scaleX = new ObjectAnimator();
-							scaleX.setTarget(materialbutton1);
-							scaleX.setPropertyName("scaleX");
-							scaleX.setFloatValues(0.9f);
-							scaleX.setDuration(100);
-							scaleX.start();
-							
-							ObjectAnimator scaleY = new ObjectAnimator();
-							scaleY.setTarget(materialbutton1);
-							scaleY.setPropertyName("scaleY");
-							scaleY.setFloatValues(0.9f);
-							scaleY.setDuration(100);
-							scaleY.start();
-							break;
-						}
-						case MotionEvent.ACTION_UP:{
-							
-							ObjectAnimator scaleX = new ObjectAnimator();
-							scaleX.setTarget(materialbutton1);
-							scaleX.setPropertyName("scaleX");
-							scaleX.setFloatValues((float)1);
-							scaleX.setDuration(100);
-							scaleX.start();
-							
-							ObjectAnimator scaleY = new ObjectAnimator();
-							scaleY.setTarget(materialbutton1);
-							scaleY.setPropertyName("scaleY");
-							scaleY.setFloatValues((float)1);
-							scaleY.setDuration(100);
-							scaleY.start();
-							
-							break;
-						}
-					}
-					return false;
-				}
-			});
 		}
 		
 		DisplayMetrics linear7Screen = new DisplayMetrics();

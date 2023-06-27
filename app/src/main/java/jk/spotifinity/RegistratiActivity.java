@@ -1,13 +1,13 @@
 package jk.spotifinity;
 
-import android.Manifest;
 import android.animation.*;
 import android.app.*;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.*;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.content.SharedPreferences;
 import android.content.res.*;
 import android.graphics.*;
 import android.graphics.drawable.*;
@@ -35,8 +35,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.*;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -115,6 +113,9 @@ public class RegistratiActivity extends AppCompatActivity {
 	private RequestNetwork.RequestListener _notifica_request_listener;
 	private AlertDialog.Builder info;
 	private Intent discord = new Intent();
+	private SharedPreferences mod;
+	private SharedPreferences impostazioni;
+	private SharedPreferences account;
 	
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
@@ -122,21 +123,7 @@ public class RegistratiActivity extends AppCompatActivity {
 		setContentView(R.layout.registrati);
 		initialize(_savedInstanceState);
 		FirebaseApp.initializeApp(this);
-		
-		if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
-		|| ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-			ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
-		} else {
-			initializeLogic();
-		}
-	}
-	
-	@Override
-	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-		if (requestCode == 1000) {
-			initializeLogic();
-		}
+		initializeLogic();
 	}
 	
 	private void initialize(Bundle _savedInstanceState) {
@@ -171,14 +158,13 @@ public class RegistratiActivity extends AppCompatActivity {
 		accedi = new AlertDialog.Builder(this);
 		notifica = new RequestNetwork(this);
 		info = new AlertDialog.Builder(this);
+		mod = getSharedPreferences("mod", Activity.MODE_PRIVATE);
+		impostazioni = getSharedPreferences("impostazioni", Activity.MODE_PRIVATE);
+		account = getSharedPreferences("account", Activity.MODE_PRIVATE);
 		
 		imageview2.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
-				fade_in.setDuration(300);
-				fade_in.setFillAfter(true);
-				imageview2.startAnimation(fade_in);
 				finish();
 			}
 		});
@@ -186,10 +172,7 @@ public class RegistratiActivity extends AppCompatActivity {
 		edittext1.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
-				fade_in.setDuration(300);
-				fade_in.setFillAfter(true);
-				edittext1.startAnimation(fade_in);
+				
 			}
 		});
 		
@@ -214,10 +197,7 @@ public class RegistratiActivity extends AppCompatActivity {
 		edittext2.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
-				fade_in.setDuration(300);
-				fade_in.setFillAfter(true);
-				edittext2.startAnimation(fade_in);
+				
 			}
 		});
 		
@@ -337,12 +317,8 @@ public class RegistratiActivity extends AppCompatActivity {
 		imageview3.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				ScaleAnimation fade_in = new ScaleAnimation(0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
-				fade_in.setDuration(300);
-				fade_in.setFillAfter(true);
-				imageview3.startAnimation(fade_in);
 				info.setTitle("Info sul messaggio di benvenuto");
-				info.setMessage("Selezionando questa opzione accetterai di condividere il tuo username (".concat("".concat(") e di inviarlo come messaggio di benvenuto nel server Discord ufficiale Spotifinity.\nSe non accetterai questo questo username viene usato per darti il benvenuto sull'app.\nQuesto username può essere modificato nelle impostazioni.")));
+				info.setMessage("Selezionando questa opzione accetterai di condividere il tuo username (".concat(edittext3.getText().toString().concat(") e di inviarlo come messaggio di benvenuto nel server Discord ufficiale Spotifinity.\nSe non accetterai questo questo username viene usato per darti il benvenuto sull'app.\nQuesto username può essere modificato nelle impostazioni.")));
 				info.setIcon(R.drawable.ic_help_white);
 				info.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 					@Override
@@ -359,7 +335,6 @@ public class RegistratiActivity extends AppCompatActivity {
 						SketchwareUtil.showMessage(getApplicationContext(), "Grazie per esserti interessato/a per partecipare al server!");
 					}
 				});
-				
 				{
 					final AlertDialog alert = info.show();
 					DisplayMetrics screen = new DisplayMetrics();
@@ -488,19 +463,11 @@ public class RegistratiActivity extends AppCompatActivity {
 				final boolean _success = _param1.isSuccessful();
 				final String _errorMessage = _param1.getException() != null ? _param1.getException().getMessage() : "";
 				if (_success) {
-					if (!FileUtil.isExistFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni")) {
-						FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni");
-						FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua");
-						FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/downloaded.txt", "Nessuna");
-						FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/percorso.txt", "storage/emulated/0/Download");
-						FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/Lingua/sel.txt", "it");
-					}
-					FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/downloaded.txt", "Nessuna");
-					FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/percorso.txt", "storage/emulated/0/Download");
-					FileUtil.makeDir("storage/emulated/0/Android/data/jk.spotifinity/Account");
-					FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Account/email", edittext1.getText().toString());
-					FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Account/password", edittext2.getText().toString());
-					FileUtil.writeFile("storage/emulated/0/Android/data/jk.spotifinity/Impostazioni/username.txt", edittext3.getText().toString());
+					mod.edit().putString("downloaded", "Nessuna").commit();
+					impostazioni.edit().putString("percorso", "storage/emulated/0/Download").commit();
+					account.edit().putString("email", edittext1.getText().toString()).commit();
+					account.edit().putString("password", edittext2.getText().toString()).commit();
+					account.edit().putString("username", edittext3.getText().toString()).commit();
 					if (checkbox2.isChecked()) {
 						headers = new HashMap<>();
 						body = new HashMap<>();
@@ -544,7 +511,6 @@ public class RegistratiActivity extends AppCompatActivity {
 							startActivity(intent);
 						}
 					});
-					
 					{
 						final AlertDialog alert = accedi.show();
 						DisplayMetrics screen = new DisplayMetrics();
@@ -611,48 +577,6 @@ public class RegistratiActivity extends AppCompatActivity {
 			int px = (int) Math.ceil(10 * logicalDensity);
 			
 			materialbutton1.setCornerRadius(px);
-			materialbutton1.setOnTouchListener(new View.OnTouchListener() {
-				@Override
-				public boolean onTouch(View v, MotionEvent event) {
-					switch (event.getAction()){
-						case MotionEvent.ACTION_DOWN:{
-							ObjectAnimator scaleX = new ObjectAnimator();
-							scaleX.setTarget(materialbutton1);
-							scaleX.setPropertyName("scaleX");
-							scaleX.setFloatValues(0.9f);
-							scaleX.setDuration(100);
-							scaleX.start();
-							
-							ObjectAnimator scaleY = new ObjectAnimator();
-							scaleY.setTarget(materialbutton1);
-							scaleY.setPropertyName("scaleY");
-							scaleY.setFloatValues(0.9f);
-							scaleY.setDuration(100);
-							scaleY.start();
-							break;
-						}
-						case MotionEvent.ACTION_UP:{
-							
-							ObjectAnimator scaleX = new ObjectAnimator();
-							scaleX.setTarget(materialbutton1);
-							scaleX.setPropertyName("scaleX");
-							scaleX.setFloatValues((float)1);
-							scaleX.setDuration(100);
-							scaleX.start();
-							
-							ObjectAnimator scaleY = new ObjectAnimator();
-							scaleY.setTarget(materialbutton1);
-							scaleY.setPropertyName("scaleY");
-							scaleY.setFloatValues((float)1);
-							scaleY.setDuration(100);
-							scaleY.start();
-							
-							break;
-						}
-					}
-					return false;
-				}
-			});
 		}
 		
 		DisplayMetrics linear9Screen = new DisplayMetrics();
