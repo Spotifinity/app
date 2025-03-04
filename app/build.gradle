@@ -1,35 +1,26 @@
-plugins {
-	id 'com.android.application'
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.7.0'
+        classpath 'com.google.gms:google-services:4.4.2'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
 }
 
-android {
-	compileSdkVersion 28
-	
-	useLibrary 'org.apache.http.legacy'
-	
-	defaultConfig {
-		applicationId "jk.spotifinity"
-		minSdkVersion 21
-		targetSdkVersion 28
-		versionCode 25
-		versionName "10"
-	}
-	
-	buildTypes {
-		release {
-			minifyEnabled false
-			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-		}
-	}
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        jcenter()
+    }
 }
 
-dependencies {
-	implementation fileTree(dir: 'libs', include: ['*.jar'])
-	implementation 'androidx.appcompat:appcompat:1.2.0'
-	implementation 'com.google.android.material:material:1.4.0'
-	implementation 'com.google.firebase:firebase-auth:19.0.0'
-	implementation 'com.google.firebase:firebase-database:19.0.0'
-	implementation 'com.google.firebase:firebase-storage:19.0.0'
-	implementation 'com.google.code.gson:gson:2.8.7'
-	implementation 'com.squareup.okhttp3:okhttp:3.9.1'
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
 }
