@@ -17,12 +17,12 @@
 |VirusTotal||
 |Supportami|<a href="https://www.buymeacoffee.com/gocciolabtw"><img src="https://img.buymeacoffee.com/button-api/?text=Comprami un caffè&emoji=☕&slug=gocciolabtw&button_colour=5F7FFF&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00" /></a>|
 
-## Cos'è?
+## 📄 Cos'è?
 Spotifinity è un applicazione che ti permette di installare la **migliore mod per Spotify.** Questa mod funziona benissimo e l'applicazione in sè è velocissima.
 
 Dispone di un sacco di versioni versatili e funziona benissimo su qualsiasi versione e tipo di Android!
 
-## Cosa c'è nella mod?
+## 📂 Cosa c'è nella mod?
 Nella mod potrai trovare tutte le funzioni del piano Spotify Premium, cioè:
 
 - Niente pubblicità
@@ -30,7 +30,7 @@ Nella mod potrai trovare tutte le funzioni del piano Spotify Premium, cioè:
 - Riproduzione in alta qualità
 - *E molto altro!*
 
-# Altre informazioni
+# ℹ️ Altre informazioni
 ## Note importanti
 - L'applicazione è stata creata con [Sketchware Pro](https://sketchware.pro/ "Sketchware Pro") per Android
 - Il database dell'app sono file contenuti in questa repository
