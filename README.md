@@ -47,13 +47,13 @@
 <tr>
 <td><strong>Creatore</strong></td>
 <td>
-<p>JustKleo</p>
+<p><a href="https://github.com/gocciolafr">gocciolafr</a></p>
 </td>
 </tr>
 <tr>
 <td><strong>Developer</strong></td>
 <td>
-<p>JustKleo</p>
+<p><a href="https://github.com/gocciolafr">gocciolafr</a></p>
 </td>
 </tr>
 <tr>
