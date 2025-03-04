@@ -4,7 +4,7 @@
 </p>
 <p align="center"><b>NIENTE PUBBLICITÀ | SKIP ILLIMITATI | SEMPRE AGGIORNATO</b></p>
 <p align="center">
-  <img src="https://repobeats.axiom.co/api/embed/3503543013e9ab6736bc3c380d397bcad6bf1c80.svg" alt="Sublime's custom image">
+  <img src="https://repobeats.axiom.co/api/embed/07de69082ea18621e1f95a0a7894e5f21a8a0bf1.svg" alt="Sublime's custom image">
 </p>
 
 ------------
