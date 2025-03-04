@@ -40,11 +40,17 @@ import org.json.*;
 public class WelcomeActivity extends AppCompatActivity {
 	
 	private ScrollView vscroll1;
+	private LinearLayout linear5;
 	private LinearLayout linear3;
 	private ImageView imageview1;
 	private TextView textview1;
 	private TextView textview2;
-	private LinearLayout linear4;
+	private TextView textview3;
+	private TextView textview4;
+	private TextView textview5;
+	private TextView textview6;
+	private TextView textview7;
+	private TextView textview8;
 	private MaterialButton materialbutton2;
 	
 	private Intent intent = new Intent();
@@ -60,11 +66,17 @@ public class WelcomeActivity extends AppCompatActivity {
 	
 	private void initialize(Bundle _savedInstanceState) {
 		vscroll1 = findViewById(R.id.vscroll1);
+		linear5 = findViewById(R.id.linear5);
 		linear3 = findViewById(R.id.linear3);
 		imageview1 = findViewById(R.id.imageview1);
 		textview1 = findViewById(R.id.textview1);
 		textview2 = findViewById(R.id.textview2);
-		linear4 = findViewById(R.id.linear4);
+		textview3 = findViewById(R.id.textview3);
+		textview4 = findViewById(R.id.textview4);
+		textview5 = findViewById(R.id.textview5);
+		textview6 = findViewById(R.id.textview6);
+		textview7 = findViewById(R.id.textview7);
+		textview8 = findViewById(R.id.textview8);
 		materialbutton2 = findViewById(R.id.materialbutton2);
 		
 		materialbutton2.setOnClickListener(new View.OnClickListener() {

@@ -140,7 +140,6 @@ public class AccediActivity extends AppCompatActivity {
 			public void onClick(View _view) {
 				dialog.setTitle("Password dimenticata");
 				dialog.setMessage("Verrà inviato una email di reimpostazione della password a ".concat(edittext1.getText().toString().concat(". Una volta ricevuto potrai modificare la password per il tuo account.")));
-				dialog.setIcon(R.drawable.NONE);
 				dialog.setPositiveButton("Invia", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface _dialog, int _which) {

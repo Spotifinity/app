@@ -8,8 +8,9 @@
 	<ScrollView
 		android:id="@+id/vscroll1"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:background="#000000">
+		android:layout_height="wrap_content"
+		android:background="#000000"
+		android:layout_weight="1">
 		<LinearLayout
 			android:id="@+id/linear3"
 			android:layout_width="match_parent"
@@ -41,28 +42,81 @@
 				android:text="Con Spotifinity puoi scaricare la versione modificata di Spotify per avere la maggior parte delle funzionalità Premium completamente gratis!"
 				android:textSize="12sp"
 				android:textColor="#FFFFFF" />
-			<LinearLayout
-				android:id="@+id/linear4"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
+			<TextView
+				android:id="@+id/textview3"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="8dp"
 				android:padding="8dp"
-				android:gravity="center_horizontal|bottom"
-				android:orientation="vertical">
-				<com.google.android.material.button.MaterialButton
-					android:id="@+id/materialbutton2"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_margin="10dp"
-					android:padding="8dp"
-					android:gravity="center_horizontal|center_vertical"
-					android:text="CONTINUA"
-					android:textSize="12sp"
-					android:textColor="#FFFFFF"
-					android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-					app:backgroundTint="@color/colorPrimary"
-					app:cornerRadius="8dp"
-					style="@style/Widget.MaterialComponents.Button" />
-			</LinearLayout>
+				android:text="Manager fichissimo"
+				android:textSize="20sp"
+				android:textStyle="bold"
+				android:textColor="#FFFFFF" />
+			<TextView
+				android:id="@+id/textview4"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="8dp"
+				android:text="Con quest'app puoi vedere e scaricare singole versioni delle mod, ricevere aggiornamenti e aggiornare la propria mod appena sono disponibili delle nuove."
+				android:textSize="12sp"
+				android:textColor="#FFFFFF" />
+			<TextView
+				android:id="@+id/textview5"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="8dp"
+				android:padding="8dp"
+				android:text="Mod sempre aggiornato"
+				android:textSize="20sp"
+				android:textStyle="bold"
+				android:textColor="#FFFFFF" />
+			<TextView
+				android:id="@+id/textview6"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="8dp"
+				android:text="Aggiorniamo la mod in modo constante per offrirvi sempre la versione più recente di Spotify mantenendo sempre tutte le funzionalità Premium gratuite. Basta solo un click per aggiornare!"
+				android:textSize="12sp"
+				android:textColor="#FFFFFF" />
+			<TextView
+				android:id="@+id/textview7"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="8dp"
+				android:padding="8dp"
+				android:text="Gratuito sempre e per sempre"
+				android:textSize="20sp"
+				android:textStyle="bold"
+				android:textColor="#FFFFFF" />
+			<TextView
+				android:id="@+id/textview8"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="8dp"
+				android:text="Zero pubblicità, nessun abbonamento. Scarica e aggiorna le mod quante volte vuoi, non c'è nessun limite!"
+				android:textSize="12sp"
+				android:textColor="#FFFFFF" />
 		</LinearLayout>
 	</ScrollView>
+	<LinearLayout
+		android:id="@+id/linear5"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="#212121"
+		android:orientation="horizontal">
+		<com.google.android.material.button.MaterialButton
+			android:id="@+id/materialbutton2"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="10dp"
+			android:padding="8dp"
+			android:gravity="center_horizontal|center_vertical"
+			android:text="CONTINUA"
+			android:textSize="12sp"
+			android:textColor="#FFFFFF"
+			android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+			app:backgroundTint="@color/colorPrimary"
+			app:cornerRadius="8dp"
+			style="@style/Widget.MaterialComponents.Button" />
+	</LinearLayout>
 </LinearLayout>
