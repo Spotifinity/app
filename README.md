@@ -11,8 +11,8 @@
 
 |Downloads|[![](https://img.shields.io/github/downloads/Spotifinity/Spotifinity/total)](https://github.com/Spotifinity/app/releases) ![](https://img.shields.io/github/downloads/Spotifinity/app/latest/total)|
 |-----|-----|
-|Ultima versione|[![](https://img.shields.io/github/v/release/Spotifinity/Spotifinity)](https://github.com/Spotifinity/app/releases/latest) ![](https://img.shields.io/github/release-date/Spotifinity/app)|
-|Problemi|[![](https://img.shields.io/github/issues/Spotifinity/Spotifinity)](https://github.com/Spotifinity/app/issues)|
+|Ultima versione|[![](https://img.shields.io/github/v/release/Spotifinity/Spotifinity)](https://github.com/Spotifinity/Spotifinity/releases/latest) ![](https://img.shields.io/github/release-date/Spotifinity/Spotifinity)|
+|Problemi|[![](https://img.shields.io/github/issues/Spotifinity/Spotifinity)](https://github.com/Spotifinity/Spotifinity/issues)|
 |Server Discord|![](https://img.shields.io/discord/1099806892416577538)|
 |VirusTotal||
 |Supportami|<a href="https://www.buymeacoffee.com/gocciolabtw"><img src="https://img.buymeacoffee.com/button-api/?text=Comprami un caffè&emoji=☕&slug=gocciolabtw&button_colour=5F7FFF&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00" /></a>|
