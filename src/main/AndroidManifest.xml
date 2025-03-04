@@ -33,11 +33,6 @@
 			android:hardwareAccelerated="true"
 			android:supportsPictureInPicture="true" />
 		<activity
-			android:name=".PassworddimenticataActivity"
-			android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
-			android:hardwareAccelerated="true"
-			android:supportsPictureInPicture="true" />
-		<activity
 			android:name=".HomeActivity"
 			android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
 			android:hardwareAccelerated="true"
