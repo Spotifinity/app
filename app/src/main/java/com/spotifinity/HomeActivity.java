@@ -15,6 +15,7 @@ import android.text.*;
 import android.text.style.*;
 import android.util.*;
 import android.view.*;
+import android.view.View;
 import android.view.View.*;
 import android.view.animation.*;
 import android.webkit.*;
@@ -32,6 +33,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener;
+import com.google.android.material.button.*;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -56,6 +58,7 @@ public class HomeActivity extends AppCompatActivity {
 	private LinearLayout versioni;
 	private LinearLayout impostazioni;
 	private TextView textview3;
+	private MaterialButton materialbutton1;
 	private TextView textview5;
 	private TextView textview4;
 	private TextView textview6;
@@ -96,6 +99,7 @@ public class HomeActivity extends AppCompatActivity {
 		versioni = findViewById(R.id.versioni);
 		impostazioni = findViewById(R.id.impostazioni);
 		textview3 = findViewById(R.id.textview3);
+		materialbutton1 = findViewById(R.id.materialbutton1);
 		textview5 = findViewById(R.id.textview5);
 		textview4 = findViewById(R.id.textview4);
 		textview6 = findViewById(R.id.textview6);
@@ -131,6 +135,16 @@ public class HomeActivity extends AppCompatActivity {
 					impostazioni.setVisibility(View.VISIBLE);
 				}
 				return true;
+			}
+		});
+		
+		materialbutton1.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View _view) {
+				FirebaseAuth.getInstance().signOut();
+				account.edit().remove("email").commit();
+				account.edit().remove("password").commit();
+				finishAffinity();
 			}
 		});
 		

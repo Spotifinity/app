@@ -51,6 +51,31 @@
 				android:textStyle="bold"
 				android:textColor="#FFFFFF" />
 			<LinearLayout
+				android:id="@+id/linear10"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+				<TextView
+					android:id="@+id/textview4"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:padding="8dp"
+					android:text="Accedi con un account Spotifinity per iniziare."
+					android:textSize="12sp"
+					android:textColor="#FFFFFF" />
+				<TextView
+					android:id="@+id/textview6"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:paddingTop="8dp"
+					android:paddingRight="8dp"
+					android:paddingBottom="8dp"
+					android:text="Non usare il tuo account Spotify!"
+					android:textSize="12sp"
+					android:textStyle="bold"
+					android:textColor="#FFFFFF" />
+			</LinearLayout>
+			<LinearLayout
 				android:id="@+id/linear6"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"

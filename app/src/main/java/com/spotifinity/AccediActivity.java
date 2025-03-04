@@ -57,11 +57,14 @@ public class AccediActivity extends AppCompatActivity {
 	private TextView textview1;
 	private LinearLayout linear3;
 	private TextView textview2;
+	private LinearLayout linear10;
 	private LinearLayout linear6;
 	private MaterialButton materialbutton1;
 	private MaterialButton materialbutton3;
 	private TextView textview3;
 	private MaterialButton materialbutton2;
+	private TextView textview4;
+	private TextView textview6;
 	private EditText edittext1;
 	private LinearLayout linear8;
 	private EditText edittext4;
@@ -101,11 +104,14 @@ public class AccediActivity extends AppCompatActivity {
 		textview1 = findViewById(R.id.textview1);
 		linear3 = findViewById(R.id.linear3);
 		textview2 = findViewById(R.id.textview2);
+		linear10 = findViewById(R.id.linear10);
 		linear6 = findViewById(R.id.linear6);
 		materialbutton1 = findViewById(R.id.materialbutton1);
 		materialbutton3 = findViewById(R.id.materialbutton3);
 		textview3 = findViewById(R.id.textview3);
 		materialbutton2 = findViewById(R.id.materialbutton2);
+		textview4 = findViewById(R.id.textview4);
+		textview6 = findViewById(R.id.textview6);
 		edittext1 = findViewById(R.id.edittext1);
 		linear8 = findViewById(R.id.linear8);
 		edittext4 = findViewById(R.id.edittext4);
@@ -125,47 +131,99 @@ public class AccediActivity extends AppCompatActivity {
 		materialbutton1.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				auth.signInWithEmailAndPassword(edittext1.getText().toString(), edittext4.getText().toString()).addOnCompleteListener(AccediActivity.this, _auth_sign_in_listener);
-				progressDialog = new ProgressDialog(AccediActivity.this);
-				progressDialog.setTitle("Accedi");
-				progressDialog.setMessage("Accesso in corso...");
-				progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-				progressDialog.setCanceledOnTouchOutside(false);
-				progressDialog.show();
+				if (!(edittext1.getText().toString().equals("") || edittext4.getText().toString().equals(""))) {
+					auth.signInWithEmailAndPassword(edittext1.getText().toString(), edittext4.getText().toString()).addOnCompleteListener(AccediActivity.this, _auth_sign_in_listener);
+					progressDialog = new ProgressDialog(AccediActivity.this);
+					progressDialog.setTitle("Accedi");
+					progressDialog.setMessage("Accesso in corso...");
+					progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+					progressDialog.setCanceledOnTouchOutside(false);
+					progressDialog.show();
+				} else {
+					dialog.setTitle("Campi mancanti");
+					dialog.setMessage("Completa tutti i campi per continuare");
+					dialog.setIcon(R.drawable.icon_cancel_round);
+					dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface _dialog, int _which) {
+							
+						}
+					});
+					dialog.create().show();
+				}
 			}
 		});
 		
 		materialbutton3.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				dialog.setTitle("Password dimenticata");
-				dialog.setMessage("Verrà inviato una email di reimpostazione della password a ".concat(edittext1.getText().toString().concat(". Una volta ricevuto potrai modificare la password per il tuo account.")));
-				dialog.setPositiveButton("Invia", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface _dialog, int _which) {
-						progressDialog = new ProgressDialog(AccediActivity.this);
-						progressDialog.setTitle("Password dimenticata");
-						progressDialog.setMessage("Invio della email di reimpostazione password...");
-						progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-						progressDialog.setCanceledOnTouchOutside(false);
-						progressDialog.show();
-						auth.sendPasswordResetEmail(edittext1.getText().toString()).addOnCompleteListener(_auth_reset_password_listener);
-					}
-				});
-				dialog.create().show();
+				if (!edittext1.getText().toString().equals("")) {
+					dialog.setTitle("Password dimenticata");
+					dialog.setMessage("Verrà inviato una email di reimpostazione della password a ".concat(edittext1.getText().toString().concat(". Una volta ricevuto potrai modificare la password per il tuo account.")));
+					dialog.setPositiveButton("Invia", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface _dialog, int _which) {
+							progressDialog = new ProgressDialog(AccediActivity.this);
+							progressDialog.setTitle("Password dimenticata");
+							progressDialog.setMessage("Invio della email di reimpostazione password...");
+							progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+							progressDialog.setCanceledOnTouchOutside(false);
+							progressDialog.show();
+							auth.sendPasswordResetEmail(edittext1.getText().toString()).addOnCompleteListener(_auth_reset_password_listener);
+						}
+					});
+					dialog.create().show();
+				} else {
+					dialog.setTitle("Campi mancanti");
+					dialog.setMessage("Inserisci una email per inviare una email di reimpostazione della password");
+					dialog.setIcon(R.drawable.icon_cancel_round);
+					dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface _dialog, int _which) {
+							
+						}
+					});
+					dialog.create().show();
+				}
 			}
 		});
 		
 		materialbutton2.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				auth.createUserWithEmailAndPassword(edittext1.getText().toString(), edittext4.getText().toString()).addOnCompleteListener(AccediActivity.this, _auth_create_user_listener);
-				progressDialog = new ProgressDialog(AccediActivity.this);
-				progressDialog.setTitle("Registrazione");
-				progressDialog.setMessage("Creazione del tuo account in corso...");
-				progressDialog.setCanceledOnTouchOutside(false);
-				progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-				progressDialog.show();
+				if (!(edittext1.getText().toString().equals("") || edittext4.getText().toString().equals(""))) {
+					if ((edittext4.getText().toString().length() > 6) && (edittext4.getText().toString().length() < 32)) {
+						auth.createUserWithEmailAndPassword(edittext1.getText().toString(), edittext4.getText().toString()).addOnCompleteListener(AccediActivity.this, _auth_create_user_listener);
+						progressDialog = new ProgressDialog(AccediActivity.this);
+						progressDialog.setTitle("Registrazione");
+						progressDialog.setMessage("Creazione del tuo account in corso...");
+						progressDialog.setCanceledOnTouchOutside(false);
+						progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+						progressDialog.show();
+					} else {
+						dialog.setTitle("Lunghezza password non valida");
+						dialog.setMessage("La password che hai inserito è troppo corta/lunga. La lunghezza deve essere minimo 6 caratteri e massimo 32 caratteri.");
+						dialog.setIcon(R.drawable.icon_cancel_round);
+						dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface _dialog, int _which) {
+								
+							}
+						});
+						dialog.create().show();
+					}
+				} else {
+					dialog.setTitle("Campi mancanti");
+					dialog.setMessage("Completa tutti i campi per continuare");
+					dialog.setIcon(R.drawable.icon_cancel_round);
+					dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface _dialog, int _which) {
+							
+						}
+					});
+					dialog.create().show();
+				}
 			}
 		});
 		
