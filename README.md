@@ -11,7 +11,9 @@ In breve, **Spotify craccato su Android ha smesso di funzionare perché l'app vi
 
 Al momento non esiste un modo per "bypassare" l'ultimo punto, ma il resto è facilmente bypassabile, anche se farlo non basta.
 
-Lo sviluppo di Spotifinity v2 è stato sospeso finché non viene trovato una soluzione a questo problema. Se questo problema non dovesse mai risolvere allora dovrò sfortunatamente chiudere per sempre questo progetto.
+Lo sviluppo di [Spotifinity v2](https://github.com/orgs/Spotifinity/projects/1) è stato sospeso finché non viene trovato una soluzione a questo problema. Se questo problema non dovesse mai risolvere allora dovrò sfortunatamente chiudere per sempre questo progetto.
+
+Per altri annunci, segui il nostro [canale Telegram](https://t.me/spotifinity) o [Reddit](https://www.reddit.com/r/Spotifinity/).
 
 -----------
 <p align="center">
