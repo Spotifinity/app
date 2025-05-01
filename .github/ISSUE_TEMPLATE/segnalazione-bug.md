@@ -1,26 +1,34 @@
----
 name: Segnalazione Bug
-about: Crea una segnalazione per far migliorare l'app
-title: ''
-labels: bug
-assignees: JustKleo
-
----
-
-# Descrizione bug
-
-
-## Come riprodurre
-Passi per trovare questo bug, parti dall'apertura dell'app.
-- 
-
-## Cosa dovrebbe succedere
-
-
-## Screenshots
-Screenshots del bug allegati nella segnalazione
-
-## Info telefono
- - Dispositivo: 
- - Ver. Android: 
- - Versione app: 4
+title: Segnalazione Bug
+description: Segnala un bug in Spotifinity
+labels:
+  - bug
+body:
+  - type: textarea
+    id: textarea-0
+    attributes:
+      label: Descrizione bug
+      description: Descrivi il bug e come riprodurlo.
+      required: true
+  - type: dropdown
+    id: dropdown-1
+    attributes:
+      label: Piattaforma
+      description: In che piattaforma si trova questo bug?
+      required: true
+      options:
+        - Android
+        - Windows
+  - type: input
+    id: input-2
+    attributes:
+      label: Versione App
+      description: Qual'è la versione di Spotifinity che stai usando?
+      placeholder: v10
+      required: true
+  - type: input
+    id: input-3
+    attributes:
+      label: Versione OS
+      description: Qual'è la versione del tuo sistema operativo?
+      placeholder: "14"
