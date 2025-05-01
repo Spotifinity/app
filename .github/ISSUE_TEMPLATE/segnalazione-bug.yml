@@ -9,12 +9,14 @@ body:
     attributes:
       label: Descrizione bug
       description: Descrivi il bug e come riprodurlo.
+    validations:
       required: true
   - type: dropdown
     id: dropdown-1
     attributes:
       label: Piattaforma
       description: In che piattaforma si trova questo bug?
+    validations:
       required: true
       options:
         - Android
@@ -25,6 +27,7 @@ body:
       label: Versione App
       description: Qual'è la versione di Spotifinity che stai usando?
       placeholder: v10
+    validations:
       required: true
   - type: input
     id: input-3
