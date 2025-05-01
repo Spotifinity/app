@@ -16,11 +16,11 @@ body:
     attributes:
       label: Piattaforma
       description: In che piattaforma si trova questo bug?
-    validations:
-      required: true
       options:
         - Android
         - Windows
+    validations:
+      required: true
   - type: input
     id: input-2
     attributes:
