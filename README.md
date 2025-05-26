@@ -67,6 +67,7 @@ Nella mod potrai trovare tutte le funzioni del piano Spotify Premium, cioè:
 ## 💸 Donazioni
 Puoi supportare lo sviluppo di questo progetto con una piccola donazione, grazie mille per il supporto!
 - [PayPal](https://www.paypal.me/kl9ije)
-- Bitcoin: `bc1qa6lygdnm276cv7hlh7eag8s82dmthxz350ugsr`
-- Ethereum: `0xEbf8417CEcBfB4f58FC69EAC567CcC4A24D60C87`
-- Litecoin: `LYg99k9tXVEs8ZuppZHe6XXfMy3peHqovo`
+- Bitcoin (BTC): `bc1qa6lygdnm276cv7hlh7eag8s82dmthxz350ugsr`
+- Ethereum (ETH): `0xEbf8417CEcBfB4f58FC69EAC567CcC4A24D60C87`
+- Litecoin (LTC): `LYg99k9tXVEs8ZuppZHe6XXfMy3peHqovo`
+- Solana (SOL): `95TNFYrRZCS5qbx9zM1UiN1GugCydVUdJfKsb55WpLuA`
