@@ -1,21 +1,3 @@
-## ⚠️ Avviso riguardante a Spotify craccato su Android
-Il 29 luglio 2024, Google ha introdotto sul suo Android Developers una [nuova API di Play Integrity](https://developer.android.com/google/play/integrity/improvements?hl=it) opzionale che va a verificare l'autenticità delle app scaricate. Questa API va a verificare 4 cose:
-- Se il dispositivo è stato aggiornato alle patch di sicurezza nell'ultimo anno
-- Se il dispositivo ha la certificazione Play Protect
-- Se il dispositivo non è rootato
-- Se l'app è stata scaricata dal Play Store.
-
-All'inizio di maggio questa API è diventata obbligatoria per tutte le app, e infatti Spotify usa questa API, per questo le app craccate non funzionano più e su iPhone Spotify craccato funziona ancora.
-
-In breve, **Spotify craccato su Android ha smesso di funzionare perché l'app viene scaricata attraverso un file APK, non dal Play Store, quindi l'API di Play Integrity va a bloccarne l'accesso.**
-
-Al momento non esiste un modo per "bypassare" l'ultimo punto, ma il resto è facilmente bypassabile, anche se farlo non basta.
-
-Lo sviluppo di [Spotifinity v2](https://github.com/orgs/Spotifinity/projects/1) è stato sospeso finché non viene trovato una soluzione a questo problema. Se questo problema non dovesse mai risolvere allora dovrò sfortunatamente chiudere per sempre questo progetto.
-
-Per altri annunci, segui il nostro [canale Telegram](https://t.me/spotifinity) o [Reddit](https://www.reddit.com/r/Spotifinity/).
-
------------
 <p align="center">
   <img src="https://github.com/Spotifinity/app/blob/53be1a1be0b8251a5e7e594859c0f96798de318a/info/Senza%20titolo%2087_20250302140502-2.png?raw=true" alt="Sublime's custom image" style="width: 100px">
   <h1 align="center">🎵 Spotifinity 🎵</h1>
