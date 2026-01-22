@@ -23,7 +23,7 @@
 ## 📄 Cos'è?
 Spotifinity è un applicazione che ti permette di installare la **migliore mod per Spotify.** Questa mod funziona benissimo e l'applicazione in sè è velocissima.
 
-Dispone di un sacco di versioni versatili e funziona benissimo su qualsiasi versione e tipo di Android!
+Dispone di un sacco di versioni versatili e funziona benissimo su qualsiasi versione e tipo di Android.
 
 ## 📂 Cosa c'è nella mod?
 Nella mod potrai trovare tutte le funzioni del piano Spotify Premium, cioè:
