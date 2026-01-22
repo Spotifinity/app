@@ -1,5 +1,6 @@
 > [!WARNING]
 > The whole project is being rewritten from scratch, therefore issues tracking are disabled. Please follow our [Telegram channel](https://t.me/spotifinity) regarding apps updates and more.
+madonna
 
 <p align="center">
   <img src="https://github.com/Spotifinity/app/blob/53be1a1be0b8251a5e7e594859c0f96798de318a/info/Senza%20titolo%2087_20250302140502-2.png?raw=true" alt="Sublime's custom image" style="width: 100px">
