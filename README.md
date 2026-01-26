@@ -1,4 +1,4 @@
-> [!WARNING]
+nene> [!WARNING]
 > The whole project is being rewritten from scratch, therefore issues tracking are disabled. Please follow our [Telegram channel](https://t.me/spotifinity) regarding apps updates and more.
 
 <p align="center">
