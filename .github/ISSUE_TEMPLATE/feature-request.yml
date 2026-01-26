@@ -1,0 +1,42 @@
+name: Feature Request
+description: Suggest a new feature or improvement for the project.
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        You're filing a feature request! This isn't the place to submit a bug
+        report.
+  - type: markdown
+    attributes:
+      value: >-
+        Please make sure there isn't another issue that has requested your same
+        feature, thank you!
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: A description of the feature you would like to add.
+      placeholder: Add a button to the homepage that when clicked...
+    validations:
+      required: true
+  - type: textarea
+    id: reason
+    attributes:
+      label: Why would you like us to add this feature?
+      description: >-
+        Please describe why you would like us to add this feature in a future
+        update.
+      placeholder: Because it makes the app better and will be easier to...
+    validations:
+      required: true
+  - type: checkboxes
+    id: check
+    attributes:
+      label: Please check before submitting the feature request!
+      options:
+        - label: I checked and no one has requested this feature.
+          required: true
+        - label: ' I would like to help adding this feature by making a Pull Request in the future.'
+          required: false
