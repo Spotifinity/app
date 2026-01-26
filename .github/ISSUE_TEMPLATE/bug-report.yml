@@ -1,0 +1,66 @@
+name: Bug Report
+description: Report a bug, crash, or unexpected behavior to help us fix broken stuff.
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        You're filing a bug report! This isn't the place to submit a feature
+        request.
+  - type: markdown
+    attributes:
+      value: >-
+        Please make sure there isn't another issue reporting the same problem as
+        yours, thanks!
+  - type: textarea
+    id: desc
+    attributes:
+      label: Description
+      description: >-
+        Please describe in detail the issue you are experiencing and the steps
+        on how to reproduce it.
+      placeholder: >-
+        Every time I do this, the app crashes. To cause this bug, I simply
+        clicked a button...
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: Error Traceback
+      description: >-
+        If the error traceback is available, you can copy it using the "Copy
+        Traceback" button on the crash screen.
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      description: On which platform did you encounter this bug?
+      options:
+        - Android
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: In which version of the app did you encounter this bug?
+      placeholder: 1.6.3
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Please check before submitting the bug report!
+      options:
+        - label: I checked and no one has reported this error yet.
+          required: true
+        - label: This bug happened to me multiple times, not just once.
+          required: true
+        - label: Uninstalling and reinstalling the app didn't fix the bug.
+          required: true
+        - label: >-
+            I would like to help resolve this issue by making a Pull Request in
+            the future.
+          required: false
