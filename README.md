@@ -7,8 +7,8 @@
 </p>
 <p align="center"><b>NIENTE PUBBLICITÀ | SKIP ILLIMITATI | SEMPRE AGGIORNATO</b></p>
 <p align="center">
-  <img src="https://repobeats.axiom.co/api/embed/07de69082ea18621e1f95a0a7894e5f21a8a0bf1.svg" alt="Sublime's custom image">
-</p>
+  <img src="https://repobeats.axiom.co/api/embed/6eca7b9b1d327dd131e2b138f7e58ba979846354.svg" alt="Sublime's custom image">
+</p>j
 
 ------------
 
